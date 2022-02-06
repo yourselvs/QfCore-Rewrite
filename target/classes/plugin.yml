@@ -1,0 +1,479 @@
+name: QfCore
+main: com.quantiforte.qfcore.QfCore
+version: 0.6
+softdepend: [MVdWPlaceholderAPI]
+
+commands:
+  qfreload:
+    description: Reloads the config files
+    usage: /qfreload
+    permission: QfCore.qfreload
+    permission-message: You don't have <permission>
+
+  sslog:
+    description: Server Shop Logger
+    usage: /sslog <LogEntry>
+    permission: QfCore.sslog
+    permission-message: You don't have the ability to run this command
+
+  qfpong:
+    description: Test command
+    usage: /qfpong <player>
+    permission: QfCore.qfpong
+    permission-message: You don't have <permission>
+
+  qann:
+    description: Test command
+    usage: /qann <player>
+    permission: QfCore.qann
+    permission-message: You don't have permission to use this command
+
+  qftasker:
+    description: Turns on/off the main tasker
+    usage: /qftasker
+    permission: <QfCore>.qftasker
+    permission-message: You don't have <permission>
+
+  signup:
+    description: Turns on/off the main tasker
+    usage: /signup
+    permission: Qrpg.signup
+    permission-message: There are not currently any signups available
+
+  e:
+    description: Executive Chat for Legends and Kings.
+    usage: /e
+    permission: QfCore.chat_executive
+    permission-message: You don't have Executive Chat.
+
+  exc:
+    description: Executive Chat for Legends and Kings.
+    usage: /exc
+    permission: QfCore.chat_executive
+    permission-message: You don't have Executive Chat.
+
+  a:
+    description: Admin Chat for Legends and Kings.
+    usage: /a
+    permission: QfCore.chat.admin
+    permission-message: You don't have permission to use Admin Chat.
+
+  m:
+    description: Moderator Chat for Legends and Kings.
+    usage: /m
+    permission: QfCore.chat.moderator
+    permission-message: You don't have permission to use Moderator Chat.
+
+  g:
+    description: Guild Chat for Legends and Kings.
+    usage: /g
+    permission: Qrpg.chat.guild
+    permission-message: You are not part of a guild
+
+  p:
+    description: Party Chat for Legends and Kings.
+    usage: /p
+    permission: Qrpg.chat.party
+    permission-message: You are not part of a party
+
+  gt:
+    description: Guild Talker for Legends and Kings.
+    usage: /g
+    permission: Qrpg.chat.guildtalk
+    permission-message: You don't have permission to use that command
+
+  bt:
+    description: Builder Chat for Legends and Kings.
+    usage: /bt
+    permission: QfCore.chat.builder
+    permission-message: You don't have permission to use Builder Chat.
+
+  et:
+    description: Spanish Builder Chat for Legends and Kings.
+    usage: /et
+    permission: QfCore.chat.builder.spanish
+    permission-message: You don't have permission to use Spanish Builder Chat.
+
+  qrpgsync:
+    description: Syncs class identity for a player 
+    usage: /qrpgsync <playername>
+    permission: Qrpg.sync
+    permission-message: You don't have permission to use that command.
+
+  rpgclass:
+    description: sets the primary rpg class for a player 
+    usage: /rpgclass <playername>
+    permission: Qrpg.rpgclass
+    permission-message: You don't have permission to use that command.
+
+  prefix:
+    description: Changes a player's prefix 
+    usage: /prefix <playername> <newprefix>
+    permission: Qrpg.prefix
+    permission-message: You don't have permission to use that command.
+
+  myprofile:
+    description: Changes a player's personal information 
+    usage: /myprofile [prefix]
+    permission: Qrpg.myprofile
+    permission-message: You don't have permission to use that command.
+
+  warn:
+    description: Moderator warning command 
+    usage: /warn <type> <playername>
+    permission: QfCore.warn
+    permission-message: You don't have permission to use that command.
+
+  mtool:
+    description: Moderator tools command 
+    usage: /mtool [options]
+    permission: QfCore.mtool
+    permission-message: You don't have permission to use that command.
+
+  rank:
+    description: Lists the rank tiers for a given class 
+    usage: /rank <classname>
+    permission: Qrpg.rank.all
+    permission-message: You don't have permission to use that command.
+
+  myrank:
+    description: Lists the rank tier benefits for your class 
+    usage: /myrank [playername]
+    permission: Qrpg.myrank
+    permission-message: You don't have permission to use that command.
+
+  workorder:
+    description: View and complete open work orders 
+    usage: /workorder
+    permission: Qrpg.workorder.see
+    permission-message: You don't have permission to use that command.
+
+  wo:
+    description: View and complete open work orders 
+    usage: /wo
+    permission: Qrpg.workorder.see
+    permission-message: You don't have permission to use that command.
+
+  mob:
+    description: Admin mob tool 
+    usage: /mob <args>
+    permission: QfCore.mobcontrol
+    permission-message: You don't have permission to use that command.
+
+  jobs:
+    description: Jobs Description 
+    usage: /jobs
+    permission: Qrpg.jobs
+    permission-message: You don't have permission to use that command.
+
+  inv:
+    description: Moderator tool 
+    usage: /inv
+    permission: QfCore.inv.see
+    permission-message: You don't have permission to use that command.
+
+  town:
+    description: Admin command for town management 
+    usage: /town <subcommand> <options> <playername>
+    permission: Qrpg.town
+    permission-message: You don't have permission to use that command.
+
+  shop:
+    description: Admin command for shop management 
+    usage: /shop <subcommand> <options> <playername>
+    permission: Qrpg.shop
+    permission-message: You don't have permission to use that command.
+
+  land:
+    description: Admin command for land management 
+    usage: /land <subcommand> <options> <playername>
+    permission: Qrpg.town
+    permission-message: You don't have permission to use that command.
+
+  myland:
+    description: Manage your land 
+    usage: /myland [help|info|add|remove|greeting|farewell|visitors|mobs|leaves|vines|splash|list]
+    permission: Qrpg.myland
+    permission-message: You don't have permission to use that command.
+
+  mytown:
+    description: Manage your town 
+    usage: /mytown [help|info|add|remove|greeting|farewell|visitors|mobs|leaves|vines|splash|list]
+    permission: Qrpg.mytown
+    permission-message: You don't have permission to use that command.
+
+  myshop:
+    description: Manage your tradesman shop 
+    usage: /myshop [open|close|greeting|farewell]
+    permission: Qrpg.myshop
+    permission-message: You don't have permission to use that command.
+
+  setrpg:
+    description: Set a builder/staff warp in the rpg world 
+    usage: /setrpg <warpname>
+    permission: QfCore.setrpg
+    permission-message: You don't have permission to use that command
+
+  qsave:
+    description: Saves q-config data 
+    usage: /qsave
+    permission: QfCore.qsave
+    permission-message: You don't have permission to use that command
+
+  setsite:
+    description: Set a build site 
+    usage: /setsite <sitename>
+    permission: QfCore.setsite
+    permission-message: You don't have permission to use that command
+
+  delsite:
+    description: Delete a build site 
+    usage: /delsite <sitename> [category]
+    permission: QfCore.setsite
+    permission-message: You don't have permission to use that command
+
+  site:
+    description: Go to a build site 
+    usage: /site <sitename>
+    permission: QfCore.site
+    permission-message: You don't have permission to use that command
+
+  guild:
+    description: Guild Management 
+    usage: /guild <options>
+    permission: Qrpg.guild
+    permission-message: You don't have permission to use that command
+
+  myguild:
+    description: MyGuild Management 
+    usage: /myguild <options>
+    permission: Qrpg.myguild
+    permission-message: You are not a part of a guild
+
+  party:
+    description: Party Management 
+    usage: /party <options>
+    permission: Qrpg.party
+    permission-message: You don't have permission to use that command
+
+  myparty:
+    description: MyParty Management 
+    usage: /myparty <options>
+    permission: Qrpg.myparty
+    permission-message: You are not a part of a party
+
+  supplies:
+    description: Access supplies
+    usage: /supplies
+    permission: Qrpg.supplies
+    permission-message: You don't have permission to get supplies
+
+  tools:
+    description: Access the tradesman tools
+    usage: /tools
+    permission: Qrpg.tools
+    permission-message: You don't have permission to use the tradesman tools
+
+  anvil:
+    description: Access the tradesman anvil.
+    usage: /anvil [item name]
+    permission: Qrpg.anvil
+    permission-message: You don't have permission to use the tradesman anvil
+
+  tlibrary:
+    description: Go to the Tradesman Library
+    usage: /tlibrary
+    permission: Qrpg.tlibrary
+    permission-message: You don't have permission to enter the tradesman library
+
+  ext:
+    description: Extinguish a player.
+    usage: /ext [playername2]
+    permission: Qrpg.extinguish
+    permission-message: You don't have permission to use extinguish players.
+
+  etable:
+    description: Access the tradesman enchantment table room.
+    usage: /etable
+    permission: Qrpg.etable
+    permission-message: You don't have permission to use the tradesman enchantment table.
+
+  market:
+    description: Go to the Marketplace
+    usage: /market [hub]
+    permission: Qrpg.marketplace
+    permission-message: You don't have permission to use this command
+
+  marketplace:
+    description: Go to the Marketplace
+    usage: /marketplace
+    permission: Qrpg.marketplace
+    permission-message: You don't have permission to use this command
+
+  item:
+    description: Admin item tool
+    usage: /item
+    permission: QfCore.item
+    permission-message: You don't have permission to use this command
+
+  design:
+    description: Custom item design tool
+    usage: /design
+    permission: QfCore.design
+    permission-message: You don't have permission to use this command
+
+  di:
+    description: Custom item design tool
+    usage: /di
+    permission: QfCore.design
+    permission-message: You don't have permission to use this command
+
+  itch:
+    description: Itch a player
+    usage: /itch [playername]
+    permission: Qrpg.itch
+    permission-message: You don't have the ability to use that command
+
+  warcry:
+    description: Soldier warcry
+    usage: /warcry [playername]
+    permission: Qrpg.warcry
+    permission-message: You must be a soldier to use this command
+
+  burst:
+    description: Soldier burst
+    usage: /burst
+    permission: Qrpg.burst
+    permission-message: You must be a knight to use this command
+
+  arena:
+    description: Soldier Arenas
+    usage: /arena
+    permission: Qrpg.arena
+    permission-message: You must be a soldier to use this command
+
+  hoist:
+    description: Hoist
+    usage: /hoist [playername]
+    permission: Qrpg.hoist
+    permission-message: You do not have the ability to use that command
+
+  feed:
+    description: Feed a player
+    usage: /feed [player_name]
+    permission: Qrpg.feed
+    permission-message: You don't have the ability to use that command
+
+  heal:
+    description: Heal a player
+    usage: /heal [player_name]
+    permission: Qrpg.heal
+    permission-message: You don't have the ability to use that command
+
+  food:
+    description: Nobility Daily Food Drop
+    usage: /food
+    permission: Qrpg.class.gentleman
+    permission-message: You must be Nobility to use this command
+
+  bagel:
+    description: Feed a player with bagels
+    usage: /bagel [playername]
+    permission: Qrpg.bagel
+    permission-message: You don't have any bagels
+
+  aura:
+    description: Set player aura
+    usage: /aura <auraname> [playername]
+    permission: Qrpg.aura
+    permission-message: You don't have permission to use auras.
+
+  rpg:
+    description: Warps to the last know location in the RPG world
+    usage: /rpg <player>
+    permission: QfCore.rpg
+    permission-message: You don't have <permission>
+
+  binv:
+    description: Opens the builder inventory (1-9)
+    usage: /binv [number]
+    permission: QfCore.class.builder
+    permission-message: You don't have <permission>
+
+  go:
+    description: Goes to wonderful places
+    usage: /go
+    permission: Qrpg.go
+    permission-message: You don't have <permission>
+
+  tour:
+    description: Main tour locations
+    usage: /tour
+    permission: Qrpg.tour
+    permission-message: You don't have <permission>
+
+  staff:
+    description: Staff section jumps
+    usage: /staff
+    permission: Qrpg.staff
+    permission-message: You don't have the ability to use that command
+
+  auramgr:
+    description: aura manager commands
+    usage: /auramgr
+    permission: QfCore.aura_manager
+    permission-message: You don't have <permission>
+
+  aurab:
+    description: aurab manager commands
+    usage: /aurab
+    permission: <QfCore>.aurab
+    permission-message: You don't have <permission>
+
+  aurablock:
+    description: aurablock manager commands
+    usage: /aurablock
+    permission: <QfCore>.aurablock
+    permission-message: You don't have <permission>
+
+  qfface:
+    description: Changes a player's orientation to face another player
+    usage: /qfface <player>
+    permission: QfCore.qfface
+    permission-message: You don't have <permission>
+
+  qfnear:
+    description: Displays a list of nearby players
+    usage: /qfnear <radius>
+    permission: QfCore.qfnear
+    permission-message: You don't have <permission>
+
+  qfcool:
+    description: Test command
+    usage: /qfcool <player>
+    permission: <QfCore>.qfcool
+    permission-message: You don't have <permission>
+
+  qfdungeon:
+    description: adds or removes a player from a dungeon
+    usage: /qfdungeon [addremove] [dungeonname] [player]
+    permission: <QfCore>.qfdungeon
+    permission-message: You don't have <permission>
+
+  qfclass:
+    description: Assigns a class to a player.
+    usage: /qfclass <player> <className>
+    permission: <QfCore>.qfclass
+    permission-message: You don't have <permission>
+
+  qfhearts:
+    description: Changes a player's max hearts
+    usage: /qfhearts <player> <maxHealth>
+    permission: <QfCore>.qfhearts
+    permission-message: You don't have <permission>
+
+  qfnpc:
+    description: ncp commands in QfCore
+    usage: /qfnpc
+    permission: <QfCore>.qfnpc
+    permission-message: You don't have <permission>

@@ -1,0 +1,9 @@
+# ---------------------- DITEMS ----------------------
+
+item:
+
+  0:
+    name: PokeyStick
+    itemmaterial: STICK
+    enchants: []
+    lore: []

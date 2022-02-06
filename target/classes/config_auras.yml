@@ -1,0 +1,125 @@
+# ---------------------- AURAS ----------------------
+
+# effect: name radius_near radius_far level duration cooldown
+
+aura:
+
+  treeClimb:
+    active: all
+    category: good
+    subcategory: fun
+    effects:
+      - jump 2 0 2 1 5 -1
+   
+  rabbit:
+    active: all
+    category: good
+    subcategory: fun
+    self: true
+    effects:
+      - jump 2 0 2 1 5 -1
+      - speed 4 0 4 2 5 -1
+
+  superrabbit:
+    active: all
+    category: good
+    subcategory: fun
+    self: true
+    effects:
+      - jump 2 0 2 4 10 -1
+      - speed 4 0 4 2 10 -1
+
+  ugh:
+    active: all
+    category: bad
+    subcategory: fun
+    self: false
+    effects:
+      - sloth 10 0 10 1 10 -1
+      - disorientation 10 0 10 2 12 -1
+      - hunger 10 0 10 2 14 -1
+ 
+  ugh-lite:
+    active: all
+    category: bad
+    subcategory: fun
+    self: false
+    effects:
+      - sloth 10 0 10 1 5 -1
+      - disorientation 10 0 10 2 5 -1
+      - hunger 10 0 10 2 5 -1
+ 
+  hunger:
+    active: all
+    category: bad
+    subcategory: health
+    self: false
+    effects:
+      - hunger 10 0 10 2 14 -1
+ 
+  dragon1:
+    active: all
+    category: boss
+    subcategory: dragon
+    self: false
+    effects:
+      - poison 10 0 2 1 4 -1
+      - hunger 10 0 10 2 14 -1
+
+  regen:
+    active: all
+    category: good
+    subcategory: health
+    self: true
+    effects:
+      - regen 10 0 10 2 15 -1
+      
+  heal:
+    active: all
+    category: good
+    subcategory: health
+    self: true
+    effects:
+      - heal 10 0 10 2 3 -1
+      
+  mine:
+    active: all
+    category: good
+    subcategory: survival
+    self: true
+    effects:
+      - haste 10 0 10 1 20 -1
+      
+  fastmine:
+    active: all
+    category: good
+    subcategory: survival
+    self: true
+    effects:
+      - haste 10 0 10 2 20 -1
+      
+  autofeed:
+    active: all
+    category: good
+    subcategory: health
+    self: true
+    effects:
+      - autofeed 10 0 10 1 10 -1
+      
+  autoheal:
+    active: all
+    category: good
+    subcategory: health
+    self: true
+    effects:
+      - autoheal 10 0 10 1 10 -1
+      
+  autofeedheal:
+    active: all
+    category: good
+    subcategory: health
+    self: true
+    effects:
+      - autofeed 10 0 10 1 10 -1
+      - autoheal 10 0 10 1 10 -1
+      

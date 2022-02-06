@@ -1,0 +1,9 @@
+# ---------------------- LANDHOMES ----------------------
+
+# loc: WorldName X Z Y Radius Yaw(P/Abs) Pitch(P/Abs)
+
+landhome:
+
+  adventure:
+    name: Adventure
+    loc: Adventure 0 70 0 -179 0.5

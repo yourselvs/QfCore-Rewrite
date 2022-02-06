@@ -1,0 +1,14 @@
+rpg:
+
+  flatlands:
+    active: all
+    name: flatlands
+    locIn: world -12213.5 65.0 -8599.5 -1.3650045 -7.35
+    locInMsg: Welcome to flatlands
+    descr: "&8Flat area for builders"
+
+  lahl_deth:
+    active: all
+    name: lahl'deth
+    locIn: Adventure 740.8515039412331 73.0 -2101.017390903631 -256.6424 -2.8500276
+    locInMsg: "&eWelcome to the woodland elf town of lahl'deth"
