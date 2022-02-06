@@ -11,7 +11,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
 
    public void doInit(QfCore newCore) {
       this.configFileName = "config_parties.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       this.lkgm = ChatColor.LIGHT_PURPLE + "L" + ChatColor.GRAY + "&" + ChatColor.LIGHT_PURPLE + "K" + ChatColor.YELLOW + "Party Manager";
@@ -39,16 +38,17 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	   // decompiler artifacts
+//      Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+//      String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+//         playerName = pUser.getDisplayName();
       } else {
          pUser = null;
-         pTarget = null;
+//         pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
@@ -234,11 +234,12 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             }
 
             if (args.length == 1) {
-               OfflinePlayer pOffTarget = this.core.getServer().getOfflinePlayer(args[0]);
-               if (pOffTarget == null) {
-                  this.msgCaller(pUser, ChatColor.RED + "Could not locate player " + ChatColor.YELLOW + args[0]);
-                  return true;
-               }
+            	// deprecated
+//               OfflinePlayer pOffTarget = this.core.getServer().getOfflinePlayer(args[0]);
+//               if (pOffTarget == null) {
+//                  this.msgCaller(pUser, ChatColor.RED + "Could not locate player " + ChatColor.YELLOW + args[0]);
+//                  return true;
+//               }
 
                partyName = this.getPlayerPartyId(args[0]);
                if (partyName == null) {
@@ -409,9 +410,9 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("party").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("party").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " parties in config_parties.yml");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var10 = names;
       int var9 = names.length;
 
@@ -422,9 +423,9 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          party.mgr = this;
          party.doInit();
          party.name = name;
-         party.memberList = new ArrayList();
-         party.inviteList = new ArrayList();
-         party.requestList = new ArrayList();
+         party.memberList = new ArrayList<String>();
+         party.inviteList = new ArrayList<String>();
+         party.requestList = new ArrayList<String>();
          String path = "party." + name + ".name";
          if (this.getConfig().contains(path)) {
             party.partyName = this.getConfig().getString(path);
@@ -446,9 +447,9 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          }
 
          path = "party." + name + ".members";
-         List inList;
+         List<String> inList;
          String item;
-         Iterator var12;
+         Iterator<String> var12;
          if (this.getConfig().contains(path)) {
             inList = this.getConfig().getStringList(path);
             var12 = inList.iterator();
@@ -523,7 +524,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public QrpgParty findParty(String partyName) {
-      Iterator var4 = this.mitems.iterator();
+      Iterator<QfMItem> var4 = this.mitems.iterator();
 
       while(var4.hasNext()) {
          QfMItem mitem = (QfMItem)var4.next();
@@ -557,9 +558,9 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          party.subcategory = "Default";
          party.partyName = partyName;
          party.name = this.nextPartyFileName();
-         party.memberList = new ArrayList();
-         party.inviteList = new ArrayList();
-         party.requestList = new ArrayList();
+         party.memberList = new ArrayList<String>();
+         party.inviteList = new ArrayList<String>();
+         party.requestList = new ArrayList<String>();
          String path = "party." + party.name;
          if (this.getConfig().contains(path)) {
             this.msgCaller(pUser, ChatColor.RED + "Critical Error, a party with that name already exists");
@@ -592,7 +593,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          this.removeAllMembersForParty(pUser, partyName);
          party.inviteList.clear();
          party.requestList.clear();
-         List configList = new ArrayList();
+         List<String> configList = new ArrayList<String>();
          String path = "party." + party.name + ".members";
          this.getConfig().set(path, configList);
          path = "party." + party.name + ".invites";
@@ -606,7 +607,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
 
    public String getPlayerPartyId(Player pTarget) {
       String playerName = pTarget.getName();
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -619,7 +620,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.memberList == null);
 
-         Iterator var8 = party.memberList.iterator();
+         Iterator<String> var8 = party.memberList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -632,7 +633,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public String getPlayerPartyId(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -645,7 +646,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.memberList == null);
 
-         Iterator var7 = party.memberList.iterator();
+         Iterator<String> var7 = party.memberList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -659,7 +660,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
 
    public String getPlayerPartyRankAbrv(Player pUser) {
       String uStr = pUser.getUniqueId().toString();
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -672,7 +673,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.memberList == null);
 
-         Iterator var8 = party.memberList.iterator();
+         Iterator<String> var8 = party.memberList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -693,7 +694,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeAllInvites(String playerName) {
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -706,14 +707,14 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.inviteList == null);
 
-         Iterator var9 = party.inviteList.iterator();
+         Iterator<String> var9 = party.inviteList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
             String[] mems = mem.split(" ");
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "party." + party.name + ".invites";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -726,7 +727,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeAllRequests(String playerName) {
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -739,14 +740,14 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.requestList == null);
 
-         Iterator var9 = party.requestList.iterator();
+         Iterator<String> var9 = party.requestList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
             String[] mems = mem.split(" ");
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "party." + party.name + ".requests";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -760,7 +761,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
 
    public void showInvitesParty(Player pUser, String playerName) {
       String names = "";
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -779,7 +780,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.inviteList == null);
 
-         Iterator var9 = party.inviteList.iterator();
+         Iterator<String> var9 = party.inviteList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
@@ -796,7 +797,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public void showRequestsParty(Player pUser, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -810,7 +811,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.requestList == null);
 
-         Iterator var8 = party.requestList.iterator();
+         Iterator<String> var8 = party.requestList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -824,7 +825,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean hasInvite(String partyName, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -839,7 +840,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             } while(!party.partyName.equalsIgnoreCase(partyName));
          } while(party.inviteList == null);
 
-         Iterator var8 = party.inviteList.iterator();
+         Iterator<String> var8 = party.inviteList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -852,7 +853,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public String hasRequestedParty(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -865,7 +866,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.requestList == null);
 
-         Iterator var7 = party.requestList.iterator();
+         Iterator<String> var7 = party.requestList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -878,7 +879,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean isMember(String partyName, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -893,7 +894,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             } while(!party.partyName.equalsIgnoreCase(partyName));
          } while(party.memberList == null);
 
-         Iterator var8 = party.memberList.iterator();
+         Iterator<String> var8 = party.memberList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -906,7 +907,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean isPartyMember(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -919,7 +920,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             party = (QrpgParty)item;
          } while(party.memberList == null);
 
-         Iterator var7 = party.memberList.iterator();
+         Iterator<String> var7 = party.memberList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -965,7 +966,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " already has been invited");
          return false;
       } else {
-         OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
+    	  Player pTarget = this.core.getServer().getPlayer(playerName);
          if (pTarget == null) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
             return false;
@@ -978,7 +979,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
                String mem = pTarget.getUniqueId() + " " + playerName;
                party.requestList.add(mem);
                String path = "party." + party.name + ".requests";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.add(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1006,14 +1007,14 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
       } else if (this.hasInvite(partyName, playerName)) {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " already has been invited");
       } else {
-         OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
+         Player pTarget = this.core.getServer().getPlayer(playerName);
          if (pTarget == null) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
          } else {
             String mem = pTarget.getUniqueId() + " " + playerName;
             party.inviteList.add(mem);
             String path = "party." + party.name + ".invites";
-            List configList = this.getConfig().getStringList(path);
+            List<String> configList = this.getConfig().getStringList(path);
             configList.add(mem);
             this.getConfig().set(path, configList);
             this.saveConfig();
@@ -1031,7 +1032,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
       if (party == null) {
          this.msgCaller(pUser, ChatColor.RED + "Could not locate the party " + ChatColor.GREEN + partyName);
       } else {
-         OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
+         Player pTarget = this.core.getServer().getPlayer(playerName);
          if (pTarget == null) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
          } else if (this.isPartyMember(playerName)) {
@@ -1048,7 +1049,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeInviteParty(Player pUser, String partyName, String playerName) {
-      Iterator var10 = this.mitems.iterator();
+      Iterator<QfMItem> var10 = this.mitems.iterator();
 
       while(true) {
          QrpgParty party;
@@ -1063,7 +1064,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             } while(!party.partyName.equalsIgnoreCase(partyName));
          } while(party.inviteList == null);
 
-         Iterator var12 = party.inviteList.iterator();
+         Iterator<String> var12 = party.inviteList.iterator();
 
          while(var12.hasNext()) {
             String mem = (String)var12.next();
@@ -1071,7 +1072,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "party." + party.name + ".invites";
                party.inviteList.remove(mem);
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1100,7 +1101,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          } else {
             String rank2 = "";
             String rank1 = "";
-            Iterator var9 = party.memberList.iterator();
+            Iterator<String> var9 = party.memberList.iterator();
 
             while(var9.hasNext()) {
                String mem = (String)var9.next();
@@ -1146,7 +1147,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          String names = "";
 
          String mem;
-         for(Iterator var6 = party.inviteList.iterator(); var6.hasNext(); names = names + ChatColor.DARK_GREEN + mem.split(" ")[1]) {
+         for(Iterator<String> var6 = party.inviteList.iterator(); var6.hasNext(); names = names + ChatColor.DARK_GREEN + mem.split(" ")[1]) {
             mem = (String)var6.next();
             if (names != "") {
                names = names + ChatColor.GRAY + ", " + ChatColor.DARK_GREEN;
@@ -1167,7 +1168,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          String names = "";
 
          String mem;
-         for(Iterator var6 = party.requestList.iterator(); var6.hasNext(); names = names + ChatColor.AQUA + mem.split(" ")[1]) {
+         for(Iterator<String> var6 = party.requestList.iterator(); var6.hasNext(); names = names + ChatColor.AQUA + mem.split(" ")[1]) {
             mem = (String)var6.next();
             if (names != "") {
                names = names + ChatColor.GRAY + ", " + ChatColor.AQUA;
@@ -1183,7 +1184,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " is already a member of party " + ChatColor.GREEN + partyName);
       } else {
          QrpgParty party = this.findParty(partyName);
-         OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
+         Player pTarget = this.core.getServer().getPlayer(playerName);
          if (pTarget == null) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GREEN + playerName + ChatColor.RED + " could not be located");
          } else if (party.memberList.size() >= party.maxMembers) {
@@ -1194,7 +1195,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             String mem = pTarget.getUniqueId() + " " + playerName + " Member";
             party.memberList.add(mem);
             String path = "party." + party.name + ".members";
-            List configList = this.getConfig().getStringList(path);
+            List<String> configList = this.getConfig().getStringList(path);
             configList.add(mem);
             this.getConfig().set(path, configList);
             this.saveConfig();
@@ -1214,7 +1215,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " is not a member of party " + ChatColor.GREEN + partyName);
       } else {
          QrpgParty party = this.findParty(partyName);
-         Iterator var10 = party.memberList.iterator();
+         Iterator<String> var10 = party.memberList.iterator();
 
          while(var10.hasNext()) {
             String mem = (String)var10.next();
@@ -1224,7 +1225,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + playerName + " remove Qrpg.chat.party");
                party.memberList.remove(mem);
                String path = "party." + party.name + ".members";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1248,7 +1249,7 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
       if (party == null) {
          return null;
       } else {
-         Iterator var6 = party.memberList.iterator();
+         Iterator<String> var6 = party.memberList.iterator();
 
          while(var6.hasNext()) {
             String mem = (String)var6.next();
@@ -1293,8 +1294,8 @@ public class QrpgPartyMgr extends QfManager implements CommandExecutor {
             this.msgCaller(pUser, ChatColor.RED + "It doesn't appear that " + ChatColor.GRAY + rankName + ChatColor.RED + " is a valid rank");
          } else {
             String path = "party." + party.name + ".members";
-            List configList = this.getConfig().getStringList(path);
-            Iterator var13 = party.memberList.iterator();
+            List<String> configList = this.getConfig().getStringList(path);
+            Iterator<String> var13 = party.memberList.iterator();
 
             while(var13.hasNext()) {
                String mem = (String)var13.next();

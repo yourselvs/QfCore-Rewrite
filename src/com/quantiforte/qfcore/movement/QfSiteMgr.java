@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 public class QfSiteMgr extends QfManager implements CommandExecutor {
    public void doInit(QfCore newCore) {
       this.configFileName = "config_sites.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       super.doInit(newCore);
@@ -35,12 +35,13 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // decompiler artifact
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
          pTarget = pUser;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
@@ -97,7 +98,7 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
          boolean found = false;
          String retVal = this.listItemHeader(cat);
          QfMItem mitem;
-         Iterator var6;
+         Iterator<QfMItem> var6;
          if (cat == null) {
             for(var6 = this.mitems.iterator(); var6.hasNext(); found = true) {
                mitem = (QfMItem)var6.next();
@@ -135,7 +136,7 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("site").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("site").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " build sites sites in config_sites.yml");
       String[] names = (String[])keys.toArray(new String[keys.size()]);
       String[] var9 = names;
@@ -208,7 +209,7 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
    }
 
    public QfSite findSite(String name) {
-      Iterator var3 = this.mitems.iterator();
+      Iterator<QfMItem> var3 = this.mitems.iterator();
 
       while(var3.hasNext()) {
          QfMItem mitem = (QfMItem)var3.next();
@@ -221,7 +222,7 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
    }
 
    public void goSite(Player pTarget, String name) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(var5.hasNext()) {
          QfMItem mitem = (QfMItem)var5.next();
@@ -239,7 +240,8 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
 
    public void delSite(Player pTarget, String inName) {
       Location loc = pTarget.getLocation();
-      String worldName = loc.getWorld().getName();
+      // decompiler artifact
+      // String worldName = loc.getWorld().getName();
       String name = this.niceName(inName);
       if (loc.getWorld().getName().equalsIgnoreCase("survival")) {
          this.msgCaller(pTarget, ChatColor.RED + "Building Sites are not permitted in the survival world");

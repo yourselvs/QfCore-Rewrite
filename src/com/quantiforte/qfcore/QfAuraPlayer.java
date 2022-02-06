@@ -7,10 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class QfAuraPlayer extends QfMItem {
-   public List auras;
+   public List<QfAura> auras;
 
    public void doInit() {
-      this.auras = new ArrayList();
+      this.auras = new ArrayList<QfAura>();
       this.triggerIsDynamic = true;
       this.initLocation();
    }
@@ -27,7 +27,7 @@ public class QfAuraPlayer extends QfMItem {
    }
 
    public void doTriggerAction(Player pTarget, Double distanceFromPlayer) {
-      Iterator var4 = this.auras.iterator();
+      Iterator<QfAura> var4 = this.auras.iterator();
 
       while(var4.hasNext()) {
          QfAura aura = (QfAura)var4.next();

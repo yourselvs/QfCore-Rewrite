@@ -11,10 +11,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class QrpgSignupMgr extends QfGeneral implements CommandExecutor {
-   public HashMap suUuid;
+   public HashMap<String, String> suUuid;
 
    public void doInit(QfCore newCore) {
-      this.suUuid = new HashMap();
+      this.suUuid = new HashMap<String, String>();
       super.doInit(newCore);
    }
 
@@ -22,11 +22,12 @@ public class QrpgSignupMgr extends QfGeneral implements CommandExecutor {
       Player pTarget = null;
       Player pUser = null;
       this.qfcore.getLogger().info("signupmgr cmd");
-      String playerName = "";
+      // decompiler artifact
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
@@ -106,8 +107,9 @@ public class QrpgSignupMgr extends QfGeneral implements CommandExecutor {
    }
 
    public void removeSignup(Player pUser, String playerName) {
-      boolean isFirst = true;
-      Iterator it = this.suUuid.keySet().iterator();
+	  // artifact
+      // boolean isFirst = true;
+      Iterator<String> it = this.suUuid.keySet().iterator();
 
       while(it.hasNext()) {
          String key = (String)it.next();
@@ -131,7 +133,7 @@ public class QrpgSignupMgr extends QfGeneral implements CommandExecutor {
    public void listSignup(Player pUser) {
       String playerList = "";
       boolean isFirst = true;
-      Iterator it = this.suUuid.keySet().iterator();
+      Iterator<String> it = this.suUuid.keySet().iterator();
 
       while(it.hasNext()) {
          String key = (String)it.next();
@@ -150,7 +152,7 @@ public class QrpgSignupMgr extends QfGeneral implements CommandExecutor {
    public void spinSignup(Player pUser) {
       int rnum = (int)(Math.random() * (double)this.suUuid.size());
       this.qfcore.getLogger().info("spin: " + rnum + " / " + this.suUuid.size());
-      Iterator it = this.suUuid.keySet().iterator();
+      Iterator<String> it = this.suUuid.keySet().iterator();
       int idx = 0;
       String playerName = "<<Error>>";
 

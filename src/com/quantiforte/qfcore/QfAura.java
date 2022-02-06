@@ -7,10 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class QfAura extends QfMItem {
-   public List effects;
+   public List<QfEffect> effects;
 
    public void doInit() {
-      this.effects = new ArrayList();
+      this.effects = new ArrayList<QfEffect>();
    }
 
    public boolean addEffectConfig(String strCon) {
@@ -78,7 +78,7 @@ public class QfAura extends QfMItem {
    }
 
    public void applyAuraToPlayer(Player pTarget, Double distanceFromPlayer) {
-      Iterator var4 = this.effects.iterator();
+      Iterator<QfEffect> var4 = this.effects.iterator();
 
       while(var4.hasNext()) {
          QfEffect eff = (QfEffect)var4.next();

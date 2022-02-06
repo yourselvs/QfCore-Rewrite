@@ -1,11 +1,13 @@
 package com.quantiforte.qfcore.design;
 
+import com.quantiforte.qfcore.QfCore;
 import com.quantiforte.qfcore.QfMItem;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,9 +22,9 @@ public class QfCoreDItem extends QfMItem {
    public boolean nameSqg;
    public boolean nameSqgBig;
    public String nameSqgColor;
-   public List enchantList;
-   public List qenchantList;
-   public List loreList;
+   public List<String> enchantList;
+   public List<String> qenchantList;
+   public List<String> loreList;
    public ItemStack iStack;
 
    public void doInit() {
@@ -37,9 +39,9 @@ public class QfCoreDItem extends QfMItem {
       this.nameSqg = false;
       this.nameSqgBig = false;
       this.nameSqgColor = "" + ChatColor.YELLOW;
-      this.enchantList = new ArrayList();
-      this.qenchantList = new ArrayList();
-      this.loreList = new ArrayList();
+      this.enchantList = new ArrayList<String>();
+      this.qenchantList = new ArrayList<String>();
+      this.loreList = new ArrayList<String>();
    }
 
    public String makeReadyName() {
@@ -69,12 +71,12 @@ public class QfCoreDItem extends QfMItem {
    }
 
    public void updateLore() {
-      List newLore = new ArrayList();
-      Iterator var6 = this.qenchantList.iterator();
+      List<String> newLore = new ArrayList<String>();
+      Iterator<String> var6 = this.qenchantList.iterator();
 
       String lore;
       while(var6.hasNext()) {
-         lore = (String)var6.next();
+         lore = var6.next();
          String enName = this.getFullEnchantName(lore);
          int enLevel = this.getFullEnchantLevel(lore);
          this.mgr.core.getLogger().info("adding qenchant " + enName + "-" + enLevel);
@@ -85,7 +87,7 @@ public class QfCoreDItem extends QfMItem {
       var6 = this.loreList.iterator();
 
       while(var6.hasNext()) {
-         lore = (String)var6.next();
+         lore = var6.next();
          newLore.add(lore);
       }
 
@@ -128,7 +130,8 @@ public class QfCoreDItem extends QfMItem {
 
    public int getFullEnchantLevel(String encCompoundName) {
       String[] enOne = encCompoundName.split(" ");
-      boolean var3 = true;
+      // decompiler artifact?
+      // boolean var3 = true;
 
       try {
          int enLevel = Integer.parseInt(enOne[enOne.length - 1]);
@@ -333,10 +336,10 @@ public class QfCoreDItem extends QfMItem {
 
    public void removeEnchant(String encName) {
       String targetName = this.getFullEnchantName(encName);
-      Iterator var5 = this.enchantList.iterator();
+      Iterator<String> var5 = this.enchantList.iterator();
 
       while(var5.hasNext()) {
-         String mem = (String)var5.next();
+         String mem = var5.next();
          String listName = this.getFullEnchantName(mem);
          this.mgr.core.getLogger().info("trying to remove <" + encName + "> on enchant == " + mem + " (" + listName + ")");
          if (listName.equalsIgnoreCase(targetName)) {
@@ -349,10 +352,10 @@ public class QfCoreDItem extends QfMItem {
    }
 
    public void removeQEnchant(String enName) {
-      Iterator var4 = this.qenchantList.iterator();
+      Iterator<String> var4 = this.qenchantList.iterator();
 
       while(var4.hasNext()) {
-         String mem = (String)var4.next();
+         String mem = var4.next();
          String listName = this.getFullEnchantName(mem);
          this.mgr.core.getLogger().info("trying to remove <" + enName + "> on qenchant == " + mem + " (" + listName + ")");
          if (listName.equalsIgnoreCase(enName)) {
@@ -367,12 +370,12 @@ public class QfCoreDItem extends QfMItem {
    public int curEnchantLevel(String enName) {
       String listName;
       String mem;
-      Iterator var4;
+      Iterator<String> var4;
       if (QfCoreEnchant.isQEnchant(enName)) {
          var4 = this.qenchantList.iterator();
 
          while(var4.hasNext()) {
-            mem = (String)var4.next();
+            mem = var4.next();
             listName = this.getFullEnchantName(mem);
             if (listName.equalsIgnoreCase(enName)) {
                return this.getFullEnchantLevel(mem);
@@ -382,7 +385,7 @@ public class QfCoreDItem extends QfMItem {
          var4 = this.enchantList.iterator();
 
          while(var4.hasNext()) {
-            mem = (String)var4.next();
+            mem = var4.next();
             listName = this.getFullEnchantName(mem);
             if (listName.equalsIgnoreCase(enName)) {
                return this.getFullEnchantLevel(mem);
@@ -405,7 +408,8 @@ public class QfCoreDItem extends QfMItem {
    }
 
    public Enchantment getEnchant(String encName) {
-      Enchantment enc = Enchantment.getByName(encName);
+	  NamespacedKey key = new NamespacedKey(QfCore.instance, encName.toLowerCase());
+      Enchantment enc = Enchantment.getByKey(key);
       if (enc != null) {
          return enc;
       } else {
@@ -493,10 +497,10 @@ public class QfCoreDItem extends QfMItem {
    }
 
    public void addEnchants() {
-      Iterator var2 = this.enchantList.iterator();
+      Iterator<String> var2 = this.enchantList.iterator();
 
       while(var2.hasNext()) {
-         String mem = (String)var2.next();
+         String mem = var2.next();
          this.doAddEnchantToItem(mem);
       }
 

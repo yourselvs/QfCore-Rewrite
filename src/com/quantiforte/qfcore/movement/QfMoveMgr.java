@@ -86,17 +86,18 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
       }
    }
 
-   public List onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-      Player pTarget = null;
-      Player pUser = null;
+   public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+	  // decompiler artifacts
+      // Player pTarget = null;
+      // Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
-         pUser = (Player)sender;
+         // pUser = (Player)sender;
          String var8 = cmd.getName().toLowerCase();
          if (!var8.equalsIgnoreCase("aura")) {
             return null;
          } else {
-            List tabOut = new ArrayList();
+            List<String> tabOut = new ArrayList<String>();
             if (args.length == 0) {
                tabOut.add("list");
                tabOut.add("off");
@@ -514,7 +515,8 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
    }
 
    public void DynamicPlace(Player pUser, String cmdName) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       if (cmdName == "anvil") {
          this.qfcore.siteMgr.goSite(pUser, "tmanvil");
       }
@@ -530,7 +532,8 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
    }
 
    public void DoRpgWarp(Player pUser, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       this.DynamicPlace(pUser, "rpg");
       if (args != null && args.length == 1) {
          if (args[0] != "home") {
@@ -543,7 +546,8 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
       }
 
       if (args != null) {
-         int var10000 = args.length;
+    	 // decompiler artifacts
+         // int var10000 = args.length;
       }
 
       if (pUser == null) {

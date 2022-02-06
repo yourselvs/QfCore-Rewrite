@@ -12,14 +12,15 @@ import org.bukkit.entity.Player;
 
 public class QfBuildInvMgr extends QfGeneral implements CommandExecutor, TabCompleter {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
       } else {
          pUser = null;
-         pTarget = null;
+         // pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
@@ -36,17 +37,18 @@ public class QfBuildInvMgr extends QfGeneral implements CommandExecutor, TabComp
       }
    }
 
-   public List onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-      Player pTarget = null;
-      Player pUser = null;
+   public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+	  // decompiler artifact
+	  // Player pTarget = null;
+      // Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
-         pUser = (Player)sender;
+         // pUser = (Player)sender;
          String var8 = cmd.getName().toLowerCase();
          if (!var8.equalsIgnoreCase("aura")) {
             return null;
          } else {
-            List tabOut = new ArrayList();
+            List<String> tabOut = new ArrayList<String>();
             if (args.length == 0) {
                tabOut.add("binv");
                tabOut.add("bkit");

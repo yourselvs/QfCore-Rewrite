@@ -2,6 +2,7 @@ package com.quantiforte.qfcore.mobs;
 
 import com.quantiforte.qfcore.QfCore;
 import com.quantiforte.qfcore.QfManager;
+import com.quantiforte.qfcore.QfMItem;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.bukkit.ChatColor;
@@ -9,8 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Guardian;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
@@ -20,7 +19,7 @@ public class QfMobMgr extends QfManager implements CommandExecutor {
 
    public void doInit(QfCore newCore) {
       this.configFileName = "config_mobs.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       super.doInit(newCore);
@@ -34,16 +33,17 @@ public class QfMobMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifacts
+      // Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
-         pTarget = null;
+         // pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
@@ -89,7 +89,8 @@ public class QfMobMgr extends QfManager implements CommandExecutor {
    }
 
    public void HandleMobSpawn(CreatureSpawnEvent event) {
-      LivingEntity entity = event.getEntity();
+	  // decompiler artifact
+      // LivingEntity entity = event.getEntity();
       int rnum;
       if (event.getEntityType() == EntityType.SKELETON && event.getLocation().getWorld().getName().equalsIgnoreCase("Survival_nether")) {
          rnum = (int)(Math.random() * 100.0D) + 1;
@@ -102,18 +103,15 @@ public class QfMobMgr extends QfManager implements CommandExecutor {
          this.core.getLogger().info("WWWWWWWSKEL!! ********** " + rnum + " ******** allowed");
       }
 
-      if (event.getEntityType() == EntityType.GUARDIAN) {
-         Guardian guardian = (Guardian)entity;
-         if (!guardian.isElder()) {
-            rnum = (int)(Math.random() * 100.0D) + 1;
-            if (rnum > this.msrGuardian) {
-               this.core.getLogger().info("Guardian!! BLOCKED ======== " + rnum + " ===============");
-               event.setCancelled(true);
-               return;
-            }
-
-            this.core.getLogger().info("Guardian!! ********** " + rnum + " ******** allowed");
-         }
+      if (event.getEntityType() == EntityType.ELDER_GUARDIAN) {
+	     rnum = (int)(Math.random() * 100.0D) + 1;
+	     if (rnum > this.msrGuardian) {
+	        this.core.getLogger().info("Guardian!! BLOCKED ======== " + rnum + " ===============");
+	        event.setCancelled(true);
+	        return;
+	     }
+	
+	     this.core.getLogger().info("Guardian!! ********** " + rnum + " ******** allowed");
       }
 
    }

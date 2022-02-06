@@ -20,10 +20,10 @@ public class QfManager extends QfGeneral {
    protected String configFileName;
    private FileConfiguration ourConfig = null;
    protected File ourConfigFile = null;
-   protected List mitems;
+   protected List<QfMItem> mitems;
    public boolean hasLocationTriggers = false;
    public boolean hasDynLocationTriggers = false;
-   protected List triggerLocs;
+   protected List<QfTriggerLoc> triggerLocs;
 
    public void loadMgr(QfCore newCore) {
       this.doInit(newCore);
@@ -35,7 +35,7 @@ public class QfManager extends QfGeneral {
       this.qfcore = newCore;
       this.core = newCore;
       if (this.triggerLocs == null) {
-         this.triggerLocs = new ArrayList();
+         this.triggerLocs = new ArrayList<QfTriggerLoc>();
       }
 
    }
@@ -62,7 +62,7 @@ public class QfManager extends QfGeneral {
          boolean found = false;
          String retVal = this.listItemHeader(cat);
          QfMItem mitem;
-         Iterator var6;
+         Iterator<QfMItem> var6;
          if (cat == null) {
             for(var6 = this.mitems.iterator(); var6.hasNext(); found = true) {
                mitem = (QfMItem)var6.next();
@@ -168,7 +168,7 @@ public class QfManager extends QfGeneral {
    }
 
    public void UpdateDynTriggerLocs() {
-      Iterator var2 = this.triggerLocs.iterator();
+      Iterator<QfTriggerLoc> var2 = this.triggerLocs.iterator();
 
       while(var2.hasNext()) {
          QfTriggerLoc trig = (QfTriggerLoc)var2.next();
@@ -179,7 +179,7 @@ public class QfManager extends QfGeneral {
 
    }
 
-   public List getTriggerLocs() {
+   public List<QfTriggerLoc> getTriggerLocs() {
       if (!this.hasLocationTriggers) {
          return null;
       } else if (!this.hasDynLocationTriggers) {
@@ -204,7 +204,7 @@ public class QfManager extends QfGeneral {
    }
 
    public QfMItem getMItemByName(String mname) {
-      Iterator var3 = this.mitems.iterator();
+      Iterator<QfMItem> var3 = this.mitems.iterator();
 
       while(var3.hasNext()) {
          QfMItem mi = (QfMItem)var3.next();
@@ -216,8 +216,8 @@ public class QfManager extends QfGeneral {
       return null;
    }
 
-   public QfMItem getMItem(List itemList, String mName) {
-      Iterator var4 = itemList.iterator();
+   public QfMItem getMItem(List<QfMItem> itemList, String mName) {
+      Iterator<QfMItem> var4 = itemList.iterator();
 
       while(var4.hasNext()) {
          QfMItem mi = (QfMItem)var4.next();
@@ -234,7 +234,7 @@ public class QfManager extends QfGeneral {
    }
 
    public QfMItem getMItemUuid(UUID itemUuid) {
-      Iterator var3 = this.mitems.iterator();
+      Iterator<QfMItem> var3 = this.mitems.iterator();
 
       while(var3.hasNext()) {
          QfMItem mi = (QfMItem)var3.next();

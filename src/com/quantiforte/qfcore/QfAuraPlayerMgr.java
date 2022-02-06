@@ -15,7 +15,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
    public void doInit(QfCore newCore) {
       this.configFileName = "config_auraplayers.yml";
       this.configFileName = null;
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = true;
       this.hasDynLocationTriggers = true;
       super.doInit(newCore);
@@ -45,7 +45,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
          pTarget = null;
       }
 
-      String cmdName = cmd.getName().toLowerCase();
+      // String cmdName = cmd.getName().toLowerCase();
       if (args.length < 1) {
          this.msgCaller(pUser, ChatColor.GRAY + "You must specify the name of the aura you would like to use.");
          return true;
@@ -352,8 +352,9 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
       }
    }
 
-   public List onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-      Player pTarget = null;
+   public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+	  // decompiler artifact
+      // Player pTarget = null;
       Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (!isPlayer) {
@@ -364,11 +365,11 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
          if (!var8.equalsIgnoreCase("aura")) {
             return null;
          } else {
-            List tabOut = new ArrayList();
-            List avail;
+            List<String> tabOut = new ArrayList<String>();
+            List<String> avail;
             String txt;
             String one;
-            Iterator var15;
+            Iterator<String> var15;
             if (args.length != 0) {
                if (args.length == 1) {
                   String partial = ChatColor.stripColor(args[0]).toLowerCase();
@@ -422,7 +423,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
    }
 
    public String deactivateAllAuras() {
-      Iterator var4 = this.mitems.iterator();
+      Iterator<QfMItem> var4 = this.mitems.iterator();
 
       while(var4.hasNext()) {
          QfMItem mitem = (QfMItem)var4.next();
@@ -452,8 +453,8 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
       return dispStr;
    }
 
-   public List AvailableAuras(Player pPlayer) {
-      List avail = new ArrayList();
+   public List<String> AvailableAuras(Player pPlayer) {
+      List<String> avail = new ArrayList<String>();
       if (pPlayer.hasPermission("Qrpg.class.builder")) {
          avail.add(ChatColor.GREEN + "DarkBuild");
          avail.add(ChatColor.GREEN + "UnderwaterBuild");
@@ -546,21 +547,22 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
       return dispStr;
    }
 
-   public void readConfig() {
-   }
-
-   public QfAura getMItemAura(List itemList, String mName) {
-      Iterator var4 = itemList.iterator();
-
-      while(var4.hasNext()) {
-         QfAura mi = (QfAura)var4.next();
-         if (mi.name.equalsIgnoreCase(mName)) {
-            return mi;
-         }
-      }
-
-      return null;
-   }
+// unused code
+//   public void readConfig() {
+//   }
+//
+//   public QfAura getMItemAura(List<QfMItem> itemList, String mName) {
+//      Iterator<QfMItem> var4 = itemList.iterator();
+//
+//      while(var4.hasNext()) {
+//         QfAura mi = (QfAura)var4.next();
+//         if (mi.name.equalsIgnoreCase(mName)) {
+//            return mi;
+//         }
+//      }
+//
+//      return null;
+//   }
 
    public String listItems(String cat) {
       if (this.mitems == null) {
@@ -568,7 +570,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
       } else {
          String retVal = "";
          QfMItem mitem;
-         Iterator var4;
+         Iterator<QfMItem> var4;
          if (cat == null) {
             for(var4 = this.mitems.iterator(); var4.hasNext(); retVal = retVal + mitem.NameNice() + ChatColor.GRAY + " - " + this.dispActiveAuras((QfAuraPlayer)mitem) + "\n") {
                mitem = (QfMItem)var4.next();
@@ -591,7 +593,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
 
    public String dispActiveAurasCat(QfAuraPlayer auraPlayer, String cat) {
       String retVal = "";
-      Iterator var5 = auraPlayer.auras.iterator();
+      Iterator<QfAura> var5 = auraPlayer.auras.iterator();
 
       while(true) {
          QfAura aura;
@@ -604,7 +606,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
                return retVal;
             }
 
-            aura = (QfAura)var5.next();
+            aura = var5.next();
          } while(!aura.category.contains(cat) && !aura.subcategory.contains(cat));
 
          retVal = retVal + aura.NameNice() + " ";
@@ -615,7 +617,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
       String retVal = "";
       if (auraPlayer != null && auraPlayer.auras != null) {
          QfAura aura;
-         for(Iterator var4 = auraPlayer.auras.iterator(); var4.hasNext(); retVal = retVal + aura.NameNice() + " ") {
+         for(Iterator<QfAura> var4 = auraPlayer.auras.iterator(); var4.hasNext(); retVal = retVal + aura.NameNice() + " ") {
             aura = (QfAura)var4.next();
          }
 
@@ -632,7 +634,7 @@ public class QfAuraPlayerMgr extends QfManager implements CommandExecutor, TabCo
    public void removeTriggerLoc(QfMItem mi) {
       QfAuraPlayer auraPlayer = (QfAuraPlayer)mi;
       if (auraPlayer.auras.size() <= 0) {
-         Iterator var5 = this.triggerLocs.iterator();
+         Iterator<QfTriggerLoc> var5 = this.triggerLocs.iterator();
 
          while(var5.hasNext()) {
             QfTriggerLoc mtl = (QfTriggerLoc)var5.next();

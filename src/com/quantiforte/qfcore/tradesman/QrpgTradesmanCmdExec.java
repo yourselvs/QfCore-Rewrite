@@ -107,11 +107,13 @@ public class QrpgTradesmanCmdExec extends QfGeneral implements CommandExecutor, 
 
          int count = 0;
          Inventory inv = pUser.getInventory();
-         ItemStack[] var11;
-         int var10 = (var11 = inv.getContents()).length;
+         // decompiler artifacts
+         // ItemStack[] var11;
+         int var10 = inv.getContents().length;
 
          for(int var9 = 0; var9 < var10; ++var9) {
-            ItemStack var10000 = var11[var9];
+
+            // ItemStack var10000 = var11[var9];
             ++count;
             if (count >= needed) {
                break;
@@ -157,11 +159,12 @@ public class QrpgTradesmanCmdExec extends QfGeneral implements CommandExecutor, 
 
          int count = 0;
          Inventory inv = pUser.getInventory();
-         ItemStack[] var11;
-         int var10 = (var11 = inv.getContents()).length;
+         // decompiler artifact
+         // ItemStack[] var11;
+         int var10 = inv.getContents().length;
 
          for(int var9 = 0; var9 < var10; ++var9) {
-            ItemStack var10000 = var11[var9];
+            // ItemStack var10000 = var11[var9];
             ++count;
             if (count >= needed) {
                break;
@@ -177,9 +180,9 @@ public class QrpgTradesmanCmdExec extends QfGeneral implements CommandExecutor, 
             item = new ItemStack(Material.STONE, 64);
             pUser.getInventory().addItem(new ItemStack[]{item});
             pUser.getInventory().addItem(new ItemStack[]{item});
-            item = new ItemStack(Material.OAK_LOG, 64, (short)0);
+            item = new ItemStack(Material.OAK_LOG, 64);
             pUser.getInventory().addItem(new ItemStack[]{item});
-            item = new ItemStack(Material.OAK_LOG, 64, (short)1);
+            item = new ItemStack(Material.BIRCH_LOG, 64);
             pUser.getInventory().addItem(new ItemStack[]{item});
             if (pUser.hasPermission("Qrpg.supplies.2")) {
                item = new ItemStack(Material.GLOWSTONE, 4);
@@ -277,7 +280,7 @@ public class QrpgTradesmanCmdExec extends QfGeneral implements CommandExecutor, 
       }
 
       name = name.trim();
-      ItemStack item = pPlayer.getInventory().getItemInHand();
+      ItemStack item = pPlayer.getItemInUse();
       if (item == null) {
          this.msgCaller(pPlayer, ChatColor.DARK_RED + "You must be holding the item you want to rename to use this ability");
       } else {

@@ -30,7 +30,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
    public void doInit(QfCore newCore) {
       this.configFileName = "config_ditems.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       this.lkdm = ChatColor.LIGHT_PURPLE + "L" + ChatColor.GRAY + "&" + ChatColor.LIGHT_PURPLE + "K" + ChatColor.AQUA + "Item Design Manager";
@@ -48,11 +48,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // unused, decompiler artifact?
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
@@ -164,7 +165,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
                }
 
                if (pTarget.getInventory().firstEmpty() > -1) {
-                  ItemStack istack = pUser.getInventory().getItemInHand();
+                  ItemStack istack = pUser.getItemInUse();
                   if (istack == null) {
                      this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to give");
                      return true;
@@ -190,9 +191,9 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("item").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("item").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " item in config_ditems.yml");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var10 = names;
       int var9 = names.length;
 
@@ -259,15 +260,15 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
          }
 
          path = "item." + name + ".enchants";
-         List inList;
+         List<String> inList;
          String lit;
-         Iterator var12;
+         Iterator<String> var12;
          if (this.getConfig().contains(path)) {
             inList = this.getConfig().getStringList(path);
             var12 = inList.iterator();
 
             while(var12.hasNext()) {
-               lit = (String)var12.next();
+               lit = var12.next();
                item.enchantList.add(lit);
             }
          }
@@ -278,7 +279,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
             var12 = inList.iterator();
 
             while(var12.hasNext()) {
-               lit = (String)var12.next();
+               lit = var12.next();
                item.qenchantList.add(lit);
             }
          }
@@ -289,7 +290,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
             var12 = inList.iterator();
 
             while(var12.hasNext()) {
-               lit = (String)var12.next();
+               lit = var12.next();
                item.loreList.add(lit);
             }
          }
@@ -329,10 +330,10 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       boolean found = false;
       String retVal = this.listItemHeader(cat);
       QfMItem mitem;
-      Iterator var8;
+      Iterator<QfMItem> var8;
       if (cat == null) {
          for(var8 = this.mitems.iterator(); var8.hasNext(); found = true) {
-            mitem = (QfMItem)var8.next();
+            mitem = var8.next();
             QfCoreDItem di = (QfCoreDItem)mitem;
             retVal = retVal + di.NameNiceWithId() + "\n";
          }
@@ -340,7 +341,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
          var8 = this.mitems.iterator();
 
          while(var8.hasNext()) {
-            mitem = (QfMItem)var8.next();
+            mitem = var8.next();
             if (!found) {
                retVal = retVal + mitem.CatColor(cat);
                found = true;
@@ -369,8 +370,8 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
          di.itemName = itemName;
       }
 
-      di.iStack = pUser.getItemInHand();
-      di.itemMaterial = pUser.getItemInHand().getType();
+      di.iStack = pUser.getItemInUse();
+      di.itemMaterial = pUser.getItemInUse().getType();
       di.autoType();
       String path = "item." + di.name;
       if (this.getConfig().contains(path)) {
@@ -436,7 +437,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
                }
 
                if (pTarget.getInventory().firstEmpty() > -1) {
-                  item = pUser.getInventory().getItemInHand();
+                  item = pUser.getItemInUse();
                   if (item == null) {
                      this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to give");
                      return;
@@ -472,7 +473,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
                   name = ChatColor.translateAlternateColorCodes('&', name);
                }
 
-               item = pUser.getInventory().getItemInHand();
+               item = pUser.getItemInUse();
                if (item == null) {
                   this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to change the lore on");
                   return;
@@ -480,18 +481,18 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
                meta = item.getItemMeta();
                if (doClear) {
-                  meta.setLore((List)null);
+                  meta.setLore((List<String>)null);
                   this.msgCaller(pUser, ChatColor.GOLD + "You have " + ChatColor.YELLOW + "cleared " + ChatColor.GOLD + "the lore for the item");
                } else {
-                  List lore = meta.getLore();
+                  List<String> lore = meta.getLore();
                   if (lore == null) {
-                     lore = new ArrayList();
-                     ((List)lore).add(name);
+                     lore = new ArrayList<String>();
+                     ((List<String>)lore).add(name);
                   } else {
-                     ((List)lore).add(name);
+                     ((List<String>)lore).add(name);
                   }
 
-                  meta.setLore((List)lore);
+                  meta.setLore((List<String>)lore);
                   this.msgCaller(pUser, ChatColor.GOLD + "You have " + ChatColor.YELLOW + "edited " + ChatColor.GOLD + "the lore for the item");
                }
 
@@ -508,7 +509,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
                name = name.trim();
                name = ChatColor.translateAlternateColorCodes('&', name);
-               item = pUser.getInventory().getItemInHand();
+               item = pUser.getItemInUse();
                if (item == null) {
                   this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to rename");
                   return;
@@ -533,7 +534,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
       name = name.trim();
       name = ChatColor.stripColor(name);
-      ItemStack item = pPlayer.getInventory().getItemInHand();
+      ItemStack item = pPlayer.getItemInUse();
       if (item == null) {
          this.msgCaller(pPlayer, ChatColor.DARK_RED + "You must be holding the item you want to rename to use this ability");
       } else {
@@ -554,7 +555,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
    public void setActiveItem(Player pUser, QfCoreDItem di) {
       this.curItem = di;
-      di.iStack = pUser.getItemInHand();
+      di.iStack = pUser.getItemInUse();
    }
 
    public void forgeItem(Player pUser, QfCoreDItem di) {
@@ -578,7 +579,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
    }
 
    public QfCoreDItem loadItem(Player pUser, String itemId) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       QfCoreDItem di;
       do {
@@ -586,7 +587,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
             return null;
          }
 
-         QfMItem mitem = (QfMItem)var5.next();
+         QfMItem mitem = var5.next();
          di = (QfCoreDItem)mitem;
       } while(!di.name.equalsIgnoreCase(itemId) && !di.itemName.equalsIgnoreCase(itemId));
 
@@ -611,9 +612,10 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       }
 
       di.makeReadyClass();
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       di.updateLore();
-      String name = di.makeReadyName();
+      // decompiler artifact?
+      // String name = di.makeReadyName();
       String path = "item." + di.name + ".itemclass";
       this.getConfig().set(path, di.itemClass);
       path = "item." + di.name + ".namecolor";
@@ -642,7 +644,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       }
 
       di.makeReadyClass();
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       di.updateLore();
       di.makeReadyName();
       String path = "item." + di.name + ".itemtype";
@@ -664,7 +666,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
       name = name.trim();
       di.itemName = ChatColor.translateAlternateColorCodes('&', name);
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       di.updateLore();
       name = di.makeReadyName();
       String path = "item." + di.name + ".name";
@@ -674,17 +676,18 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeAllLoreItem(Player pUser, QfCoreDItem di) {
-      Iterator var8 = this.mitems.iterator();
+      Iterator<QfMItem> var8 = this.mitems.iterator();
 
       while(var8.hasNext()) {
-         QfMItem item = (QfMItem)var8.next();
+         QfMItem item = var8.next();
          QfCoreDItem ditem = (QfCoreDItem)item;
          if (ditem.equals(di)) {
-            Iterator var10 = ditem.loreList.iterator();
+            Iterator<String> var10 = ditem.loreList.iterator();
             if (var10.hasNext()) {
-               String mem = (String)var10.next();
+               // decompiler artifact?
+               // String mem = var10.next();
                String path = "item." + ditem.name + ".lore";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.clear();
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -706,32 +709,13 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
       newLore = newLore.trim();
       newLore = ChatColor.translateAlternateColorCodes('&', newLore);
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       di.addLore(newLore);
       di.makeReadyName();
       String path = "item." + di.name + ".lore";
       this.getConfig().set(path, di.loreList);
       this.saveConfig();
       this.msgCaller(pUser, ChatColor.DARK_GREEN + "Lore added to the item. Ready for more work.");
-   }
-
-   public ItemStack itemFromStr(String str) {
-      String matName;
-      byte matData;
-      if (str.contains(":")) {
-         String[] mats = str.split(":");
-         matName = mats[0];
-         matData = (byte)Integer.parseInt(mats[1]);
-      } else {
-         matName = str;
-         matData = 0;
-      }
-
-      ItemStack item = new ItemStack(Material.matchMaterial(matName), 1, (short)0, matData);
-      return item;
-   }
-
-   public void showItemMenuItem(Player pUser) {
    }
 
    public void showDefaultMenuItem(Player pUser) {
@@ -743,12 +727,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.GOLDEN_SWORD, "Weapons", ChatColor.AQUA + "available enchants"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -780,12 +764,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.GOLDEN_SWORD, "Weapons", ChatColor.AQUA + "available enchants"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -820,12 +804,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.LEATHER_HELMET, "Helmets", ChatColor.AQUA + "for helmets"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -848,12 +832,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.IRON_CHESTPLATE, "Chestplates", ChatColor.AQUA + "available enchants"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -885,12 +869,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.LEATHER_LEGGINGS, "Leggings", ChatColor.AQUA + "for leggings"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -913,12 +897,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.LEATHER_BOOTS, "Boots", ChatColor.AQUA + "for boots"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -940,12 +924,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       encInv.setItem(idx, this.QuickItem(Material.WOODEN_PICKAXE, "Tools", ChatColor.AQUA + "for tools"));
       idx = 2;
       var4 = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:8"), ChatColor.GRAY + "Common", "Common"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:4"), ChatColor.YELLOW + "Uncommon", "Uncommon"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:10"), ChatColor.DARK_PURPLE + "Rare", "Rare"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:1"), ChatColor.GOLD + "Royal", "Royal"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:9"), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
-      encInv.setItem(var4++, this.QuickItemNameLore(this.itemFromStr("WOOL:14"), ChatColor.RED + "Legendary", "Legendary"));
+      encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.GRAY + "Common", "Common"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.GRAY_WOOL), ChatColor.YELLOW + "Uncommon", "Uncommon"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.PURPLE_WOOL), ChatColor.DARK_PURPLE + "Rare", "Rare"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.YELLOW_WOOL), ChatColor.GOLD + "Royal", "Royal"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.CYAN_WOOL), ChatColor.DARK_AQUA + "Heroic", "Heroic"));
+      encInv.setItem(var4++, this.QuickItemNameLore(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Legendary", "Legendary"));
       idx = 9;
       var4 = idx + 1;
       encInv.setItem(idx, this.QuickItem(Material.OBSIDIAN, "Unbreaking", ChatColor.AQUA + "I - X"));
@@ -1045,7 +1029,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
    public void setEmLevelIndicator(Inventory encInv, int curLevel) {
       int idx = 35 + curLevel;
       if (curLevel > 0) {
-         encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("GOLD_BLOCK"), QfCoreEnchant.intToRoman(curLevel), ChatColor.GOLD + "Enchant Level"));
+         encInv.setItem(idx, this.QuickItemNameLore(new ItemStack(Material.GOLD_BLOCK), QfCoreEnchant.intToRoman(curLevel), ChatColor.GOLD + "Enchant Level"));
       }
 
    }
@@ -1054,24 +1038,26 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       this.core.getLogger().info("resetEmLevelIndicator: " + maxLevel + " <" + encInv + ">");
       int idx = 36;
       idx = idx + 1;
-      encInv.setItem(idx, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "I", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "II", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "III", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "IV", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "V", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "VI", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "VII", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "VIII", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "IX", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "X", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XI", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XII", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XIII", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XIV", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XV", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XVI", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("WOOL:" + (idx - 36 <= maxLevel ? "5" : "14")), "XVII", ChatColor.GOLD + "Enchant Level"));
-      encInv.setItem(idx++, this.QuickItemNameLore(this.itemFromStr("GLASS"), "Unenchant", ChatColor.RED + "Remove Enchant"));
+      Material wool = idx - 36 <= maxLevel ? Material.LIME_WOOL : Material.RED_WOOL;
+      ItemStack item = new ItemStack(wool);
+      encInv.setItem(idx, this.QuickItemNameLore(item, "I", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "II", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "III", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "IV", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "V", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "VI", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "VII", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "VIII", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "IX", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "X", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XI", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XII", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XIII", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XIV", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XV", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XVI", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(item, "XVII", ChatColor.GOLD + "Enchant Level"));
+      encInv.setItem(idx++, this.QuickItemNameLore(new ItemStack(Material.GLASS), "Unenchant", ChatColor.RED + "Remove Enchant"));
    }
 
    public void removeAllEnchants(Player pUser, QfCoreDItem di) {
@@ -1079,7 +1065,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       String path = "item." + di.name + ".enchants";
       this.getConfig().set(path, di.enchantList);
       this.saveConfig();
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       this.forgeItem(pUser, di);
       this.msgCaller(pUser, ChatColor.DARK_GREEN + "All enchants removed from item. Ready for more work.");
    }
@@ -1118,7 +1104,7 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
       this.currentEmEnchant = enName;
       this.currentEmMaxLevel = QfCoreEnchant.getMaxEnchantLevel(enName);
       this.core.getLogger().info("currentEmMaxLevel for " + enName + " is " + this.currentEmMaxLevel);
-      di.iStack = pUser.getInventory().getItemInHand();
+      di.iStack = pUser.getItemInUse();
       di.setEnchant(enName, level);
       di.makeReadyName();
       this.UpdateEnchantConfigList(di);
@@ -1133,12 +1119,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
    public void UpdateEnchantConfigList(QfCoreDItem di) {
       String path = "item." + di.name + ".enchants";
-      List configList = this.getConfig().getStringList(path);
+      List<String> configList = this.getConfig().getStringList(path);
       configList.clear();
-      Iterator var5 = di.enchantList.iterator();
+      Iterator<String> var5 = di.enchantList.iterator();
 
       while(var5.hasNext()) {
-         String newLi = (String)var5.next();
+         String newLi = var5.next();
          configList.add(newLi);
       }
 
@@ -1148,12 +1134,12 @@ public class QfCoreDesignMgr extends QfManager implements CommandExecutor {
 
    public void UpdateQEnchantConfigList(QfCoreDItem di) {
       String path = "item." + di.name + ".qenchants";
-      List configList = this.getConfig().getStringList(path);
+      List<String> configList = this.getConfig().getStringList(path);
       configList.clear();
-      Iterator var5 = di.qenchantList.iterator();
+      Iterator<String> var5 = di.qenchantList.iterator();
 
       while(var5.hasNext()) {
-         String newLi = (String)var5.next();
+         String newLi = var5.next();
          configList.add(newLi);
       }
 

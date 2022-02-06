@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 
 public class QfAuraBlock extends QfMItem {
    public String loc;
-   public List auras;
+   public List<QfAura> auras;
 
    public void doInit() {
-      this.auras = new ArrayList();
+      this.auras = new ArrayList<QfAura>();
       this.category = "general";
       this.subcategory = "general";
    }
@@ -77,7 +77,7 @@ public class QfAuraBlock extends QfMItem {
    }
 
    public void doTriggerAction(Player pTarget, Double distanceFromPlayer) {
-      Iterator var4 = this.auras.iterator();
+      Iterator<QfAura> var4 = this.auras.iterator();
 
       while(var4.hasNext()) {
          QfAura aura = (QfAura)var4.next();

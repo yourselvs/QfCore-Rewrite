@@ -3,6 +3,8 @@ package com.quantiforte.qfcore.classes;
 import com.quantiforte.qfcore.QfGeneral;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,11 +14,12 @@ public class QrpgClassMgr extends QfGeneral implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // value not used: decompiler artifact?
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
@@ -459,7 +462,8 @@ public class QrpgClassMgr extends QfGeneral implements CommandExecutor {
                   label80: {
                      label79: {
                         upMsg = null;
-                        boolean isFemale = pTarget.hasPermission("Qrpg.profile.gender.female");
+                        // value not used: decompiler artifact?
+                        // boolean isFemale = pTarget.hasPermission("Qrpg.profile.gender.female");
                         switch(arg0.hashCode()) {
                         case -1619702940:
                            if (!arg0.equals("blacksmith")) {
@@ -588,7 +592,8 @@ public class QrpgClassMgr extends QfGeneral implements CommandExecutor {
          hearts = 40;
       }
 
-      pTarget.setMaxHealth((double)hearts);
+      AttributeInstance attribute = pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+      attribute.setBaseValue((double)hearts);
       pTarget.setHealth((double)hearts);
    }
 

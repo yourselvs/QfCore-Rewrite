@@ -10,13 +10,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class QfCooldownMgr extends QfManager {
-   public HashMap mapUuid;
+   public HashMap<String, Long> mapUuid;
 
    public void doInit(QfCore newCore) {
       this.configFileName = "config_cooldowns.yml";
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
-      this.mapUuid = new HashMap();
+      this.mapUuid = new HashMap<String, Long>();
       super.doInit(newCore);
    }
 
@@ -67,10 +67,10 @@ public class QfCooldownMgr extends QfManager {
    }
 
    public void taskCooldownCheck() {
-      Iterator it = this.mapUuid.keySet().iterator();
+      Iterator<String> it = this.mapUuid.keySet().iterator();
 
       while(it.hasNext()) {
-         String key = (String)it.next();
+         String key = it.next();
          Long keyTime = (Long)this.mapUuid.get(key);
          if (keyTime <= 1L) {
             it.remove();
@@ -83,9 +83,9 @@ public class QfCooldownMgr extends QfManager {
    }
 
    public void readConfig() {
-      Set keys = this.getConfig().getConfigurationSection("cooldown").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("cooldown").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " pending in config_cooldowns.yml");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var9 = names;
       int var8 = names.length;
 
@@ -115,7 +115,7 @@ public class QfCooldownMgr extends QfManager {
 
    public void genCooldownConfig() {
       this.deleteConfig();
-      Iterator it = this.mapUuid.keySet().iterator();
+      Iterator<String> it = this.mapUuid.keySet().iterator();
       int idx = 0;
 
       while(it.hasNext()) {

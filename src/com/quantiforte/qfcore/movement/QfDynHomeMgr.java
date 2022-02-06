@@ -25,7 +25,7 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    protected String cfNameDhRpg;
    private FileConfiguration configDhRpg = null;
    private File configFileDhRpg = null;
-   protected List dynHomeList;
+   protected List<QfDynHome> dynHomeList;
    public Location locRpg;
    public Location locAnvil;
    public Location locEtable;
@@ -33,7 +33,7 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    public void doInit(QfCore plugin) {
       super.doInit(plugin);
       this.cfNameDhRpg = plugin.getDataFolder() + File.separator + "dynhomes" + File.separator + "dynhomes_rpg.yml";
-      this.dynHomeList = new ArrayList();
+      this.dynHomeList = new ArrayList<QfDynHome>();
    }
 
    public void loadMgr(QfCore plugin) {
@@ -47,14 +47,15 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
       } else {
          pUser = null;
-         pTarget = null;
+         // pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
@@ -74,17 +75,17 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
       }
    }
 
-   public List onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-      Player pTarget = null;
-      Player pUser = null;
+   public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+      // Player pTarget = null;
+      // Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
-         pUser = (Player)sender;
+         // pUser = (Player)sender;
          String var8 = cmd.getName().toLowerCase();
          if (!var8.equalsIgnoreCase("aura")) {
             return null;
          } else {
-            List tabOut = new ArrayList();
+            List<String> tabOut = new ArrayList<String>();
             if (args.length == 0) {
                this.msgCaller((Player)null, "tabcomplete: 0");
                tabOut.add("list");
@@ -120,9 +121,9 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    public void readConfigRpg() {
       FileConfiguration config = this.getConfig(this.configDhRpg, this.configFileDhRpg, this.cfNameDhRpg);
       this.dynHomeList.clear();
-      Set keys = config.getConfigurationSection("rpg").getKeys(false);
+      Set<String> keys = config.getConfigurationSection("rpg").getKeys(false);
       this.qfcore.getLogger().info("found " + keys.size() + " rpg warps in config file");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var10 = names;
       int var9 = names.length;
 
@@ -222,7 +223,8 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    }
 
    public void DoRpg(Player pUser, CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       if (pUser == null) {
          this.msgCaller(pUser, "Cannot use this command from console.");
       }
@@ -239,7 +241,8 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
       }
 
       if (args != null) {
-         int var10000 = args.length;
+    	 // wack decompiler artifact
+         // int var10000 = args.length;
       }
 
       if (pUser == null) {
@@ -270,7 +273,8 @@ public final class QfDynHomeMgr extends QfGeneral implements CommandExecutor, Ta
    }
 
    public void DynamicPlace(Player pUser, String cmdName) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       if (cmdName == "anvil") {
          if (pUser.getName().equalsIgnoreCase("WizardWil")) {
             pUser.teleport(this.locAnvil);

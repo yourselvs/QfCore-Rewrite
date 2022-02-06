@@ -13,9 +13,9 @@ public class QrpgGuild extends QfMItem {
    public int maxMembers;
    public String worldName;
    public String motd;
-   public List memberList;
-   public List inviteList;
-   public List requestList;
+   public List<String> memberList;
+   public List<String> inviteList;
+   public List<String> requestList;
 
    public void doInit() {
       this.category = "general";

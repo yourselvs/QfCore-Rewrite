@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public final class QfAuraMgr extends QfManager {
    public void doInit(QfCore newCore) {
       this.configFileName = "config_auras.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       super.doInit(newCore);
    }
 
@@ -25,16 +25,16 @@ public final class QfAuraMgr extends QfManager {
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifacts?
+      // Player pTarget = null;
       Player pUser = null;
-      // decompiler artifact?
       // int nextarg = false;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
       }
 
-      String cmdName = cmd.getName().toLowerCase();
+      // String cmdName = cmd.getName().toLowerCase();
       String dispStr;
       if (args.length == 0) {
          dispStr = ChatColor.GOLD + "qf aura running";
@@ -77,9 +77,9 @@ public final class QfAuraMgr extends QfManager {
 
    public void readConfig() {
       this.mitems.clear();
-      Set keys = this.getConfig().getConfigurationSection("aura").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("aura").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " auras in config file");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var10 = names;
       int var9 = names.length;
 
@@ -116,8 +116,8 @@ public final class QfAuraMgr extends QfManager {
 
          path = "aura." + name + ".effects";
          if (this.getConfig().contains(path)) {
-            List strCons = this.getConfig().getStringList(path);
-            Iterator var12 = strCons.iterator();
+            List<String> strCons = this.getConfig().getStringList(path);
+            Iterator<String> var12 = strCons.iterator();
 
             while(var12.hasNext()) {
                String strCon = (String)var12.next();

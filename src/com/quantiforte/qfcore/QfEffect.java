@@ -1,6 +1,8 @@
 package com.quantiforte.qfcore;
 
 import java.util.Collection;
+
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -15,7 +17,7 @@ public class QfEffect {
    public int cooldown;
 
    public void applyEffectToPlayer(Player pTarget, Double distanceFromPlayer) {
-      Collection curEffects = pTarget.getActivePotionEffects();
+      Collection<PotionEffect> curEffects = pTarget.getActivePotionEffects();
       if (distanceFromPlayer <= (double)this.radiusFar && distanceFromPlayer >= (double)this.radiusNear) {
          PotionEffect pe;
          label289: {
@@ -55,10 +57,11 @@ public class QfEffect {
             case -820818432:
                if (var7.equals("nightvision")) {
                   pe = new PotionEffect(PotionEffectType.NIGHT_VISION, this.duration * 20, this.level, true);
-                  if (curEffects.contains(PotionEffectType.NIGHT_VISION)) {
-                     pTarget.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                  }
-
+                  curEffects.forEach(potionEffect -> {
+                	  if (potionEffect.getType().equals(PotionEffectType.NIGHT_VISION)) {
+                          pTarget.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                	  }
+                  });
                   pTarget.addPotionEffect(pe);
                }
 
@@ -165,7 +168,7 @@ public class QfEffect {
                return;
             case 1439317015:
                if (var7.equals("autoheal")) {
-                  pTarget.setHealth(pTarget.getMaxHealth());
+                  pTarget.setHealth(pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                }
 
                return;
@@ -173,7 +176,7 @@ public class QfEffect {
                if (var7.equals("extinguish") && pTarget.getFireTicks() > 0) {
                   pTarget.setFireTicks(0);
                   double health = pTarget.getHealth() + 1.0D;
-                  if (health > 1.0D && health <= pTarget.getMaxHealth()) {
+                  if (health > 1.0D && health <= pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()) {
                      pTarget.setHealth(health);
                      return;
                   }

@@ -14,11 +14,12 @@ public class QrpgSoldierMgr extends QfGeneral implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // decompiler artifact
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;

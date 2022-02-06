@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class QfLandHomeMgr extends QfManager {
    public void doInit(QfCore newCore) {
       this.configFileName = "config_landhomes.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       super.doInit(newCore);
@@ -36,10 +36,10 @@ public class QfLandHomeMgr extends QfManager {
          boolean found = false;
          String retVal = this.listItemHeader(cat);
          QfMItem mitem;
-         Iterator var6;
+         Iterator<QfMItem> var6;
          if (cat == null) {
             for(var6 = this.mitems.iterator(); var6.hasNext(); found = true) {
-               mitem = (QfMItem)var6.next();
+               mitem = var6.next();
                retVal = retVal + mitem.NameNice() + ChatColor.GRAY + ", ";
             }
 
@@ -50,7 +50,7 @@ public class QfLandHomeMgr extends QfManager {
             var6 = this.mitems.iterator();
 
             while(var6.hasNext()) {
-               mitem = (QfMItem)var6.next();
+               mitem = var6.next();
                if (!found) {
                   retVal = retVal + mitem.CatColor(cat);
                   found = true;
@@ -74,9 +74,9 @@ public class QfLandHomeMgr extends QfManager {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("landhome").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("landhome").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " landhomes in config_landhomes.yml");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var9 = names;
       int var8 = names.length;
 
@@ -147,7 +147,7 @@ public class QfLandHomeMgr extends QfManager {
    }
 
    public QfLandHome findLandHome(String name) {
-      Iterator var3 = this.mitems.iterator();
+      Iterator<QfMItem> var3 = this.mitems.iterator();
 
       while(var3.hasNext()) {
          QfMItem mitem = (QfMItem)var3.next();
@@ -165,7 +165,7 @@ public class QfLandHomeMgr extends QfManager {
          lhName = name + "shop";
       }
 
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(var7.hasNext()) {
          QfMItem mitem = (QfMItem)var7.next();

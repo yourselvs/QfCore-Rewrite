@@ -4,6 +4,7 @@ import com.quantiforte.qfcore.QfGeneral;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -190,11 +191,13 @@ public class QrpgHealthMgr extends QfGeneral implements CommandExecutor {
       if (this.qfcore.cooldownMgr.checkCooldown(pPlayer, "food", true) == null) {
          int count = 0;
          Inventory inv = pPlayer.getInventory();
-         ItemStack[] var12;
-         int var11 = (var12 = inv.getContents()).length;
+         // artifact
+         // ItemStack[] var12;
+         int var11 = inv.getContents().length;
 
          for(int var10 = 0; var10 < var11; ++var10) {
-            ItemStack var10000 = var12[var10];
+        	// wack decompiler artifact
+            // ItemStack var10000 = var12[var10];
             ++count;
             if (count >= 2) {
                break;
@@ -281,8 +284,10 @@ public class QrpgHealthMgr extends QfGeneral implements CommandExecutor {
          String healMsg = null;
          boolean healSelf = false;
          Long coolTime = 60L;
+         double maxHealth = pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
          if (pUser == null) {
-            pTarget.setHealth(pTarget.getMaxHealth());
+        	;
+            pTarget.setHealth(maxHealth);
             pTarget.setFoodLevel(20);
             pTarget.setFireTicks(0);
          } else {
@@ -293,7 +298,7 @@ public class QrpgHealthMgr extends QfGeneral implements CommandExecutor {
                cool = "heal";
                coolTime = 60L;
                if (pUser.hasPermission("Qrpg.heal.full")) {
-                  healAmt = pTarget.getMaxHealth();
+                  healAmt = maxHealth;
                   coolTime = 200L;
                } else {
                   healAmt = 1.0D;
@@ -311,7 +316,7 @@ public class QrpgHealthMgr extends QfGeneral implements CommandExecutor {
                cool = "heal.other";
                coolTime = 60L;
                if (pUser.hasPermission("Qrpg.heal.others.full")) {
-                  healAmt = pTarget.getMaxHealth();
+                  healAmt = maxHealth;
                   coolTime = 240L;
                } else {
                   healAmt = 1.0D;
@@ -327,8 +332,8 @@ public class QrpgHealthMgr extends QfGeneral implements CommandExecutor {
                }
             }
 
-            if (pTarget.getHealth() + healAmt >= pTarget.getMaxHealth()) {
-               healAmt = pTarget.getMaxHealth();
+            if (pTarget.getHealth() + healAmt >= maxHealth) {
+               healAmt = pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                healMsg = ChatColor.GRAY + "You have been " + ChatColor.DARK_GREEN + "fully healed";
             } else {
                healMsg = ChatColor.GRAY + "You have been healed " + ChatColor.DARK_GREEN + healAmt / 2.0D + ChatColor.GRAY + " hearts";

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,13 +18,14 @@ import org.bukkit.potion.PotionEffectType;
 public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabCompleter {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
-      OfflinePlayer pOffTarget = null;
+      Player pOffTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // decompiler artifact
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
@@ -41,7 +41,7 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
                   return true;
                }
 
-               pOffTarget = this.qfcore.getServer().getOfflinePlayer(args[0]);
+               pOffTarget = this.qfcore.getServer().getPlayer(args[0]);
                if (pOffTarget == null) {
                   this.msgCaller(pUser, ChatColor.RED + "Could not locate the player");
                   return true;
@@ -131,17 +131,18 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
       }
    }
 
-   public List onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-      Player pTarget = null;
-      Player pUser = null;
+   public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+	  // decompiler artifacts
+      // Player pTarget = null;
+      // Player pUser = null;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
-         pUser = (Player)sender;
+         // pUser = (Player)sender;
          String var8 = cmd.getName().toLowerCase();
          if (!var8.equalsIgnoreCase("warn")) {
             return null;
          } else {
-            List tabOut = new ArrayList();
+            List<String> tabOut = new ArrayList<String>();
             if (args.length == 0) {
                tabOut.add("advertising");
                tabOut.add("begging");
@@ -304,7 +305,7 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
                }
 
                if (pTarget.getInventory().firstEmpty() > -1) {
-                  item = pUser.getInventory().getItemInHand();
+                  item = pUser.getItemInUse();
                   if (item == null) {
                      this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to give");
                      return;
@@ -340,7 +341,7 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
                   name = ChatColor.translateAlternateColorCodes('&', name);
                }
 
-               item = pUser.getInventory().getItemInHand();
+               item = pUser.getItemInUse();
                if (item == null) {
                   this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to change the lore on");
                   return;
@@ -348,18 +349,18 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
 
                meta = item.getItemMeta();
                if (doClear) {
-                  meta.setLore((List)null);
+                  meta.setLore((List<String>)null);
                   this.msgCaller(pUser, ChatColor.GOLD + "You have " + ChatColor.YELLOW + "cleared " + ChatColor.GOLD + "the lore for the item");
                } else {
-                  List lore = meta.getLore();
+                  List<String> lore = meta.getLore();
                   if (lore == null) {
-                     lore = new ArrayList();
-                     ((List)lore).add(name);
+                     lore = new ArrayList<String>();
+                     ((List<String>)lore).add(name);
                   } else {
-                     ((List)lore).add(name);
+                     ((List<String>)lore).add(name);
                   }
 
-                  meta.setLore((List)lore);
+                  meta.setLore((List<String>)lore);
                   this.msgCaller(pUser, ChatColor.GOLD + "You have " + ChatColor.YELLOW + "edited " + ChatColor.GOLD + "the lore for the item");
                }
 
@@ -376,7 +377,7 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
 
                name = name.trim();
                name = ChatColor.translateAlternateColorCodes('&', name);
-               item = pUser.getInventory().getItemInHand();
+               item = pUser.getItemInUse();
                if (item == null) {
                   this.msgCaller(pUser, ChatColor.RED + "You must be holding the item you want to rename");
                   return;
@@ -401,7 +402,7 @@ public class QfStaffMgr extends QfGeneral implements CommandExecutor, TabComplet
 
       name = name.trim();
       name = ChatColor.stripColor(name);
-      ItemStack item = pPlayer.getInventory().getItemInHand();
+      ItemStack item = pPlayer.getItemInUse();
       if (item == null) {
          this.msgCaller(pPlayer, ChatColor.DARK_RED + "You must be holding the item you want to rename to use this ability");
       } else {

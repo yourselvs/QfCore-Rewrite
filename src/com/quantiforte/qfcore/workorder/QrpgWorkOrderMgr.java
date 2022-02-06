@@ -23,7 +23,7 @@ import org.bukkit.inventory.ItemStack;
 public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
    public void doInit(QfCore newCore) {
       this.configFileName = "config_workorders.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       super.doInit(newCore);
@@ -36,20 +36,20 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
       Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
          pTarget = pUser;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
          pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
-      String specName = null;
-      String landType = null;
+      // String specName = null;
+      // String landType = null;
       switch(cmdName.hashCode()) {
       case 3800:
          if (!cmdName.equals("wo")) {
@@ -125,25 +125,21 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
 
       Inventory goInv = Bukkit.createInventory((InventoryHolder)null, sz, ChatColor.DARK_GREEN + "Open Work Orders");
       int idx = 0;
-      Iterator var9 = this.mitems.iterator();
+      Iterator<QfMItem> var9 = this.mitems.iterator();
 
       while(var9.hasNext()) {
          QfMItem mitem = (QfMItem)var9.next();
          QrpgWorkOrder wo = (QrpgWorkOrder)mitem;
          goInv.setItem(idx, this.QuickItemNameLore(wo.icon, wo.name, wo.descr));
          String coolTimeLeft = this.qfcore.cooldownMgr.checkCooldown(pUser, wo.coolId, false);
-         byte subId;
          if (coolTimeLeft == null) {
             if (this.hasAllReqs(pUser, wo)) {
-               subId = 5;
-               goInv.setItem(idx + 9, this.QuickItemNameLores(this.itemFromStr("WOOL:" + subId), ChatColor.GREEN + "Work order ready", wo.reqDescr));
+               goInv.setItem(idx + 9, this.QuickItemNameLores(new ItemStack(Material.LIME_WOOL), ChatColor.GREEN + "Work order ready", wo.reqDescr));
             } else {
-               subId = 0;
-               goInv.setItem(idx + 9, this.QuickItemNameLores(this.itemFromStr("WOOL:" + subId), ChatColor.WHITE + "Work order available", wo.reqDescr));
+               goInv.setItem(idx + 9, this.QuickItemNameLores(new ItemStack(Material.WHITE_WOOL), ChatColor.WHITE + "Work order available", wo.reqDescr));
             }
          } else {
-            subId = 14;
-            goInv.setItem(idx + 9, this.QuickItemNameLores(this.itemFromStr("WOOL:" + subId), ChatColor.RED + "Work order not available", wo.reqDescr));
+            goInv.setItem(idx + 9, this.QuickItemNameLores(new ItemStack(Material.RED_WOOL), ChatColor.RED + "Work order not available", wo.reqDescr));
          }
 
          ++idx;
@@ -175,7 +171,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          } else {
             itemName = ChatColor.stripColor(itemName);
             String altName = ChatColor.stripColor(this.firstLore(item));
-            Iterator var7 = this.mitems.iterator();
+            Iterator<QfMItem> var7 = this.mitems.iterator();
 
             QrpgWorkOrder wo;
             do {
@@ -207,7 +203,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
             String strMat = var14[var12];
             String[] qStr = strMat.split(" ");
             int qty = Integer.parseInt(qStr[0]);
-            ItemStack item = this.itemFromStr(qStr[1]);
+            ItemStack item = new ItemStack(Material.matchMaterial(qStr[1]));
             if (!pUser.getInventory().containsAtLeast(item, qty)) {
                hasReqMats = false;
                break;
@@ -218,9 +214,9 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          }
 
          if (hasReqMats) {
-            HashMap result = pUser.getInventory().removeItem(remItems);
+            HashMap<Integer, ItemStack> result = pUser.getInventory().removeItem(remItems);
             if (result.isEmpty()) {
-               if (this.qfcore.payPlayer(pUser.getName(), wo.rewardCash, false)) {
+               if (this.qfcore.payPlayer(pUser, wo.rewardCash, false)) {
                   this.qfcore.cooldownMgr.addCooldown(pUser, wo.coolId, wo.coolTime);
                   this.msgCaller(pUser, ChatColor.GOLD + "You have completed the work order and received " + ChatColor.GREEN + wo.rewardStr);
                } else {
@@ -245,7 +241,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          String strMat = var10[var8];
          String[] qStr = strMat.split(" ");
          int qty = Integer.parseInt(qStr[0]);
-         ItemStack item = this.itemFromStr(qStr[1]);
+         ItemStack item = new ItemStack(Material.matchMaterial(qStr[1]));
          if (!pUser.getInventory().containsAtLeast(item, qty)) {
             hasReqMats = false;
             break;
@@ -255,22 +251,6 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
       }
 
       return hasReqMats;
-   }
-
-   public ItemStack itemFromStr(String str) {
-      String matName;
-      byte matData;
-      if (str.contains(":")) {
-         String[] mats = str.split(":");
-         matName = mats[0];
-         matData = (byte)Integer.parseInt(mats[1]);
-      } else {
-         matName = str;
-         matData = 0;
-      }
-
-      ItemStack item = new ItemStack(Material.matchMaterial(matName), 1, (short)0, matData);
-      return item;
    }
 
    public String listItemHeader(String cat) {
@@ -284,7 +264,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          boolean found = false;
          String retVal = this.listItemHeader(cat);
          QfMItem mitem;
-         Iterator var6;
+         Iterator<QfMItem> var6;
          if (cat == null) {
             for(var6 = this.mitems.iterator(); var6.hasNext(); found = true) {
                mitem = (QfMItem)var6.next();
@@ -322,7 +302,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("workorder").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("workorder").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " work orders in config_workorders.yml");
       String[] names = (String[])keys.toArray(new String[keys.size()]);
       String[] var11 = names;
@@ -353,7 +333,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          path = "workorder." + name + ".icon";
          if (this.getConfig().contains(path)) {
             workOrder.iconStr = this.getConfig().getString(path);
-            workOrder.icon = this.itemFromStr(workOrder.iconStr);
+            workOrder.icon = new ItemStack(Material.matchMaterial(workOrder.iconStr));
          }
 
          path = "workorder." + name + ".reward";
@@ -384,10 +364,10 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          }
 
          path = "workorder." + name + ".reqMat";
-         List strList;
+         List<String> strList;
          int si;
          String str;
-         Iterator var13;
+         Iterator<String> var13;
          if (this.getConfig().contains(path)) {
             strList = this.getConfig().getStringList(path);
             workOrder.reqMat = new String[strList.size()];

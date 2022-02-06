@@ -8,9 +8,9 @@ public class QrpgParty extends QfMItem {
    public String partyName;
    public int maxMembers;
    public boolean allowPvp;
-   public List memberList;
-   public List inviteList;
-   public List requestList;
+   public List<String> memberList;
+   public List<String> inviteList;
+   public List<String> requestList;
 
    public void doInit() {
       this.category = "general";

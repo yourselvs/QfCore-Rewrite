@@ -56,13 +56,13 @@ public class QfGeneral {
       if (meta == null) {
          return null;
       } else {
-         List loreList = meta.getLore();
+         List<String> loreList = meta.getLore();
          return loreList == null ? null : (String)loreList.get(0);
       }
    }
 
    protected ItemStack QuickItem(Material mat, String name, String lore) {
-      List loreList = new ArrayList();
+      List<String> loreList = new ArrayList<String>();
       loreList.add(lore);
       ItemStack item = new ItemStack(mat, 1);
       this.setItemName(item, name);
@@ -73,7 +73,7 @@ public class QfGeneral {
    }
 
    protected ItemStack QuickItemNameLore(ItemStack item, String name, String lore) {
-      List loreList = new ArrayList();
+      List<String> loreList = new ArrayList<String>();
       loreList.add(lore);
       this.setItemName(item, name);
       ItemMeta meta = item.getItemMeta();
@@ -83,7 +83,7 @@ public class QfGeneral {
    }
 
    protected ItemStack QuickItemLore(Material mat, String name, String[] lore) {
-      List loreList = new ArrayList();
+      List<String> loreList = new ArrayList<String>();
       String[] var10 = lore;
       int var9 = lore.length;
 
@@ -101,7 +101,7 @@ public class QfGeneral {
    }
 
    protected ItemStack QuickItemNameLores(ItemStack item, String name, String[] lore) {
-      List loreList = new ArrayList();
+      List<String> loreList = new ArrayList<String>();
       String[] var9 = lore;
       int var8 = lore.length;
 

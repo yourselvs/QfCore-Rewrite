@@ -11,7 +11,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
 
    public void doInit(QfCore newCore) {
       this.configFileName = "config_guilds.yml";
-      this.mitems = new ArrayList();
+      this.mitems = new ArrayList<QfMItem>();
       this.hasLocationTriggers = false;
       this.hasDynLocationTriggers = false;
       this.lkgm = ChatColor.LIGHT_PURPLE + "L" + ChatColor.GRAY + "&" + ChatColor.LIGHT_PURPLE + "K" + ChatColor.YELLOW + "Guild Manager";
@@ -39,16 +38,17 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifacts?
+      // Player pTarget = null;
       Player pUser = null;
-      String playerName = "";
+      // String playerName = "";
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
          pUser = (Player)sender;
-         playerName = pUser.getDisplayName();
+         // playerName = pUser.getDisplayName();
       } else {
          pUser = null;
-         pTarget = null;
+         // pTarget = null;
       }
 
       String cmdName = cmd.getName().toLowerCase();
@@ -315,11 +315,12 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             }
 
             if (args.length == 1) {
-               OfflinePlayer pOffTarget = this.core.getServer().getOfflinePlayer(args[0]);
-               if (pOffTarget == null) {
-                  this.msgCaller(pUser, ChatColor.RED + "Could not locate player " + ChatColor.YELLOW + args[0]);
-                  return true;
-               }
+//            	 getting offline player by name is deprecated. guilds will need a rework to use player GUIDs
+//               OfflinePlayer pOffTarget = this.core.getServer().getOfflinePlayer(args[0]);
+//               if (pOffTarget == null) {
+//                  this.msgCaller(pUser, ChatColor.RED + "Could not locate player " + ChatColor.YELLOW + args[0]);
+//                  return true;
+//               }
 
                guildName = this.getPlayerGuildName(args[0]);
                if (guildName == null) {
@@ -560,9 +561,9 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    public void readConfig() {
       this.mitems.clear();
       this.triggerLocs.clear();
-      Set keys = this.getConfig().getConfigurationSection("guild").getKeys(false);
+      Set<String> keys = this.getConfig().getConfigurationSection("guild").getKeys(false);
       this.core.getLogger().info("found " + keys.size() + " guilds in config_guilds.yml");
-      String[] names = (String[])keys.toArray(new String[keys.size()]);
+      String[] names = keys.toArray(new String[keys.size()]);
       String[] var10 = names;
       int var9 = names.length;
 
@@ -575,9 +576,9 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          guild.balance = 0.0D;
          guild.maxMembers = 15;
          guild.motd = "";
-         guild.memberList = new ArrayList();
-         guild.inviteList = new ArrayList();
-         guild.requestList = new ArrayList();
+         guild.memberList = new ArrayList<String>();
+         guild.inviteList = new ArrayList<String>();
+         guild.requestList = new ArrayList<String>();
          String path = "guild." + name + ".name";
          if (this.getConfig().contains(path)) {
             guild.guildName = this.getConfig().getString(path);
@@ -620,9 +621,9 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          }
 
          path = "guild." + name + ".members";
-         List inList;
+         List<String> inList;
          String item;
-         Iterator var12;
+         Iterator<String> var12;
          if (this.getConfig().contains(path)) {
             inList = this.getConfig().getStringList(path);
             var12 = inList.iterator();
@@ -696,7 +697,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public QrpgGuild findGuild(String guildName) {
-      Iterator var4 = this.mitems.iterator();
+      Iterator<QfMItem> var4 = this.mitems.iterator();
 
       while(var4.hasNext()) {
          QfMItem mitem = (QfMItem)var4.next();
@@ -784,9 +785,9 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          guild.balance = 0.0D;
          guild.maxMembers = 15;
          guild.houseLoc = new Location(this.core.getServer().getWorld("world"), -2920.5D, 67.0D, -751.5D, -90.0F, -3.0F);
-         guild.memberList = new ArrayList();
-         guild.inviteList = new ArrayList();
-         guild.requestList = new ArrayList();
+         guild.memberList = new ArrayList<String>();
+         guild.inviteList = new ArrayList<String>();
+         guild.requestList = new ArrayList<String>();
          String path = "guild." + guild.name;
          if (this.getConfig().contains(path)) {
             this.msgCaller(pUser, ChatColor.RED + "Critical Error, a guild with that name already exists");
@@ -854,7 +855,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
 
    public String getPlayerGuildName(Player pTarget) {
       String playerName = pTarget.getName();
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -867,10 +868,10 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.memberList == null);
 
-         Iterator var8 = guild.memberList.iterator();
+         Iterator<String> var8 = guild.memberList.iterator();
 
          while(var8.hasNext()) {
-            String mem = (String)var8.next();
+            String mem = var8.next();
             String[] mems = mem.split(" ");
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                return guild.guildName;
@@ -880,7 +881,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public String getPlayerGuildName(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -893,7 +894,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.memberList == null);
 
-         Iterator var7 = guild.memberList.iterator();
+         Iterator<String> var7 = guild.memberList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -907,7 +908,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
 
    public String getPlayerGuildRankAbrv(Player pUser) {
       String uStr = pUser.getUniqueId().toString();
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -920,7 +921,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.memberList == null);
 
-         Iterator var8 = guild.memberList.iterator();
+         Iterator<String> var8 = guild.memberList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -961,7 +962,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeAllInvites(String playerName) {
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -974,14 +975,14 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.inviteList == null);
 
-         Iterator var9 = guild.inviteList.iterator();
+         Iterator<String> var9 = guild.inviteList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
             String[] mems = mem.split(" ");
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "guild." + guild.name + ".invites";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -994,7 +995,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeAllRequests(String playerName) {
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1007,14 +1008,14 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.requestList == null);
 
-         Iterator var9 = guild.requestList.iterator();
+         Iterator<String> var9 = guild.requestList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
             String[] mems = mem.split(" ");
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "guild." + guild.name + ".requests";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1028,7 +1029,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
 
    public void showInvitesGuild(Player pUser, String playerName) {
       String names = "";
-      Iterator var7 = this.mitems.iterator();
+      Iterator<QfMItem> var7 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1047,7 +1048,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.inviteList == null);
 
-         Iterator var9 = guild.inviteList.iterator();
+         Iterator<String> var9 = guild.inviteList.iterator();
 
          while(var9.hasNext()) {
             String mem = (String)var9.next();
@@ -1064,7 +1065,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public void showRequestsGuild(Player pUser, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1078,7 +1079,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.requestList == null);
 
-         Iterator var8 = guild.requestList.iterator();
+         Iterator<String> var8 = guild.requestList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -1092,7 +1093,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean hasInvite(String guildName, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1107,7 +1108,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             } while(!guild.guildName.equalsIgnoreCase(guildName));
          } while(guild.inviteList == null);
 
-         Iterator var8 = guild.inviteList.iterator();
+         Iterator<String> var8 = guild.inviteList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -1120,7 +1121,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public String hasRequestedGuild(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1133,7 +1134,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.requestList == null);
 
-         Iterator var7 = guild.requestList.iterator();
+         Iterator<String> var7 = guild.requestList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -1146,7 +1147,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean isMember(String guildName, String playerName) {
-      Iterator var6 = this.mitems.iterator();
+      Iterator<QfMItem> var6 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1161,7 +1162,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             } while(!guild.guildName.equalsIgnoreCase(guildName));
          } while(guild.memberList == null);
 
-         Iterator var8 = guild.memberList.iterator();
+         Iterator<String> var8 = guild.memberList.iterator();
 
          while(var8.hasNext()) {
             String mem = (String)var8.next();
@@ -1174,7 +1175,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public boolean isGuildMember(String playerName) {
-      Iterator var5 = this.mitems.iterator();
+      Iterator<QfMItem> var5 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1187,7 +1188,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             guild = (QrpgGuild)item;
          } while(guild.memberList == null);
 
-         Iterator var7 = guild.memberList.iterator();
+         Iterator<String> var7 = guild.memberList.iterator();
 
          while(var7.hasNext()) {
             String mem = (String)var7.next();
@@ -1246,7 +1247,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
                String mem = pTarget.getUniqueId() + " " + playerName;
                guild.requestList.add(mem);
                String path = "guild." + guild.name + ".requests";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.add(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1278,7 +1279,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             String mem = pTarget.getUniqueId() + " " + playerName;
             guild.inviteList.add(mem);
             String path = "guild." + guild.name + ".invites";
-            List configList = this.getConfig().getStringList(path);
+            List<String> configList = this.getConfig().getStringList(path);
             configList.add(mem);
             this.getConfig().set(path, configList);
             this.saveConfig();
@@ -1296,10 +1297,12 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
       if (guild == null) {
          this.msgCaller(pUser, ChatColor.RED + "Could not locate the guild " + ChatColor.GOLD + guildName);
       } else {
-         OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
-         if (pTarget == null) {
-            this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
-         } else if (this.isGuildMember(playerName)) {
+         /* getOfflinePlayer is deprecated, need to use UUID's
+          * OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
+          * if (pTarget == null) {
+          *     this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
+          * } else */ 
+         if (this.isGuildMember(playerName)) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " is already a member of a guild");
          } else {
             String reqGuildName = this.hasRequestedGuild(playerName);
@@ -1313,7 +1316,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public void removeInviteGuild(Player pUser, String guildName, String playerName) {
-      Iterator var10 = this.mitems.iterator();
+      Iterator<QfMItem> var10 = this.mitems.iterator();
 
       while(true) {
          QrpgGuild guild;
@@ -1328,7 +1331,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             } while(!guild.guildName.equalsIgnoreCase(guildName));
          } while(guild.inviteList == null);
 
-         Iterator var12 = guild.inviteList.iterator();
+         Iterator<String> var12 = guild.inviteList.iterator();
 
          while(var12.hasNext()) {
             String mem = (String)var12.next();
@@ -1336,7 +1339,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             if (mems != null && mems.length >= 2 && mems[1].equalsIgnoreCase(playerName)) {
                String path = "guild." + guild.name + ".invites";
                guild.inviteList.remove(mem);
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1368,7 +1371,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             String rank3 = "";
             String rank2 = "";
             String rank1 = "";
-            Iterator var12 = guild.memberList.iterator();
+            Iterator<String> var12 = guild.memberList.iterator();
 
             while(var12.hasNext()) {
                String mem = (String)var12.next();
@@ -1447,7 +1450,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          String names = "";
 
          String mem;
-         for(Iterator var6 = guild.inviteList.iterator(); var6.hasNext(); names = names + ChatColor.DARK_GREEN + mem.split(" ")[1]) {
+         for(Iterator<String> var6 = guild.inviteList.iterator(); var6.hasNext(); names = names + ChatColor.DARK_GREEN + mem.split(" ")[1]) {
             mem = (String)var6.next();
             if (names != "") {
                names = names + ChatColor.GRAY + ", " + ChatColor.DARK_GREEN;
@@ -1468,7 +1471,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          String names = "";
 
          String mem;
-         for(Iterator var6 = guild.requestList.iterator(); var6.hasNext(); names = names + ChatColor.AQUA + mem.split(" ")[1]) {
+         for(Iterator<String> var6 = guild.requestList.iterator(); var6.hasNext(); names = names + ChatColor.AQUA + mem.split(" ")[1]) {
             mem = (String)var6.next();
             if (names != "") {
                names = names + ChatColor.GRAY + ", " + ChatColor.AQUA;
@@ -1484,10 +1487,15 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " is already a member of guild " + ChatColor.GOLD + guildName);
       } else {
          QrpgGuild guild = this.findGuild(guildName);
+         Player pTarget = this.core.getServer().getPlayer(playerName);
+         /* deprecated, as i mentioned before
          OfflinePlayer pTarget = this.core.getServer().getOfflinePlayer(playerName);
          if (pTarget == null) {
             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located");
-         } else if (guild.memberList.size() >= guild.maxMembers) {
+         } else */
+         if (pTarget == null) {
+             this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " could not be located or is not online");
+          } else if (guild.memberList.size() >= guild.maxMembers) {
             this.msgCaller(pUser, ChatColor.RED + "The guild " + ChatColor.GOLD + guildName + ChatColor.RED + " has reached its maximum member size");
          } else {
             this.removeAllInvites(playerName);
@@ -1495,7 +1503,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             String mem = pTarget.getUniqueId() + " " + playerName + " Initiate";
             guild.memberList.add(mem);
             String path = "guild." + guild.name + ".members";
-            List configList = this.getConfig().getStringList(path);
+            List<String> configList = this.getConfig().getStringList(path);
             configList.add(mem);
             this.getConfig().set(path, configList);
             this.saveConfig();
@@ -1516,7 +1524,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Player " + ChatColor.GRAY + playerName + ChatColor.RED + " is not a member of guild " + ChatColor.GOLD + guildName);
       } else {
          QrpgGuild guild = this.findGuild(guildName);
-         Iterator var10 = guild.memberList.iterator();
+         Iterator<String> var10 = guild.memberList.iterator();
 
          while(var10.hasNext()) {
             String mem = (String)var10.next();
@@ -1524,7 +1532,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             if (mems[1].equalsIgnoreCase(playerName)) {
                guild.memberList.remove(mem);
                String path = "guild." + guild.name + ".members";
-               List configList = this.getConfig().getStringList(path);
+               List<String> configList = this.getConfig().getStringList(path);
                configList.remove(mem);
                this.getConfig().set(path, configList);
                this.saveConfig();
@@ -1559,7 +1567,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
       if (guild == null) {
          return null;
       } else {
-         Iterator var6 = guild.memberList.iterator();
+         Iterator<String> var6 = guild.memberList.iterator();
 
          while(var6.hasNext()) {
             String mem = (String)var6.next();
@@ -1672,8 +1680,8 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
             this.msgCaller(pUser, ChatColor.RED + "It doesn't appear that " + ChatColor.GRAY + rankName + ChatColor.RED + " is a valid rank");
          } else {
             String path = "guild." + guild.name + ".members";
-            List configList = this.getConfig().getStringList(path);
-            Iterator var13 = guild.memberList.iterator();
+            List<String> configList = this.getConfig().getStringList(path);
+            Iterator<String> var13 = guild.memberList.iterator();
 
             while(var13.hasNext()) {
                String mem = (String)var13.next();
@@ -1806,7 +1814,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
          this.msgCaller(pUser, ChatColor.RED + "Insufficient funds in the guild " + ChatColor.GOLD + guild.guildName + ChatColor.RED + " bank account");
       } else {
          if (this.doWithdrawBankGuild(guildName, amount)) {
-            if (this.core.payPlayer(playerName, amount, true)) {
+            if (this.core.payPlayer(pUser, amount, true)) {
                this.msgCaller(pUser, ChatColor.GREEN + "You have withdrawn " + ChatColor.YELLOW + "$" + amount + ChatColor.GREEN + " from the guild " + ChatColor.GOLD + guildName + ChatColor.GREEN + " bank account");
                this.core.sendGuildChat((Player)null, guildName, this.lkgm, " Player " + playerName + " has withdrawn $" + amount + " from the guild bank account");
             } else {
@@ -1823,11 +1831,11 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    public void depositBankGuild(Player pUser, String guildName, double amount) {
       this.findGuild(guildName);
       String playerName = pUser.getName();
-      if (this.core.balancePlayer(playerName) < amount) {
+      if (this.core.balancePlayer(pUser) < amount) {
          this.msgCaller(pUser, ChatColor.RED + "Insufficient funds in the personal account for player " + ChatColor.YELLOW + playerName);
       } else {
          if (this.doDepositBankGuild(guildName, amount)) {
-            if (this.core.unpayPlayer(playerName, amount, true)) {
+            if (this.core.unpayPlayer(pUser, amount, true)) {
                this.msgCaller(pUser, ChatColor.GREEN + "You have deposited " + ChatColor.YELLOW + "$" + amount + ChatColor.GREEN + " into the guild " + ChatColor.GOLD + guildName + ChatColor.GREEN + " bank account");
                this.core.sendGuildChat((Player)null, guildName, this.lkgm, " Player " + playerName + " has deposited $" + amount + " into the guild bank account");
             } else {
@@ -1880,7 +1888,7 @@ public class QrpgGuildMgr extends QfManager implements CommandExecutor {
    }
 
    public void sendAllMotd() {
-      Iterator var3 = this.mitems.iterator();
+      Iterator<QfMItem> var3 = this.mitems.iterator();
 
       while(var3.hasNext()) {
          QfMItem mitem = (QfMItem)var3.next();

@@ -449,15 +449,15 @@ public class QfCoreEnchant {
       return false;
    }
 
-   public static List getQEnchants(ItemStack item) {
+   public static List<String> getQEnchants(ItemStack item) {
       if (item == null) {
          return null;
       } else {
-         List qenchantList = new ArrayList();
+         List<String> qenchantList = new ArrayList<String>();
          ItemMeta meta = item.getItemMeta();
-         List loreList = meta.getLore();
+         List<String> loreList = meta.getLore();
          if (loreList != null && !loreList.isEmpty()) {
-            Iterator var5 = loreList.iterator();
+            Iterator<String> var5 = loreList.iterator();
 
             while(var5.hasNext()) {
                String li = (String)var5.next();
@@ -588,7 +588,8 @@ public class QfCoreEnchant {
 
    public static int enchantLevel(String encCompoundName) {
       String[] enOne = encCompoundName.split(" ");
-      boolean var2 = true;
+      // decompiler artifact?
+      // boolean var2 = true;
 
       try {
          int enLevel = Integer.parseInt(enOne[enOne.length - 1]);

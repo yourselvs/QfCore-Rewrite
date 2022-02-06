@@ -29,8 +29,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,7 +41,6 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,12 +50,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -61,8 +60,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class QfCore extends JavaPlugin implements Listener {
-   public static List auras;
-   public static List dungeons;
+   public static QfCore instance;
+   public static List<String> auras;
+   public static List<String> dungeons;
    public static int taskIdAura = -1;
    public static int taskIdAnnounce = -1;
    public static int taskIdTasker = -1;
@@ -70,7 +70,7 @@ public final class QfCore extends JavaPlugin implements Listener {
    public static int taskIdQAnnc = -1;
    public static int taskIdGuildMotd = -1;
    public static Economy economy;
-   public static List portals;
+   public static List<String> portals;
    public QfAuraMgr auraMgr;
    public QfAuraBlockMgr auraBlockMgr;
    public QfAuraPlayerMgr auraPlayerMgr;
@@ -92,12 +92,14 @@ public final class QfCore extends JavaPlugin implements Listener {
    public QrpgPartyMgr partyMgr;
    public QfCoreDesignMgr designMgr;
    private QrpgTradesmanCmdExec ceTradesman;
-   protected List qAnnc;
+   protected List<String> qAnnc;
    protected long qAnncInt;
 
    public void onEnable() {
       this.getLogger().info("QfCore starting up...");
-      this.qAnnc = new ArrayList();
+      instance = this;
+      
+      this.qAnnc = new ArrayList<String>();
       this.saveDefaultConfig();
       Bukkit.getPluginManager().registerEvents(this, this);
 
@@ -157,11 +159,11 @@ public final class QfCore extends JavaPlugin implements Listener {
 
       this.mobMgr.loadMgr(this);
       if (dungeons == null) {
-         dungeons = new ArrayList();
+         dungeons = new ArrayList<String>();
       }
 
       if (portals == null) {
-         portals = new ArrayList();
+         portals = new ArrayList<String>();
       }
 
       if (this.ceTradesman == null) {
@@ -349,14 +351,15 @@ public final class QfCore extends JavaPlugin implements Listener {
       }, 18000L, 18000L);
       this.setupRecipes();
       this.setupEconomy();
+      
       this.getLogger().info("Qf Tasker is now on.");
    }
 
    public void setupEconomy() {
       Plugin vault = this.getServer().getPluginManager().getPlugin("Vault");
       if (vault != null) {
-         RegisteredServiceProvider rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
-         economy = (Economy)rsp.getProvider();
+         RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
+         economy = rsp.getProvider();
          this.getLogger().info("Vault found");
       } else {
          this.getLogger().info("Vault NOT FOUND ============================");
@@ -381,18 +384,18 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    private void setupRecipes() {
-      MaterialData lapis = new MaterialData(Material.INK_SAC);
-      lapis.setData((byte)4);
+	  NamespacedKey key;
       ItemStack item = this.createItem(Material.BOW, 0, "Longbow", false);
       ItemMeta meta = item.getItemMeta();
-      List lore = new ArrayList();
+      List<String> lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Longbow");
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.DURABILITY, 2);
       item.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-      ShapedRecipe recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "longbow");
+      ShapedRecipe recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{" WS", "WGS", " WS"});
       recipe.setIngredient('S', Material.STRING);
       recipe.setIngredient('W', Material.STICK);
@@ -400,13 +403,14 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.IRON_SWORD, 0, "Steel Sword", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Steel");
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.DURABILITY, 1);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "steel-sword");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"CI ", "CI ", " W "});
       recipe.setIngredient('C', Material.COAL);
       recipe.setIngredient('I', Material.IRON_INGOT);
@@ -414,14 +418,15 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.IRON_SWORD, 0, "Forged Steel Sword", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Forged Steel");
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.DURABILITY, 1);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "forged-steel-sword");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"CIC", "CIC", " WS"});
       recipe.setIngredient('C', Material.COAL);
       recipe.setIngredient('I', Material.IRON_INGOT);
@@ -430,7 +435,7 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.IRON_SWORD, 0, "Steel Longsword", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Longsword");
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
@@ -438,7 +443,8 @@ public final class QfCore extends JavaPlugin implements Listener {
       item.addEnchantment(Enchantment.KNOCKBACK, 1);
       item.addEnchantment(Enchantment.DURABILITY, 2);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 2);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "steel-longsword");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"CIC", "III", "GWG"});
       recipe.setIngredient('C', Material.COAL);
       recipe.setIngredient('I', Material.IRON_INGOT);
@@ -447,45 +453,48 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Lapis Quickblade", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 2);
       item.addEnchantment(Enchantment.DURABILITY, 3);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "lapis-quickblade");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"lDl", "lDl", " WC"});
       recipe.setIngredient('D', Material.DIAMOND_BLOCK);
       recipe.setIngredient('W', Material.STICK);
-      recipe.setIngredient('l', lapis);
+      recipe.setIngredient('l', Material.LAPIS_LAZULI);
       recipe.setIngredient('C', Material.SHEARS);
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Lapis Longsword", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.KNOCKBACK, 2);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
       item.addEnchantment(Enchantment.DURABILITY, 2);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "lapis-longsword");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"lDl", "DDD", "GWG"});
       recipe.setIngredient('D', Material.DIAMOND_BLOCK);
       recipe.setIngredient('W', Material.STICK);
-      recipe.setIngredient('l', lapis);
+      recipe.setIngredient('l', Material.LAPIS_LAZULI);
       recipe.setIngredient('G', Material.GUNPOWDER);
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Gemmed Quickblade", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.LOOT_BONUS_MOBS, 1);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
       item.addEnchantment(Enchantment.DURABILITY, 1);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "gemmed-quickblade");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{" e ", "LDR", " F "});
       recipe.setIngredient('e', Material.EMERALD);
       recipe.setIngredient('L', Material.LAPIS_BLOCK);
@@ -495,14 +504,15 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Quick Fireblade", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.FIRE_ASPECT, 1);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
       item.addEnchantment(Enchantment.DURABILITY, 2);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "quick-fireblade-1");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{" Df", " DR", " W "});
       recipe.setIngredient('D', Material.DIAMOND_BLOCK);
       recipe.setIngredient('W', Material.STICK);
@@ -511,46 +521,48 @@ public final class QfCore extends JavaPlugin implements Listener {
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Quick Fireblade", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.FIRE_ASPECT, 1);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
       item.addEnchantment(Enchantment.DURABILITY, 3);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "quick-fireblade-2");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"lDf", "lDR", " W "});
       recipe.setIngredient('D', Material.DIAMOND_BLOCK);
       recipe.setIngredient('W', Material.STICK);
       recipe.setIngredient('R', Material.REDSTONE_BLOCK);
       recipe.setIngredient('f', Material.FLINT_AND_STEEL);
-      recipe.setIngredient('l', lapis);
+      recipe.setIngredient('l', Material.LAPIS_LAZULI);
       this.getServer().addRecipe(recipe);
       item = this.createItem(Material.DIAMOND_SWORD, 0, ChatColor.GRAY + "Quick Fireblade", false);
       meta = item.getItemMeta();
-      lore = new ArrayList();
+      lore = new ArrayList<String>();
       lore.add(ChatColor.GRAY + "Common");
       meta.setLore(lore);
       item.setItemMeta(meta);
       item.addEnchantment(Enchantment.FIRE_ASPECT, 1);
       item.addEnchantment(Enchantment.DAMAGE_ALL, 2);
       item.addEnchantment(Enchantment.DURABILITY, 3);
-      recipe = new ShapedRecipe(item);
+      key = new NamespacedKey(this, "quick-fireblade-3");
+      recipe = new ShapedRecipe(key, item);
       recipe.shape(new String[]{"lDf", "lDR", " WC"});
       recipe.setIngredient('D', Material.DIAMOND_BLOCK);
       recipe.setIngredient('W', Material.STICK);
       recipe.setIngredient('R', Material.REDSTONE_BLOCK);
       recipe.setIngredient('f', Material.FLINT_AND_STEEL);
-      recipe.setIngredient('l', lapis);
+      recipe.setIngredient('l', Material.LAPIS_LAZULI);
       recipe.setIngredient('C', Material.SHEARS);
       this.getServer().addRecipe(recipe);
    }
 
    private void setupPortals() {
       portals.clear();
-      Set portalKeys = this.getConfig().getConfigurationSection("portal").getKeys(false);
+      Set<String> portalKeys = this.getConfig().getConfigurationSection("portal").getKeys(false);
       this.getLogger().info("found " + portalKeys.size() + " portals in config file");
-      String[] portalNames = (String[])portalKeys.toArray(new String[portalKeys.size()]);
+      String[] portalNames = portalKeys.toArray(new String[portalKeys.size()]);
       String[] var6 = portalNames;
       int var5 = portalNames.length;
 
@@ -617,7 +629,7 @@ public final class QfCore extends JavaPlugin implements Listener {
    public void buckOFive(Player pTarget, double amt) {
       EconomyResponse er;
       if (economy != null) {
-         er = economy.depositPlayer(pTarget.getName(), amt);
+         er = economy.depositPlayer(pTarget, amt);
          if (er.transactionSuccess()) {
             this.msgCaller(pTarget, ChatColor.GREEN + "$" + amt);
          } else {
@@ -626,7 +638,7 @@ public final class QfCore extends JavaPlugin implements Listener {
       } else {
          this.msgCaller(pTarget, ChatColor.RED + "NO ECO");
          this.setupEconomy();
-         er = economy.depositPlayer(pTarget.getName(), 1.05D);
+         er = economy.depositPlayer(pTarget, 1.05D);
          if (er.transactionSuccess()) {
             this.msgCaller(pTarget, ChatColor.GREEN + "$" + amt);
          } else {
@@ -636,24 +648,24 @@ public final class QfCore extends JavaPlugin implements Listener {
 
    }
 
-   public double balancePlayer(String playerName) {
+   public double balancePlayer(Player pTarget) {
       if (economy != null) {
-         return economy.getBalance(playerName);
+         return economy.getBalance(pTarget);
       } else {
          this.getLogger().info("================= Error, NO ECO =======================*+*+*+*+*+*+*+*+");
          this.setupEconomy();
-         return economy.getBalance(playerName);
+         return economy.getBalance(pTarget);
       }
    }
 
-   public boolean payPlayer(String playerName, double amt, boolean tellThem) {
-      OfflinePlayer pTarget = this.getServer().getOfflinePlayer(playerName);
+   public boolean payPlayer(Player pUser, double amt, boolean tellThem) {
+      OfflinePlayer pTarget = this.getServer().getOfflinePlayer(pUser.getUniqueId());
       if (pTarget == null) {
          return false;
       } else {
          EconomyResponse er;
          if (economy != null) {
-            er = economy.depositPlayer(playerName, amt);
+            er = economy.depositPlayer(pUser, amt);
             if (er.transactionSuccess()) {
                if (tellThem && pTarget.isOnline()) {
                   this.msgCaller((Player)pTarget, ChatColor.GOLD + "You have received " + ChatColor.GREEN + "$" + amt);
@@ -670,7 +682,7 @@ public final class QfCore extends JavaPlugin implements Listener {
          } else {
             this.getLogger().info("================= Error, NO ECO =======================*+*+*+*+*+*+*+*+");
             this.setupEconomy();
-            er = economy.depositPlayer(playerName, amt);
+            er = economy.depositPlayer(pUser, amt);
             if (er.transactionSuccess()) {
                if (tellThem && pTarget.isOnline()) {
                   this.msgCaller((Player)pTarget, ChatColor.GOLD + "You have received " + ChatColor.GREEN + "$" + amt);
@@ -688,14 +700,14 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
    }
 
-   public boolean unpayPlayer(String playerName, double amt, boolean tellThem) {
-      OfflinePlayer pTarget = this.getServer().getOfflinePlayer(playerName);
+   public boolean unpayPlayer(Player player, double amt, boolean tellThem) {
+      OfflinePlayer pTarget = this.getServer().getOfflinePlayer(player.getUniqueId());
       if (pTarget == null) {
          return false;
       } else {
          EconomyResponse er;
          if (economy != null) {
-            er = economy.withdrawPlayer(playerName, amt);
+            er = economy.withdrawPlayer(player, amt);
             if (er.transactionSuccess()) {
                if (tellThem && pTarget.isOnline()) {
                   this.msgCaller((Player)pTarget, ChatColor.GOLD + "You have paid " + ChatColor.GREEN + "$" + amt);
@@ -712,7 +724,7 @@ public final class QfCore extends JavaPlugin implements Listener {
          } else {
             this.getLogger().info("================= Error, NO ECO =======================*+*+*+*+*+*+*+*+");
             this.setupEconomy();
-            er = economy.withdrawPlayer(playerName, amt);
+            er = economy.withdrawPlayer(player, amt);
             if (er.transactionSuccess()) {
                if (tellThem && pTarget.isOnline()) {
                   this.msgCaller((Player)pTarget, ChatColor.GOLD + "You have paid " + ChatColor.GREEN + "$" + amt);
@@ -872,7 +884,7 @@ public final class QfCore extends JavaPlugin implements Listener {
 
             if (dungeons.size() != 0) {
                playerName = event.getPlayer().getName();
-               Iterator var9 = dungeons.iterator();
+               Iterator<String> var9 = dungeons.iterator();
 
                while(var9.hasNext()) {
                   String s = (String)var9.next();
@@ -902,16 +914,17 @@ public final class QfCore extends JavaPlugin implements Listener {
    public void spyCommands(PlayerCommandPreprocessEvent event, String playerName, String[] args) {
       String spyColor;
       label185: {
-         boolean isChat;
+    	 // decompiler artifacts
+         // boolean isChat;
          label200: {
-            boolean isWorldEdit;
+            // boolean isWorldEdit;
             label182: {
-               boolean isHackWatch;
+               // boolean isHackWatch;
                label181: {
-                  isHackWatch = false;
-                  boolean isGeneral = false;
-                  isChat = false;
-                  isWorldEdit = false;
+                  // isHackWatch = false;
+                  // boolean isGeneral = false;
+                  // isChat = false;
+                  // isWorldEdit = false;
                   spyColor = ChatColor.DARK_GRAY + playerName + ": ";
                   String var11;
                   switch((var11 = args[0].toLowerCase()).hashCode()) {
@@ -968,9 +981,9 @@ public final class QfCore extends JavaPlugin implements Listener {
                   case 48469:
                      if (var11.equals("/gm")) {
                         if (args.length <= 1 || !args[1].toLowerCase().startsWith("creative") && !args[1].toLowerCase().startsWith("spectator") && !args[1].toLowerCase().startsWith("1") && !args[1].toLowerCase().startsWith("3")) {
-                           isGeneral = true;
+                           // isGeneral = true;
                         } else {
-                           isHackWatch = true;
+                           // isHackWatch = true;
                            spyColor = ChatColor.RED + ">>" + ChatColor.YELLOW + ">> " + ChatColor.WHITE + playerName + ": " + ChatColor.AQUA;
                         }
                         break label185;
@@ -982,7 +995,7 @@ public final class QfCore extends JavaPlugin implements Listener {
                            return;
                         }
 
-                        isGeneral = true;
+                        // isGeneral = true;
                         break label185;
                      }
                      break;
@@ -1142,27 +1155,27 @@ public final class QfCore extends JavaPlugin implements Listener {
                      }
                   }
 
-                  isGeneral = true;
+                  // isGeneral = true;
                   break label185;
                }
 
-               isHackWatch = true;
+               // isHackWatch = true;
                spyColor = ChatColor.RED + ">>" + ChatColor.YELLOW + ">> " + ChatColor.WHITE + playerName + ": " + ChatColor.AQUA;
                break label185;
             }
 
-            isWorldEdit = true;
+            // isWorldEdit = true;
             return;
          }
 
-         isChat = true;
+         // isChat = true;
          return;
       }
 
       String perm = "QfCore.spy.commands";
       String spyMsg = event.getMessage();
       spyMsg = spyColor + ChatColor.stripColor(spyMsg);
-      Iterator var13 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var13 = Bukkit.getOnlinePlayers().iterator();
 
       while(var13.hasNext()) {
          Player np = (Player)var13.next();
@@ -1173,345 +1186,346 @@ public final class QfCore extends JavaPlugin implements Listener {
 
    }
 
-   private void taskAnnounce() {
-   }
-
-   private void taskMsgAura() {
-      Iterator var4 = auras.iterator();
-
-      while(var4.hasNext()) {
-         String aura = (String)var4.next();
-         String[] args = aura.split(" ");
-         Player pTarget = this.getServer().getPlayer(args[0]);
-         if (pTarget != null) {
-            this.processQfAuraConfig(pTarget, args[1]);
-         }
-      }
-
-   }
-
-   private void doQfEnchant(Player p, ItemStack item) {
-      int level;
-      short duration;
-      PotionEffectType potEffType;
-      label43: {
-         List lore = p.getItemInHand().getItemMeta().getLore();
-         level = this.getQfEnchantLevel(lore, 0);
-         String qfEnch = this.getQfEnchantName(lore, 0);
-         duration = 160;
-         this.getLogger().info("qfench:" + qfEnch + ">>");
-         switch(qfEnch.hashCode()) {
-         case -2139379956:
-            if (qfEnch.equals("Blindness")) {
-               potEffType = PotionEffectType.BLINDNESS;
-               break label43;
-            }
-            break;
-         case -2122237229:
-            if (qfEnch.equals("Hunger")) {
-               potEffType = PotionEffectType.HUNGER;
-               break label43;
-            }
-            break;
-         case -2097758737:
-            if (qfEnch.equals("Illumination")) {
-               potEffType = PotionEffectType.GLOWING;
-               break label43;
-            }
-            break;
-         case -2063047254:
-            if (qfEnch.equals("Levitate")) {
-               potEffType = PotionEffectType.LEVITATION;
-               break label43;
-            }
-            break;
-         case -240682846:
-            if (qfEnch.equals("Disorientation")) {
-               potEffType = PotionEffectType.CONFUSION;
-               break label43;
-            }
-            break;
-         case 83108:
-            if (qfEnch.equals("Shy")) {
-               potEffType = PotionEffectType.INVISIBILITY;
-               level = 35;
-               break label43;
-            }
-            break;
-         case 2493369:
-            if (qfEnch.equals("Poke")) {
-               potEffType = PotionEffectType.HARM;
-               break label43;
-            }
-            break;
-         case 79980042:
-            if (qfEnch.equals("Sloth")) {
-               potEffType = PotionEffectType.SLOW;
-               break label43;
-            }
-         }
-
-         potEffType = PotionEffectType.SPEED;
-      }
-
-      p.addPotionEffect(new PotionEffect(potEffType, duration, level, true));
-   }
-
-   private void giveCoolItems(Player p) {
-      Inventory inv = Bukkit.createInventory((InventoryHolder)null, 9);
-      ItemStack item = this.createItem(Material.CHEST, 0, "Ancient Crate", true);
-      this.addEnchant(item, "Crate", 1);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.IRON_SWORD, 0, "Iron Beast", true);
-      item.addEnchantment(Enchantment.DAMAGE_ALL, 4);
-      this.addEnchant(item, "Blindness", 1);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.GOLDEN_SWORD, 0, ChatColor.BLUE + "Gold Beast", true);
-      this.addEnchant(item, "Blindness", 2);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.COOKED_BEEF, 0, "Elk Steak", false);
-      this.addEnchant(item, "Sloth", 2);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.COOKED_BEEF, 0, "Rotten Elk Steak", false);
-      this.addEnchant(item, "Disorientation", 3);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.COOKED_BEEF, 0, ChatColor.GOLD + "Huge Elk Steak", false);
-      this.addEnchant(item, "Shy", 1);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.COOKED_CHICKEN, 0, "Cheap Takeout", false);
-      this.addEnchant(item, "Hunger", 6);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.STICK, 0, ChatColor.RED + "Basic Mage's Rod", true);
-      this.addEnchant(item, "Poke", 1);
-      inv.addItem(new ItemStack[]{item});
-      item = this.createItem(Material.STICK, 0, ChatColor.YELLOW + "Better " + ChatColor.RED + "Mage's Rod", true);
-      this.addEnchant(item, "Poke", 6);
-      inv.addItem(new ItemStack[]{item});
-      p.openInventory(inv);
-   }
-
-   private void addEnchant(ItemStack item, String name, int level) {
-      ItemMeta itemMeta = item.getItemMeta();
-      List lore = itemMeta.getLore();
-      String sLore = "" + ChatColor.RESET + ChatColor.GRAY + name + " " + this.intToRoman(level);
-      if (lore != null && !this.isEmpty(lore)) {
-         if (!this.hasEnchant(lore, sLore)) {
-            lore.add(sLore);
-            this.getLogger().info("added lore." + sLore);
-         }
-      } else {
-         this.getLogger().info("no lore");
-         List newLore = new ArrayList();
-         newLore.add(sLore);
-         itemMeta.setLore(newLore);
-         this.getLogger().info("added newLore." + sLore);
-      }
-
-      item.setItemMeta(itemMeta);
-   }
-
-   private String getQfEnchant(List lore, int idx) {
-      if (lore == null) {
-         return null;
-      } else {
-         Iterator var5 = lore.iterator();
-         if (var5.hasNext()) {
-            String s = (String)var5.next();
-            String[] slist = s.split(" ");
-            this.getLogger().info("QfEnchatment is " + slist[0] + ":" + this.romanToInt(slist[1]));
-            return s;
-         } else {
-            return null;
-         }
-      }
-   }
-
-   private String getQfEnchantName(List lore, int idx) {
-      if (lore == null) {
-         return "<no lore>";
-      } else {
-         String s = (String)lore.get(idx);
-         s = ChatColor.stripColor(s);
-         this.getLogger().info("getQfEnchantName: " + s + ">>");
-         return s.split(" ")[0];
-      }
-   }
-
-   private int getQfEnchantLevel(List lore, int idx) {
-      if (lore == null) {
-         return 1;
-      } else {
-         String s = (String)lore.get(idx);
-         return this.romanToInt(s.split(" ")[1]);
-      }
-   }
-
-   private boolean hasOurEnchant(List llore) {
-      Iterator var3 = llore.iterator();
-
-      while(var3.hasNext()) {
-         String s = (String)var3.next();
-         if (s.startsWith(ChatColor.RESET + "Blindness")) {
-            return true;
-         }
-
-         if (s.startsWith(ChatColor.RESET + "Rotten")) {
-            return true;
-         }
-      }
-
-      return false;
-   }
-
-   private String intToRoman(int num) {
-      switch(num) {
-      case 1:
-         return "I";
-      case 2:
-         return "II";
-      case 3:
-         return "III";
-      case 4:
-         return "IV";
-      case 5:
-         return "V";
-      case 6:
-         return "VI";
-      case 7:
-         return "VII";
-      case 8:
-         return "VIII";
-      case 9:
-         return "IX";
-      case 10:
-         return "X";
-      case 11:
-         return "XI";
-      case 12:
-         return "XII";
-      case 13:
-         return "XIII";
-      case 14:
-         return "XIV";
-      case 15:
-         return "XV";
-      default:
-         return "?";
-      }
-   }
-
-   private int romanToInt(String num) {
-      switch(num.hashCode()) {
-      case 73:
-         if (num.equals("I")) {
-            return 1;
-         }
-         break;
-      case 86:
-         if (num.equals("V")) {
-            return 5;
-         }
-         break;
-      case 88:
-         if (num.equals("X")) {
-            return 10;
-         }
-         break;
-      case 2336:
-         if (num.equals("II")) {
-            return 2;
-         }
-         break;
-      case 2349:
-         if (num.equals("IV")) {
-            return 4;
-         }
-         break;
-      case 2351:
-         if (num.equals("IX")) {
-            return 9;
-         }
-         break;
-      case 2739:
-         if (num.equals("VI")) {
-            return 6;
-         }
-         break;
-      case 2801:
-         if (num.equals("XI")) {
-            return 11;
-         }
-         break;
-      case 2814:
-         if (num.equals("XV")) {
-            return 15;
-         }
-         break;
-      case 72489:
-         if (num.equals("III")) {
-            return 3;
-         }
-         break;
-      case 84982:
-         if (num.equals("VII")) {
-            return 7;
-         }
-         break;
-      case 86904:
-         if (num.equals("XII")) {
-            return 12;
-         }
-         break;
-      case 86917:
-         if (num.equals("XIV")) {
-            return 14;
-         }
-         break;
-      case 2634515:
-         if (num.equals("VIII")) {
-            return 8;
-         }
-         break;
-      case 2694097:
-         if (num.equals("XIII")) {
-            return 13;
-         }
-      }
-
-      return 1;
-   }
-
-   private boolean isEmpty(List slist) {
-      Iterator var3 = slist.iterator();
-
-      String s;
-      do {
-         if (!var3.hasNext()) {
-            return true;
-         }
-
-         s = (String)var3.next();
-      } while(s == "" || s == null);
-
-      return false;
-   }
-
-   private boolean hasEnchant(List llore, String enchant) {
-      Iterator var4 = llore.iterator();
-
-      while(var4.hasNext()) {
-         String s = (String)var4.next();
-         if (s.startsWith(ChatColor.RESET + enchant + " ")) {
-            return true;
-         }
-      }
-
-      return false;
-   }
-
-   private void unlockCrate(Player player) {
-      Inventory inv = Bukkit.createInventory((InventoryHolder)null, 9);
-   }
+// unused code
+//   private void taskAnnounce() {
+//   }
+//
+//   private void taskMsgAura() {
+//      Iterator var4 = auras.iterator();
+//
+//      while(var4.hasNext()) {
+//         String aura = (String)var4.next();
+//         String[] args = aura.split(" ");
+//         Player pTarget = this.getServer().getPlayer(args[0]);
+//         if (pTarget != null) {
+//            this.processQfAuraConfig(pTarget, args[1]);
+//         }
+//      }
+//
+//   }
+//
+//   private void doQfEnchant(Player p, ItemStack item) {
+//      int level;
+//      short duration;
+//      PotionEffectType potEffType;
+//      label43: {
+//         List lore = p.getItemInHand().getItemMeta().getLore();
+//         level = this.getQfEnchantLevel(lore, 0);
+//         String qfEnch = this.getQfEnchantName(lore, 0);
+//         duration = 160;
+//         this.getLogger().info("qfench:" + qfEnch + ">>");
+//         switch(qfEnch.hashCode()) {
+//         case -2139379956:
+//            if (qfEnch.equals("Blindness")) {
+//               potEffType = PotionEffectType.BLINDNESS;
+//               break label43;
+//            }
+//            break;
+//         case -2122237229:
+//            if (qfEnch.equals("Hunger")) {
+//               potEffType = PotionEffectType.HUNGER;
+//               break label43;
+//            }
+//            break;
+//         case -2097758737:
+//            if (qfEnch.equals("Illumination")) {
+//               potEffType = PotionEffectType.GLOWING;
+//               break label43;
+//            }
+//            break;
+//         case -2063047254:
+//            if (qfEnch.equals("Levitate")) {
+//               potEffType = PotionEffectType.LEVITATION;
+//               break label43;
+//            }
+//            break;
+//         case -240682846:
+//            if (qfEnch.equals("Disorientation")) {
+//               potEffType = PotionEffectType.CONFUSION;
+//               break label43;
+//            }
+//            break;
+//         case 83108:
+//            if (qfEnch.equals("Shy")) {
+//               potEffType = PotionEffectType.INVISIBILITY;
+//               level = 35;
+//               break label43;
+//            }
+//            break;
+//         case 2493369:
+//            if (qfEnch.equals("Poke")) {
+//               potEffType = PotionEffectType.HARM;
+//               break label43;
+//            }
+//            break;
+//         case 79980042:
+//            if (qfEnch.equals("Sloth")) {
+//               potEffType = PotionEffectType.SLOW;
+//               break label43;
+//            }
+//         }
+//
+//         potEffType = PotionEffectType.SPEED;
+//      }
+//
+//      p.addPotionEffect(new PotionEffect(potEffType, duration, level, true));
+//   }
+//
+//   private void giveCoolItems(Player p) {
+//      Inventory inv = Bukkit.createInventory((InventoryHolder)null, 9);
+//      ItemStack item = this.createItem(Material.CHEST, 0, "Ancient Crate", true);
+//      this.addEnchant(item, "Crate", 1);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.IRON_SWORD, 0, "Iron Beast", true);
+//      item.addEnchantment(Enchantment.DAMAGE_ALL, 4);
+//      this.addEnchant(item, "Blindness", 1);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.GOLDEN_SWORD, 0, ChatColor.BLUE + "Gold Beast", true);
+//      this.addEnchant(item, "Blindness", 2);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.COOKED_BEEF, 0, "Elk Steak", false);
+//      this.addEnchant(item, "Sloth", 2);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.COOKED_BEEF, 0, "Rotten Elk Steak", false);
+//      this.addEnchant(item, "Disorientation", 3);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.COOKED_BEEF, 0, ChatColor.GOLD + "Huge Elk Steak", false);
+//      this.addEnchant(item, "Shy", 1);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.COOKED_CHICKEN, 0, "Cheap Takeout", false);
+//      this.addEnchant(item, "Hunger", 6);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.STICK, 0, ChatColor.RED + "Basic Mage's Rod", true);
+//      this.addEnchant(item, "Poke", 1);
+//      inv.addItem(new ItemStack[]{item});
+//      item = this.createItem(Material.STICK, 0, ChatColor.YELLOW + "Better " + ChatColor.RED + "Mage's Rod", true);
+//      this.addEnchant(item, "Poke", 6);
+//      inv.addItem(new ItemStack[]{item});
+//      p.openInventory(inv);
+//   }
+//
+//   private void addEnchant(ItemStack item, String name, int level) {
+//      ItemMeta itemMeta = item.getItemMeta();
+//      List lore = itemMeta.getLore();
+//      String sLore = "" + ChatColor.RESET + ChatColor.GRAY + name + " " + this.intToRoman(level);
+//      if (lore != null && !this.isEmpty(lore)) {
+//         if (!this.hasEnchant(lore, sLore)) {
+//            lore.add(sLore);
+//            this.getLogger().info("added lore." + sLore);
+//         }
+//      } else {
+//         this.getLogger().info("no lore");
+//         List newLore = new ArrayList();
+//         newLore.add(sLore);
+//         itemMeta.setLore(newLore);
+//         this.getLogger().info("added newLore." + sLore);
+//      }
+//
+//      item.setItemMeta(itemMeta);
+//   }
+//
+//   private String getQfEnchant(List lore, int idx) {
+//      if (lore == null) {
+//         return null;
+//      } else {
+//         Iterator var5 = lore.iterator();
+//         if (var5.hasNext()) {
+//            String s = (String)var5.next();
+//            String[] slist = s.split(" ");
+//            this.getLogger().info("QfEnchatment is " + slist[0] + ":" + this.romanToInt(slist[1]));
+//            return s;
+//         } else {
+//            return null;
+//         }
+//      }
+//   }
+//
+//   private String getQfEnchantName(List lore, int idx) {
+//      if (lore == null) {
+//         return "<no lore>";
+//      } else {
+//         String s = (String)lore.get(idx);
+//         s = ChatColor.stripColor(s);
+//         this.getLogger().info("getQfEnchantName: " + s + ">>");
+//         return s.split(" ")[0];
+//      }
+//   }
+//
+//   private int getQfEnchantLevel(List lore, int idx) {
+//      if (lore == null) {
+//         return 1;
+//      } else {
+//         String s = (String)lore.get(idx);
+//         return this.romanToInt(s.split(" ")[1]);
+//      }
+//   }
+//
+//   private boolean hasOurEnchant(List llore) {
+//      Iterator var3 = llore.iterator();
+//
+//      while(var3.hasNext()) {
+//         String s = (String)var3.next();
+//         if (s.startsWith(ChatColor.RESET + "Blindness")) {
+//            return true;
+//         }
+//
+//         if (s.startsWith(ChatColor.RESET + "Rotten")) {
+//            return true;
+//         }
+//      }
+//
+//      return false;
+//   }
+//
+//   private String intToRoman(int num) {
+//      switch(num) {
+//      case 1:
+//         return "I";
+//      case 2:
+//         return "II";
+//      case 3:
+//         return "III";
+//      case 4:
+//         return "IV";
+//      case 5:
+//         return "V";
+//      case 6:
+//         return "VI";
+//      case 7:
+//         return "VII";
+//      case 8:
+//         return "VIII";
+//      case 9:
+//         return "IX";
+//      case 10:
+//         return "X";
+//      case 11:
+//         return "XI";
+//      case 12:
+//         return "XII";
+//      case 13:
+//         return "XIII";
+//      case 14:
+//         return "XIV";
+//      case 15:
+//         return "XV";
+//      default:
+//         return "?";
+//      }
+//   }
+//
+//   private int romanToInt(String num) {
+//      switch(num.hashCode()) {
+//      case 73:
+//         if (num.equals("I")) {
+//            return 1;
+//         }
+//         break;
+//      case 86:
+//         if (num.equals("V")) {
+//            return 5;
+//         }
+//         break;
+//      case 88:
+//         if (num.equals("X")) {
+//            return 10;
+//         }
+//         break;
+//      case 2336:
+//         if (num.equals("II")) {
+//            return 2;
+//         }
+//         break;
+//      case 2349:
+//         if (num.equals("IV")) {
+//            return 4;
+//         }
+//         break;
+//      case 2351:
+//         if (num.equals("IX")) {
+//            return 9;
+//         }
+//         break;
+//      case 2739:
+//         if (num.equals("VI")) {
+//            return 6;
+//         }
+//         break;
+//      case 2801:
+//         if (num.equals("XI")) {
+//            return 11;
+//         }
+//         break;
+//      case 2814:
+//         if (num.equals("XV")) {
+//            return 15;
+//         }
+//         break;
+//      case 72489:
+//         if (num.equals("III")) {
+//            return 3;
+//         }
+//         break;
+//      case 84982:
+//         if (num.equals("VII")) {
+//            return 7;
+//         }
+//         break;
+//      case 86904:
+//         if (num.equals("XII")) {
+//            return 12;
+//         }
+//         break;
+//      case 86917:
+//         if (num.equals("XIV")) {
+//            return 14;
+//         }
+//         break;
+//      case 2634515:
+//         if (num.equals("VIII")) {
+//            return 8;
+//         }
+//         break;
+//      case 2694097:
+//         if (num.equals("XIII")) {
+//            return 13;
+//         }
+//      }
+//
+//      return 1;
+//   }
+//
+//   private boolean isEmpty(List slist) {
+//      Iterator var3 = slist.iterator();
+//
+//      String s;
+//      do {
+//         if (!var3.hasNext()) {
+//            return true;
+//         }
+//
+//         s = (String)var3.next();
+//      } while(s == "" || s == null);
+//
+//      return false;
+//   }
+//
+//   private boolean hasEnchant(List llore, String enchant) {
+//      Iterator var4 = llore.iterator();
+//
+//      while(var4.hasNext()) {
+//         String s = (String)var4.next();
+//         if (s.startsWith(ChatColor.RESET + enchant + " ")) {
+//            return true;
+//         }
+//      }
+//
+//      return false;
+//   }
+//
+//   private void unlockCrate(Player player) {
+//      Inventory inv = Bukkit.createInventory((InventoryHolder)null, 9);
+//   }
 
    private ItemStack createItem(Material mat, int index, String name, boolean addGlow) {
       ItemStack item = new ItemStack(mat);
@@ -1525,112 +1539,113 @@ public final class QfCore extends JavaPlugin implements Listener {
       if (health < 5.0D) {
          health = 5.0D;
       }
-
-      pTarget.setMaxHealth(health);
+      
+      AttributeInstance attribute = pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+      attribute.setBaseValue((double)health);
       pTarget.setHealth(health);
    }
-
-   private void applyQfEffect(Player pTarget, String cls) {
-      String[] slCls = cls.split(" ");
-      int level;
-      int duration;
-      PotionEffect pe;
-      String var10;
-      switch((var10 = slCls[0]).hashCode()) {
-      case -2094862914:
-         if (!var10.equals("aqualung")) {
-            return;
-         }
-         break;
-      case 3198440:
-         if (var10.equals("heal")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.HEAL, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 3273774:
-         if (var10.equals("jump")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.JUMP, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 98357969:
-         if (!var10.equals("gills")) {
-            return;
-         }
-         break;
-      case 108392509:
-         if (var10.equals("regen")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.REGENERATION, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 109532714:
-         if (var10.equals("sloth")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.SLOW, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 109641799:
-         if (var10.equals("speed")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.SPEED, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 280523342:
-         if (var10.equals("gravity")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.JUMP, duration * 20, -20);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 761310338:
-         if (var10.equals("disorientation")) {
-            level = Integer.parseInt(slCls[1]);
-            duration = Integer.parseInt(slCls[2]);
-            pe = new PotionEffect(PotionEffectType.CONFUSION, duration * 20, level);
-            pTarget.addPotionEffect(pe);
-         }
-
-         return;
-      case 1439257549:
-         if (var10.equals("autofeed")) {
-            pTarget.setFoodLevel(20);
-         }
-
-         return;
-      case 1439317015:
-         if (var10.equals("autoheal")) {
-            pTarget.setHealth(pTarget.getMaxHealth());
-         }
-
-         return;
-      default:
-         return;
-      }
-
-      level = Integer.parseInt(slCls[1]);
-      duration = Integer.parseInt(slCls[2]);
-      pe = new PotionEffect(PotionEffectType.WATER_BREATHING, duration * 20, level);
-      pTarget.addPotionEffect(pe);
-   }
+// unused code
+//   private void applyQfEffect(Player pTarget, String cls) {
+//      String[] slCls = cls.split(" ");
+//      int level;
+//      int duration;
+//      PotionEffect pe;
+//      String var10;
+//      switch((var10 = slCls[0]).hashCode()) {
+//      case -2094862914:
+//         if (!var10.equals("aqualung")) {
+//            return;
+//         }
+//         break;
+//      case 3198440:
+//         if (var10.equals("heal")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.HEAL, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 3273774:
+//         if (var10.equals("jump")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.JUMP, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 98357969:
+//         if (!var10.equals("gills")) {
+//            return;
+//         }
+//         break;
+//      case 108392509:
+//         if (var10.equals("regen")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.REGENERATION, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 109532714:
+//         if (var10.equals("sloth")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.SLOW, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 109641799:
+//         if (var10.equals("speed")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.SPEED, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 280523342:
+//         if (var10.equals("gravity")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.JUMP, duration * 20, -20);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 761310338:
+//         if (var10.equals("disorientation")) {
+//            level = Integer.parseInt(slCls[1]);
+//            duration = Integer.parseInt(slCls[2]);
+//            pe = new PotionEffect(PotionEffectType.CONFUSION, duration * 20, level);
+//            pTarget.addPotionEffect(pe);
+//         }
+//
+//         return;
+//      case 1439257549:
+//         if (var10.equals("autofeed")) {
+//            pTarget.setFoodLevel(20);
+//         }
+//
+//         return;
+//      case 1439317015:
+//         if (var10.equals("autoheal")) {
+//            pTarget.setHealth(pTarget.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+//         }
+//
+//         return;
+//      default:
+//         return;
+//      }
+//
+//      level = Integer.parseInt(slCls[1]);
+//      duration = Integer.parseInt(slCls[2]);
+//      pe = new PotionEffect(PotionEffectType.WATER_BREATHING, duration * 20, level);
+//      pTarget.addPotionEffect(pe);
+//   }
 
    public void deactivatePlayerAuraNow(Player pUser, Player pTarget) {
       this.auraPlayerMgr.deactivatePlayerAuraNow(pUser, pTarget);
@@ -1653,15 +1668,15 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    private void taskLocTrigger() {
-      List tLocs = new ArrayList();
-      List tMgrLocs = this.auraBlockMgr.getTriggerLocs();
+      List<QfTriggerLoc> tLocs = new ArrayList<QfTriggerLoc>();
+      List<QfTriggerLoc> tMgrLocs = this.auraBlockMgr.getTriggerLocs();
       QfTriggerLoc tl;
-      Iterator var14;
+      Iterator<QfTriggerLoc> var14;
       if (tMgrLocs != null) {
          var14 = tMgrLocs.iterator();
 
          while(var14.hasNext()) {
-            tl = (QfTriggerLoc)var14.next();
+            tl = var14.next();
             tLocs.add(tl);
          }
       }
@@ -1671,7 +1686,7 @@ public final class QfCore extends JavaPlugin implements Listener {
          var14 = tMgrLocs.iterator();
 
          while(var14.hasNext()) {
-            tl = (QfTriggerLoc)var14.next();
+            tl = var14.next();
             tLocs.add(tl);
          }
       }
@@ -1679,7 +1694,7 @@ public final class QfCore extends JavaPlugin implements Listener {
       var14 = tLocs.iterator();
 
       while(var14.hasNext()) {
-         tl = (QfTriggerLoc)var14.next();
+         tl = var14.next();
          if (tl == null || tl.trigLoc == null) {
             break;
          }
@@ -1691,7 +1706,7 @@ public final class QfCore extends JavaPlugin implements Listener {
             break;
          }
 
-         Iterator var16 = Bukkit.getOnlinePlayers().iterator();
+         Iterator<? extends Player> var16 = Bukkit.getOnlinePlayers().iterator();
 
          while(var16.hasNext()) {
             Player np = (Player)var16.next();
@@ -1715,7 +1730,7 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    private void taskLocTriggerPortals() {
-      Iterator var22 = portals.iterator();
+      Iterator<String> var22 = portals.iterator();
 
       label143:
       while(true) {
@@ -1729,7 +1744,7 @@ public final class QfCore extends JavaPlugin implements Listener {
          String[] permsAdd;
          String[] permsRemove;
          Double portalRadius;
-         Iterator var24;
+         Iterator<String> var24;
          do {
             String val;
             String conPath;
@@ -1788,17 +1803,18 @@ public final class QfCore extends JavaPlugin implements Listener {
             val = this.getConfig().getString(conPath);
             args = val.split(" ");
             int rnum = 0;
-            String debugStr = "none";
+            // decompiler artifact
+            // String debugStr = "none";
             if (args.length == 1) {
                if (args[0].equalsIgnoreCase("random")) {
                   destRef = "portal." + portalName + ".destrandom";
-                  List destList = this.getConfig().getStringList(destRef);
+                  List<String> destList = this.getConfig().getStringList(destRef);
                   int rtot = 0;
                   rnum = (int)(Math.random() * 100.0D) + 1;
                   var24 = destList.iterator();
 
                   while(var24.hasNext()) {
-                     String destEntry = (String)var24.next();
+                     String destEntry = var24.next();
                      String[] destInd = destEntry.split(" ");
                      rtot += Integer.parseInt(destInd[0]);
                      if (rnum <= rtot) {
@@ -1826,7 +1842,7 @@ public final class QfCore extends JavaPlugin implements Listener {
 
          String teleMessage = this.getConfig().getString(destRef + "message");
          Location locDest = new Location(this.getServer().getWorld(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[3]), Double.parseDouble(args[2]));
-         var24 = Bukkit.getOnlinePlayers().iterator();
+         Iterator<? extends Player> playerList = Bukkit.getOnlinePlayers().iterator();
 
          while(true) {
             Location locUser;
@@ -1834,11 +1850,11 @@ public final class QfCore extends JavaPlugin implements Listener {
             do {
                do {
                   do {
-                     if (!var24.hasNext()) {
+                     if (!playerList.hasNext()) {
                         continue label143;
                      }
 
-                     np = (Player)var24.next();
+                     np = playerList.next();
                   } while(!np.getWorld().equals(locPortal.getWorld()));
 
                   locUser = np.getLocation();
@@ -1899,10 +1915,10 @@ public final class QfCore extends JavaPlugin implements Listener {
 
    public void msgNearbyPlayers(Player pTarget, String msg, PotionEffect eff, Sound sound, double radius) {
       Location locTarget = pTarget.getLocation();
-      Iterator var11 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var11 = Bukkit.getOnlinePlayers().iterator();
 
       while(var11.hasNext()) {
-         Player np = (Player)var11.next();
+         Player np = var11.next();
          if (!np.equals(pTarget) && np.getWorld().equals(locTarget.getWorld())) {
             Location locUser = np.getLocation();
             Double dist = locTarget.distance(locUser);
@@ -1920,119 +1936,119 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
 
    }
-
-   private void processQfAuraConfig(Player pUser, String cls) {
-      List lCls = this.getConfig().getStringList(cls);
-      boolean self = false;
-      Location locUser = pUser.getLocation();
-      double auraDist = 10.0D;
-      Iterator var15 = Bukkit.getOnlinePlayers().iterator();
-
-      label83:
-      while(true) {
-         Player np;
-         do {
-            do {
-               if (!var15.hasNext()) {
-                  return;
-               }
-
-               np = (Player)var15.next();
-            } while(!np.getWorld().equals(pUser.getWorld()));
-         } while(!(np.getLocation().distance(locUser) <= auraDist));
-
-         Iterator var17 = lCls.iterator();
-
-         while(true) {
-            while(true) {
-               if (!var17.hasNext()) {
-                  continue label83;
-               }
-
-               String s = (String)var17.next();
-               String[] slCls = s.split(" ");
-               String var18;
-               switch((var18 = slCls[0]).hashCode()) {
-               case -2094862914:
-                  if (!var18.equals("aqualung")) {
-                     continue;
-                  }
-                  break;
-               case -9888733:
-                  if (var18.equals("className")) {
-                     String var9 = slCls[1];
-                  }
-                  continue;
-               case 3198440:
-                  if (!var18.equals("heal")) {
-                     continue;
-                  }
-                  break;
-               case 3273774:
-                  if (!var18.equals("jump")) {
-                     continue;
-                  }
-                  break;
-               case 3526476:
-                  if (var18.equals("self")) {
-                     self = slCls[1].equalsIgnoreCase("true");
-                  }
-                  continue;
-               case 98357969:
-                  if (!var18.equals("gills")) {
-                     continue;
-                  }
-                  break;
-               case 108392509:
-                  if (!var18.equals("regen")) {
-                     continue;
-                  }
-                  break;
-               case 109532714:
-                  if (!var18.equals("sloth")) {
-                     continue;
-                  }
-                  break;
-               case 109641799:
-                  if (!var18.equals("speed")) {
-                     continue;
-                  }
-                  break;
-               case 280523342:
-                  if (!var18.equals("gravity")) {
-                     continue;
-                  }
-                  break;
-               case 761310338:
-                  if (!var18.equals("disorientation")) {
-                     continue;
-                  }
-                  break;
-               case 1439257549:
-                  if (!var18.equals("autofeed")) {
-                     continue;
-                  }
-                  break;
-               case 1439317015:
-                  if (!var18.equals("autoheal")) {
-                     continue;
-                  }
-                  break;
-               default:
-                  continue;
-               }
-
-               if (np.equals(pUser)) {
-                  if (self) {
-                     this.applyQfEffect(np, s);
-                  }
-               } else {
-                  this.applyQfEffect(np, s);
-               }
-            }
-         }
-      }
-   }
+// unused code
+//   private void processQfAuraConfig(Player pUser, String cls) {
+//      List lCls = this.getConfig().getStringList(cls);
+//      boolean self = false;
+//      Location locUser = pUser.getLocation();
+//      double auraDist = 10.0D;
+//      Iterator var15 = Bukkit.getOnlinePlayers().iterator();
+//
+//      label83:
+//      while(true) {
+//         Player np;
+//         do {
+//            do {
+//               if (!var15.hasNext()) {
+//                  return;
+//               }
+//
+//               np = (Player)var15.next();
+//            } while(!np.getWorld().equals(pUser.getWorld()));
+//         } while(!(np.getLocation().distance(locUser) <= auraDist));
+//
+//         Iterator var17 = lCls.iterator();
+//
+//         while(true) {
+//            while(true) {
+//               if (!var17.hasNext()) {
+//                  continue label83;
+//               }
+//
+//               String s = (String)var17.next();
+//               String[] slCls = s.split(" ");
+//               String var18;
+//               switch((var18 = slCls[0]).hashCode()) {
+//               case -2094862914:
+//                  if (!var18.equals("aqualung")) {
+//                     continue;
+//                  }
+//                  break;
+//               case -9888733:
+//                  if (var18.equals("className")) {
+//                     String var9 = slCls[1];
+//                  }
+//                  continue;
+//               case 3198440:
+//                  if (!var18.equals("heal")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 3273774:
+//                  if (!var18.equals("jump")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 3526476:
+//                  if (var18.equals("self")) {
+//                     self = slCls[1].equalsIgnoreCase("true");
+//                  }
+//                  continue;
+//               case 98357969:
+//                  if (!var18.equals("gills")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 108392509:
+//                  if (!var18.equals("regen")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 109532714:
+//                  if (!var18.equals("sloth")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 109641799:
+//                  if (!var18.equals("speed")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 280523342:
+//                  if (!var18.equals("gravity")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 761310338:
+//                  if (!var18.equals("disorientation")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 1439257549:
+//                  if (!var18.equals("autofeed")) {
+//                     continue;
+//                  }
+//                  break;
+//               case 1439317015:
+//                  if (!var18.equals("autoheal")) {
+//                     continue;
+//                  }
+//                  break;
+//               default:
+//                  continue;
+//               }
+//
+//               if (np.equals(pUser)) {
+//                  if (self) {
+//                     this.applyQfEffect(np, s);
+//                  }
+//               } else {
+//                  this.applyQfEffect(np, s);
+//               }
+//            }
+//         }
+//      }
+//   }
 
    private void processQfClass(Player pTarget, String cls, Player pUser) {
       String[] slCls = cls.split(" ");
@@ -2058,8 +2074,8 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    private void processQfClassConfig(Player pTarget, String cls, Player pUser) {
-      List lCls = this.getConfig().getStringList(cls);
-      Iterator var6 = lCls.iterator();
+      List<String> lCls = this.getConfig().getStringList(cls);
+      Iterator<String> var6 = lCls.iterator();
 
       while(var6.hasNext()) {
          String s = (String)var6.next();
@@ -2067,24 +2083,24 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
 
    }
-
-   private void DispatchNpcCommands(Player pUser, CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
-      this.msgCaller(pUser, "Going to try");
-      pTarget = pUser;
-      if (args.length == 1) {
-         pTarget = this.getServer().getPlayer(args[0]);
-      }
-
-      if (pTarget == null) {
-         this.msgCaller(pUser, "Could not locate player");
-      } else {
-         this.msgCaller(pUser, "World: " + pTarget.getWorld().getName());
-         Entity zomb = pTarget.getWorld().spawnEntity(pTarget.getLocation(), EntityType.ZOMBIE);
-         this.msgCaller(pUser, "Created NPC");
-      }
-
-   }
+// unused code
+//   private void DispatchNpcCommands(Player pUser, CommandSender sender, Command cmd, String label, String[] args) {
+//      Player pTarget = null;
+//      this.msgCaller(pUser, "Going to try");
+//      pTarget = pUser;
+//      if (args.length == 1) {
+//         pTarget = this.getServer().getPlayer(args[0]);
+//      }
+//
+//      if (pTarget == null) {
+//         this.msgCaller(pUser, "Could not locate player");
+//      } else {
+//         this.msgCaller(pUser, "World: " + pTarget.getWorld().getName());
+//         Entity zomb = pTarget.getWorld().spawnEntity(pTarget.getLocation(), EntityType.ZOMBIE);
+//         this.msgCaller(pUser, "Created NPC");
+//      }
+//
+//   }
 
    protected void msgCaller(Player pUser, String msg) {
       if (pUser == null) {
@@ -2096,7 +2112,8 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    public boolean chatCommand2(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       Player pUser = null;
       if (args.length == 0) {
          return true;
@@ -2197,7 +2214,7 @@ public final class QfCore extends JavaPlugin implements Listener {
          }
 
          chatMsg = playerName + ChatColor.WHITE + ":" + chatColor + ChatColor.stripColor(chatMsg);
-         Iterator var16 = Bukkit.getOnlinePlayers().iterator();
+         Iterator<? extends Player> var16 = Bukkit.getOnlinePlayers().iterator();
 
          while(var16.hasNext()) {
             Player np = (Player)var16.next();
@@ -2211,7 +2228,8 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    public boolean chatCommand(CommandSender sender, Command cmd, String label, String[] args) {
-      Player pTarget = null;
+	  // decompiler artifact
+      // Player pTarget = null;
       Player pUser = null;
       if (args.length == 0) {
          return true;
@@ -2318,10 +2336,10 @@ public final class QfCore extends JavaPlugin implements Listener {
 
       String msg = senderName + ChatColor.WHITE + ":" + chatColor + ChatColor.stripColor(chatMsg);
       this.getServer().getConsoleSender().sendMessage(msg);
-      Iterator var12 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var12 = Bukkit.getOnlinePlayers().iterator();
 
       while(var12.hasNext()) {
-         Player np = (Player)var12.next();
+         Player np = var12.next();
          if (np.hasPermission(perm)) {
             this.msgCaller(np, msg);
          }
@@ -2345,10 +2363,10 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
 
       this.getServer().getConsoleSender().sendMessage(msg);
-      Iterator var10 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var10 = Bukkit.getOnlinePlayers().iterator();
 
       while(var10.hasNext()) {
-         Player np = (Player)var10.next();
+         Player np = var10.next();
          if (np != null) {
             String playerGuild = this.guildMgr.getPlayerGuildName(np);
             if (playerGuild != null && playerGuild.equalsIgnoreCase(guildName)) {
@@ -2364,10 +2382,10 @@ public final class QfCore extends JavaPlugin implements Listener {
       ChatColor chatColor = ChatColor.GOLD;
       String msg = senderName + ChatColor.WHITE + ":" + chatColor + ChatColor.stripColor(chatMsg);
       this.getServer().getConsoleSender().sendMessage(msg);
-      Iterator var8 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var8 = Bukkit.getOnlinePlayers().iterator();
 
       while(var8.hasNext()) {
-         Player np = (Player)var8.next();
+         Player np = var8.next();
          if (np != null) {
             String playerGuild = this.guildMgr.getPlayerGuildName(np);
             if (playerGuild != null && playerGuild.equalsIgnoreCase(guildName)) {
@@ -2394,10 +2412,10 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
 
       this.getServer().getConsoleSender().sendMessage(msg);
-      Iterator var10 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var10 = Bukkit.getOnlinePlayers().iterator();
 
       while(var10.hasNext()) {
-         Player np = (Player)var10.next();
+         Player np = var10.next();
          if (np != null) {
             String playerGuild = this.partyMgr.getPlayerPartyId(np);
             if (playerGuild != null && playerGuild.equalsIgnoreCase(partyId)) {
@@ -2413,10 +2431,10 @@ public final class QfCore extends JavaPlugin implements Listener {
       ChatColor chatColor = ChatColor.GOLD;
       String msg = senderName + ChatColor.WHITE + ":" + chatColor + ChatColor.stripColor(chatMsg);
       this.getServer().getConsoleSender().sendMessage(msg);
-      Iterator var8 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var8 = Bukkit.getOnlinePlayers().iterator();
 
       while(var8.hasNext()) {
-         Player np = (Player)var8.next();
+         Player np = var8.next();
          if (np != null) {
             String playerParty = this.partyMgr.getPlayerPartyId(np);
             if (playerParty != null && playerParty.equalsIgnoreCase(partyId)) {
@@ -2432,7 +2450,7 @@ public final class QfCore extends JavaPlugin implements Listener {
       Player p = null;
       Player pTarget = null;
       Player pUser = null;
-      // decompiler artifact?
+      // decompiler artifact
       // int nextarg = false;
       boolean isPlayer = sender instanceof Player;
       if (isPlayer) {
@@ -2533,10 +2551,10 @@ public final class QfCore extends JavaPlugin implements Listener {
 
                   locUser = p.getLocation();
                   dispStr = "";
-                  Iterator var33 = Bukkit.getOnlinePlayers().iterator();
+                  Iterator<? extends Player> var33 = Bukkit.getOnlinePlayers().iterator();
 
                   while(var33.hasNext()) {
-                     Player np = (Player)var33.next();
+                     Player np = var33.next();
                      if (np.getWorld().equals(p.getWorld()) && !pUser.equals(np)) {
                         locTarget = np.getLocation();
                         dist = locTarget.distance(locUser);
@@ -2795,8 +2813,9 @@ public final class QfCore extends JavaPlugin implements Listener {
 
    public void readConfigAnc() {
       this.qAnnc.clear();
-      int idx = 0;
-      Set keys = this.getConfig().getConfigurationSection("announcement").getKeys(false);
+      // decompiler artifact
+      // int idx = 0;
+      Set<String> keys = this.getConfig().getConfigurationSection("announcement").getKeys(false);
       this.getLogger().info("found " + keys.size() + " qanc in config file");
       String path = "announcement.interval";
       if (this.getConfig().contains(path)) {
@@ -2812,10 +2831,10 @@ public final class QfCore extends JavaPlugin implements Listener {
 
       path = "announcement.messages";
       if (this.getConfig().contains(path)) {
-         List strCons = this.getConfig().getStringList(path);
+         List<String> strCons = this.getConfig().getStringList(path);
 
-         for(Iterator var7 = strCons.iterator(); var7.hasNext(); ++idx) {
-            String strCon = (String)var7.next();
+         for(Iterator<String> var7 = strCons.iterator(); var7.hasNext();) {
+            String strCon = var7.next();
             this.qAnnc.add(ChatColor.translateAlternateColorCodes('&', strCon));
          }
       }
@@ -2865,10 +2884,10 @@ public final class QfCore extends JavaPlugin implements Listener {
    }
 
    public void doAnnouce(String annc) {
-      Iterator var3 = Bukkit.getOnlinePlayers().iterator();
+      Iterator<? extends Player> var3 = Bukkit.getOnlinePlayers().iterator();
 
       while(var3.hasNext()) {
-         Player np = (Player)var3.next();
+         Player np = var3.next();
          this.msgCaller(np, annc);
       }
 
@@ -2908,8 +2927,8 @@ public final class QfCore extends JavaPlugin implements Listener {
       }
 
       if (pSource != null) {
-         ItemStack iAttack = pSource.getItemInHand();
-         List qenchantList = QfCoreEnchant.getQEnchants(iAttack);
+         ItemStack iAttack = pSource.getItemInUse();
+         List<String> qenchantList = QfCoreEnchant.getQEnchants(iAttack);
          if (qenchantList != null) {
             this.pvpQEnchantEngine(event, pSource, pTargetEty, iAttack, qenchantList);
          }
@@ -2917,7 +2936,7 @@ public final class QfCore extends JavaPlugin implements Listener {
 
    }
 
-   public void pvpQEnchantEngine(EntityDamageByEntityEvent event, Player pSource, Entity pTargetEty, ItemStack iAttack, List qenchantList) {
+   public void pvpQEnchantEngine(EntityDamageByEntityEvent event, Player pSource, Entity pTargetEty, ItemStack iAttack, List<String> qenchantList) {
       boolean isPlayer = false;
       Player pTarget = null;
       if (pTargetEty instanceof Player) {
@@ -2925,10 +2944,10 @@ public final class QfCore extends JavaPlugin implements Listener {
          isPlayer = true;
       }
 
-      Iterator var21 = qenchantList.iterator();
+      Iterator<String> var21 = qenchantList.iterator();
 
       while(var21.hasNext()) {
-         String qi = (String)var21.next();
+         String qi = var21.next();
          String enName = QfCoreEnchant.enchantName(qi);
          int enLevel = QfCoreEnchant.enchantLevel(qi);
          this.getLogger().info("pvpQEnchantEngine: " + qi + " (lvl " + enLevel + ")");
