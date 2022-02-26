@@ -1,8 +1,7 @@
-name: QfCore
+name: QfCore-Rewrite
 main: com.quantiforte.qfcore.QfCore
-version: 0.6
-softdepend: [MVdWPlaceholderAPI]
-
+version: 1.0
+api-version: 1.18
 commands:
   qfreload:
     description: Reloads the config files

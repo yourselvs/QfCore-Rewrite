@@ -333,7 +333,12 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          path = "workorder." + name + ".icon";
          if (this.getConfig().contains(path)) {
             workOrder.iconStr = this.getConfig().getString(path);
-            workOrder.icon = new ItemStack(Material.matchMaterial(workOrder.iconStr));
+            Material mat = Material.matchMaterial(workOrder.iconStr);
+            if (mat == null) {
+            	this.qfcore.getLogger().severe("Work order \"" + name + "\" has incompatible icon name: " + workOrder.iconStr);
+            	mat = Material.BARRIER;
+            }
+            workOrder.icon = new ItemStack(mat);
          }
 
          path = "workorder." + name + ".reward";

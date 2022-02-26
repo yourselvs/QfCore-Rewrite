@@ -52,7 +52,8 @@ public class QfMItem {
 
       this.triggerLoc.trigLoc = this.args2Loc(args);
       this.triggerLoc.worldName = args[0];
-      this.mgr.core.getLogger().info("987X: " + args[0]);
+      // this logs which world an aurablock got spawned into
+      // this.mgr.core.getLogger().info("987X: " + args[0]);
       this.triggerIsDynamic = false;
       if (args.length > 4) {
          this.triggerLoc.trigRadius = Double.parseDouble(args[4]);

@@ -20,13 +20,6 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>QfCore-0.5</name>
-			<type>2</type>
-			<location>F:/Games/Minecraft/QfCore/QfCore-0.5</location>
-		</link>
-	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1644126456253</id>

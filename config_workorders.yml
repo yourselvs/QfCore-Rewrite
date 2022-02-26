@@ -1,0 +1,2184 @@
+# ---------------------- WORKORDERS ----------------------
+
+# 
+
+workorder:
+
+  cob0:
+    name: "&6Cobble &efor landfill"
+    descr: "&cLandfill &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob0
+    coolTime: 13h
+    reward: $2,650
+    reqMat:
+      - 256 COBBLESTONE
+    reqDescr:
+      - "&6Cobble &efor landfill"
+      - "&a$2,650"
+      - "&f13h &7between orders"
+      - "&64 stacks &7of &3Cobble"
+
+  cob1:
+    name: "&6Cobble &efor new wall"
+    descr: "&cRedwind Keep &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob1
+    coolTime: 16h
+    reward: $4,950
+    reqMat:
+      - 640 COBBLESTONE
+    reqDescr:
+      - "&6Cobble &efor new wall"
+      - "&a$4,950"
+      - "&f16h &7between orders"
+      - "&610 stacks &7of &3Cobble"
+
+  cob2:
+    name: "&6Cobble &efor docks"
+    descr: "&5Raylen &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob2
+    coolTime: 15h
+    reward: $2,400
+    reqMat:
+      - 256 COBBLESTONE
+    reqDescr:
+      - "&6Cobble &efor docks"
+      - "&a$2,400"
+      - "&f15h &7between orders"
+      - "&64 stacks &7of &3Cobble"
+
+  cob3:
+    name: "&6Cobble &efor docks"
+    descr: "&5Raylen &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob3
+    coolTime: 3h
+    reward: $1,100
+    reqMat:
+      - 128 COBBLESTONE
+    reqDescr:
+      - "&6Cobble &efor docks"
+      - "&a$1,100"
+      - "&f3h &7between orders"
+      - "&62 stacks &7of &3Cobble"
+
+  cob4:
+    name: "&6Cobble &efor tower"
+    descr: "&cRedwind Keep &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob4
+    coolTime: 6h
+    reward: $1,900
+    reqMat:
+      - 128 COBBLESTONE
+      - 64 STONE_BRICKS
+    reqDescr:
+      - "&6Cobble &efor tower"
+      - "&a$1,900"
+      - "&f6h &7between orders"
+      - "&62 stacks &7of &3Cobble"
+      - "&61 stack &7of &3Stone Bricks"
+
+  cob5:
+    name: "&6Cobble &efor Cellar"
+    descr: "&cRoot Cellar &7needs &3Cobble"
+    active: none
+    icon: COBBLESTONE
+    coolId: wo-cob5
+    coolTime: 6h
+    reward: $1,500
+    reqMat:
+      - 128 COBBLESTONE
+      - 64 STONE_BRICKS
+    reqDescr:
+      - "&6Cobble &efor Cellar"
+      - "&a$1,500"
+      - "&f6h &7between orders"
+      - "&62 stacks &7of &3Cobble"
+      - "&61 stack &7of &3Stone Bricks"
+
+  grass2:
+    name: "&6Grass &efor Terraforming"
+    descr: "&cTerraformers &7needs &3Blocks"
+    active: none
+    icon: GRASS
+    coolId: wo-grass2
+    coolTime: 19h
+    reward: $2,900
+    reqMat:
+      - 32 GRASS
+      - 64 DIRT
+      - 128 STONE
+    reqDescr:
+      - "&6Grass &efor Terraforming"
+      - "&a$2,900"
+      - "&f19h &7between orders"
+      - "&61/2 stack &7of &3Grass"
+      - "&61 stack &7of &3Dirt"
+      - "&62 stacks &7of &3Stone"
+
+  grass3:
+    name: "&6Turf &efor &fTemplar Training Fields"
+    descr: "&fTraining Fields &7needs &3Turf"
+    active: none
+    icon: GRASS
+    coolId: wo-grass3
+    coolTime: 18h
+    reward: $2,400
+    reqMat:
+      - 96 GRASS
+      - 64 DIRT
+      - 1 IRON_SHOVEL
+    reqDescr:
+      - "&6Turf &efor &fTemplar Training Fields"
+      - "&a$2,400"
+      - "&f19h &7between orders"
+      - "&61 1/2 stacks &7of &3Grass"
+      - "&61 stack &7of &3Dirt"
+      - "&61 &3Iron Shovel"
+
+  coal4:
+    name: "&5Coal &7for &6Halloween Traps"
+    descr: "&cTrap Construction &7needs &3Materials"
+    active: none
+    icon: COAL_BLOCK
+    coolId: wo-coal4
+    coolTime: 16h
+    reward: $3,800
+    reqMat:
+      - 16 COAL_BLOCK
+      - 16 IRON_INGOT
+      - 16 REDSTONE
+      - 16 TORCH
+    reqDescr:
+      - "&5Coal &7for &6Halloween Traps"
+      - "&a$3,800"
+      - "&f16h &7between orders"
+      - "&61/4 stack &7of &3Coal Blocks"
+      - "&61/4 stack &7of &3Iron Ingots"
+      - "&61/4 stack &7of &3Redstone Dust"
+      - "&61/4 stack &7of &3Torches"
+
+  stone3:
+    name: "&6Stone &efor a &aStatue"
+    descr: "&5Aeredale &7needs &3Stone"
+    active: none
+    icon: STONE
+    coolId: wo-stone3
+    coolTime: 10h
+    reward: $3,400
+    reqMat:
+      - 320 STONE
+    reqDescr:
+      - "&6Stone &efor a &aStatue"
+      - "&a$3,400"
+      - "&f10h &7between orders"
+      - "&65 stacks &7of &3Stone"
+
+  stone4:
+    name: "&6Stone &efor a &aFountain"
+    descr: "&fehlf'hold &7needs &3Stone"
+    active: none
+    icon: STONE
+    coolId: wo-stone4
+    coolTime: 10h
+    reward: $2,900
+    reqMat:
+      - 256 STONE
+      - 64 STONE_BRICKS
+    reqDescr:
+      - "&6Stone &efor a &aFountain"
+      - "&a$2,900"
+      - "&f10h &7between orders"
+      - "&64 stacks &7of &3Stone"
+      - "&61 stack &7of &3Stone Bricks"
+
+  stone5:
+    name: "&aDio and Stone &efor a &fTemplar Statue"
+    descr: "&5Templar Statue &7needs &3Dio and Stone"
+    active: none
+    icon: POLISHED_DIORITE
+    coolId: wo-stone5
+    coolTime: 18h
+    reward: $3,500
+    reqMat:
+      - 128 POLISHED_DIORITE
+      - 320 STONE
+    reqDescr:
+      - "&aDio and Stone &efor a &fTemplar Statue"
+      - "&a$3,500"
+      - "&f18h &7between orders"
+      - "&62 stacks &7of &3Polished Diorite"
+      - "&65 stacks &7of &3Stone"
+
+  gran2:
+    name: "&6Granite &efor a tower"
+    descr: "&cRedwind Keep &7needs &3Granite"
+    active: none
+    icon: GRANITE
+    coolId: wo-gran2
+    coolTime: 16h
+    reward: $2,600
+    reqMat:
+      - 192 GRANITE
+    reqDescr:
+      - "&6Granite &efor a tower"
+      - "&a$2,600"
+      - "&f16h &7between orders"
+      - "&63 stacks &7of &3Granite"
+
+  mine1:
+    name: "&6Mining Samples &efor science"
+    descr: "&cScientists &7need &3Mining Samples"
+    active: none
+    icon: DIORITE
+    coolId: wo-mine1
+    coolTime: 5h
+    reward: $2,750
+    reqMat:
+      - 64 COBBLESTONE
+      - 64 STONE
+      - 64 GRANITE
+      - 64 DIORITE
+      - 64 ANDESITE
+    reqDescr:
+      -  "&6Mining Samples &efor science"
+      - "&a$2,750"
+      - "&f5h &7between orders"
+      - "&61 stack &7of &3Granite"
+      - "&61 stack &7of &3Diorite"
+      - "&61 stack &7of &3Andesite"
+      - "&61 stack &7of &3Cobble"
+      - "&61 stack &7of &3Stone"
+
+  quartz1:
+    name: "&fQuartz &efor &5new temple"
+    descr: "&aHigh Elves &7need &fQuartz"
+    active: none
+    icon: QUARTZ_BLOCK
+    coolId: wo-quartz1
+    coolTime: 16h
+    reward: $23,650
+    reqMat:
+      - 64 QUARTZ_BLOCK
+      - 32 CHISELED_QUARTZ_BLOCK
+      - 128 QUARTZ_SLAB
+    reqDescr:
+      - "&fQuartz &efor &5new temple"
+      - "&a$23,650"
+      - "&f16h &7between orders"
+      - "&61 stack &7of &3Quartz"
+      - "&61/2 stack &7of &3Chiseled Quartz"
+      - "&62 stacks &7of &3Quartz Slabs"
+
+  path1:
+    name: "&6Materials &efor road"
+    descr: "&cGarmbagat &7needs &3Materials"
+    active: none
+    icon: GRAVEL
+    coolId: wo-path1
+    coolTime: 8h
+    reward: $2,975
+    reqMat:
+      - 128 GRAVEL
+      - 64 ANDESITE
+      - 64 STONE_BRICKS
+      - 64 STONE
+      - 32 DIRT
+    reqDescr:
+      - "&6Materials &efor road"
+      - "&a$2,975"
+      - "&f8h &7between orders"
+      - "&62 stacks &7of &3Gravel"
+      - "&61 stack &7of &3Andesite"
+      - "&61 stack &7of &3Stone Bricks"
+      - "&61 stack &7of &3Stone"
+      - "&61/2 stack &7of &3Dirt"
+
+  towerdeck1:
+    name: "&6Stone Slabs &efor a tower"
+    descr: "&cRedwind Keep &7needs &3Stone Slabs"
+    active: none
+    icon: STONE_SLAB
+    coolId: wo-towerdeck1
+    coolTime: 16h
+    reward: $2,350
+    reqMat:
+      - 384 STONE_SLAB
+    reqDescr:
+      - "&6Stone Slabs &efor a tower"
+      - "&a$2,350"
+      - "&f16h &7between orders"
+      - "&66 stacks &7of &3Slabs"
+
+  sb2:
+    name: "&6Stone Brick Stairs &efor buildings"
+    descr: "&cAdventure City &7needs &3Stone Brick Stairs"
+    active: none
+    icon: STONE_BRICK_STAIRS
+    coolId: wo-sb2
+    coolTime: 12h
+    reward: $2,200
+    reqMat:
+      - 192 STONE_BRICK_STAIRS
+    reqDescr:
+      - "&6Stone Brick Stairs &efor buildings"
+      - "&a$2,200"
+      - "&f12h &7between orders"
+      - "&63 stacks &7of &3Stone Brick Stairs"
+
+  andes2:
+    name: "&6Polished Andesite &efor guild tower"
+    descr: "&5uhnn'xath &7needs &3building supplies"
+    active: none
+    icon: POLISHED_ANDESITE
+    coolId: wo-andes2
+    coolTime: 12h
+    reward: $4,500
+    reqMat:
+      - 128 POLISHED_ANDESITE
+      - 2 LAPIS_BLOCK
+      - 128 STONE
+    reqDescr:
+      - "&6Polished Andesite &efor guild tower"
+      - "&a$4,500"
+      - "&f12h &7between orders"
+      - "&62 stacks &7of &3Polished Andesite"
+      - "&62 stacks &7of &3Stone"
+      - "&62 &3Lapis Blocks"
+
+  oak3:
+    name: "&6Wood &efor new docks"
+    descr: "&2Garmbagat &7needs &3Oak"
+    active: none
+    icon: OAK_LOG
+    coolId: wo-oak3
+    coolTime: 12h
+    reward: $1,900
+    reqMat:
+      - 32 OAK_LOG
+      - 128 OAK_PLANKS
+    reqDescr:
+      - "&6Wood &efor new docks"
+      - "&a$1,900"
+      - "&f12h &7between orders"
+      - "&61/2 stacks &7of &3Oak Logs"
+      - "&62 stacks &7of &3Oak Planks"
+
+  oak2:
+    name: "&6Wood &efor new docks"
+    descr: "&2Garmbagat &7needs &3Oak"
+    active: none
+    icon: OAK_LOG
+    coolId: wo-oak1
+    coolTime: 16h
+    reward: $1,200
+    reqMat:
+      - 32 OAK_LOG
+      - 128 OAK_PLANKS
+    reqDescr:
+      - "&6Wood &efor new docks"
+      - "&a$1,200"
+      - "&f16h &7between orders"
+      - "&61/2 stack &7of &3Oak Logs"
+      - "&62 stacks &7of &3Oak Planks"
+
+  darkoak2:
+    name: "&6Dark Oak &efor a Carnival Build"
+    descr: "&2New Carnival &7needs &3Materials"
+    active: none
+    icon: DARK_OAK_LOG
+    coolId: wo-darkoak2
+    coolTime: 18h
+    reward: $1,750
+    reqMat:
+      - 32 DARK_OAK_LOG
+      - 128 DARK_OAK_PLANKS
+      - 64 STONE
+    reqDescr:
+      - "&6Dark Oak &efor a Carnival Build"
+      - "&a$1,750"
+      - "&f18h &7between orders"
+      - "&61/2 stack &7of &3Dark Oak Logs"
+      - "&62 stacks &7of &3Dark Oak Planks"
+      - "&61 stack &7of &3Stone"
+
+  darkoak1:
+    name: "&6Dark Oak Planks &efor a town hall"
+    descr: "&2lahl'deth &7needs &3Dark Oak Planks"
+    active: none
+    icon: DARK_OAK_PLANKS
+    coolId: wo-darkoak1
+    coolTime: 6h
+    reward: $2,950
+    reqMat:
+      - 128 DARK_OAK_PLANKS
+    reqDescr:
+      - "&6Dark Oak Planks &efor a town hall"
+      - "&a$2,950"
+      - "&f6h &7between orders"
+      - "&62 stacks &7of &3Dark Oak Planks"
+
+  jungle1:
+    name: "&6Jungle Logs &efor a new farm"
+    descr: "&2Farm &7needs &3Jungle Logs"
+    active: none
+    icon: JUNGLE_LOG
+    coolId: wo-jungle1
+    coolTime: 8h
+    reward: $650
+    reqMat:
+      - 16 JUNGLE_LOG
+    reqDescr:
+      - "&6Jungle Logs &efor a new farm"
+      - "&a$650"
+      - "&f8h &7between orders"
+      - "&61/4 stack &7of &3Jungle Logs"
+
+  haxdung1:
+    name: "&6Traps &efor &5new parkour dungeon"
+    descr: "&2DrHax &7needs &3Horrible Things"
+    active: none
+    icon: TNT
+    coolId: wo-drhaxd1
+    coolTime: 20h
+    reward: $6,599
+    reqMat:
+      - 4 TNT
+      - 4 DISPENSER
+      - 32 REDSTONE
+      - 16 ARROW
+      - 1 LEVER
+      - 4 STONE_PRESSURE_PLATE
+    reqDescr:
+      - "&6Traps &efor &5new parkour dungeon"
+      - "&a$6,599"
+      - "&f20h &7between orders"
+      - "&64 &3TNT"
+      - "&64 &3Dispensers"
+      - "&64 &3Stone Pressure Plates"
+      - "&61 &3Lever"
+      - "&61/2 stack &7of &3Redstone dust"
+      - "&61/4 stack &7of &3Arrows"
+
+  oak1:
+    name: "&6Wood &efor new tower"
+    descr: "&2Raylen &7needs &3Oak Logs"
+    active: none
+    icon: OAK_LOG
+    coolId: wo-oak1
+    coolTime: 24h
+    reward: $3,500
+    reqMat:
+      - 512 OAK_LOG
+    reqDescr:
+      - "&6Wood &efor new tower"
+      - "&a$3,500"
+      - "&f24h &7between orders"
+      - "&68 stacks &7of &3Oak Logs"
+
+  birch1:
+    name: "&6Birch &efor decoration"
+    descr: "&2ehlf'hold &7needs &3Birch Wood"
+    active: none
+    icon: BIRCH_LOG
+    coolId: wo-birch1
+    coolTime: 8h
+    reward: $2,850
+    reqMat:
+      - 32 BIRCH_LOG
+      - 128 BIRCH_PLANKS
+    reqDescr:
+      - "&6Birch &efor decoration"
+      - "&a$2,850"
+      - "&f8h &7between orders"
+      - "&61/2 stack &7of &3birch logs"
+      - "&62 stacks &7of &3birch planks"
+
+  acacia1:
+    name: "&5Acacia &efor &btower flooring"
+    descr: "&2New tower &7needs &bAcacia slabs"
+    active: none
+    icon: ACACIA_SLAB
+    coolId: wo-acacia1
+    coolTime: 8h
+    reward: $885
+    reqMat:
+      - 192 ACACIA_SLAB
+    reqDescr:
+      - "&6Acacia &efor &btower flooring"
+      - "&a$885"
+      - "&f8h &7between orders"
+      - "&63 stacks &7of &3Acacia Slabs"
+
+  spruce1:
+    name: "&6Wood &efor warehouse expansion"
+    descr: "&2Raylen &7needs &3Spruce Logs"
+    active: none
+    icon: SPRUCE_LOG
+    coolId: wo-spruce1
+    coolTime: 8h
+    reward: $1,550
+    reqMat:
+      - 64 SPRUCE_LOG
+    reqDescr:
+      - "&6Wood &efor warehouse expansion"
+      - "&a$1,550"
+      - "&f8h &7between orders"
+      - "&61 stack &7of &3Spruce Logs"
+
+  flowers1:
+    name: "&6Flowers &efor Riverwalk"
+    descr: "&2Raylen &7needs &3Flowers"
+    active: none
+    icon: DANDELION
+    coolId: wo-flowers1
+    coolTime: 9h
+    reward: $2,550
+    reqMat:
+      - 32 DANDELION
+      - 32 POPPY
+    reqDescr:
+      - "&6Flowers &efor Riverwalk"
+      - "&a$2,550"
+      - "&f9h &7between orders"
+      - "&61/2 stack &7of &3Dandelion Flowers"
+      - "&61/2 stack &7of &3Poppy Flowers"
+
+  flowers4:
+    name: "&6Flowers &efor the &cMarketplace"
+    descr: "&cMarketplace &7needs &3Flowers"
+    active: none
+    icon: BLUE_ORCHID
+    coolId: wo-flowers4
+    coolTime: 10h
+    reward: $1,525
+    reqMat:
+      - 8 BLUE_ORCHID
+      - 8 ALLIUM
+    reqDescr:
+      - "&6Flowers &efor the &cMarketplace"
+      - "&a$1,525"
+      - "&f10h &7between orders"
+      - "&61/8 stack &7of &3Blue Orchids"
+      - "&61/8 stack &7of &3Allium"
+
+  birthday1:
+    name: "&6Birthday Cake for Caythal"
+    descr: "&9Birthday Celebration &7needs &3Cake"
+    active: none
+    icon: CAKE
+    coolId: wo-birthday1
+    coolTime: 96h
+    reward: $2,000
+    reqMat:
+      - 1 CAKE
+    reqDescr:
+      - "&6Birthday Cake for Caythal"
+      - "&a$2,000"
+      - "&f96h &7between orders"
+      - "&61 &3Cake"
+
+  birthday2:
+    name: "&6Birthday Cake for Hudson"
+    descr: "&9Birthday Celebration &7needs &3Cake"
+    active: none
+    icon: CAKE
+    coolId: wo-birthday2
+    coolTime: 96h
+    reward: $2,000
+    reqMat:
+      - 1 CAKE
+    reqDescr:
+      - "&6Birthday Cake for Hudson"
+      - "&a$2,000"
+      - "&f96h &7between orders"
+      - "&61 &3Cake"
+
+  druid11:
+    name: "&2Druids need supplies &afor hub"
+    descr: "&2The druids are building a hub..."
+    active: none
+    icon: MOSSY_COBBLESTONE
+    coolId: wo-drui1
+    coolTime: 18h
+    reward: $9,800
+    reqMat:
+      - 4 PODZOL
+      - 16 MOSSY_COBBLESTONE
+      - 16 MYCEL
+      - 32 OAK_LOG
+      - 64 SPRUCE_LOG
+    reqDescr:
+      - "&2Druids need supplies &afor hub"
+      - "&a$9,800"
+      - "&f18h &7between orders"
+      - "&61/4 stack &7of &3Mossy Cobble"
+      - "&61 stack &7of &3Spruce Logs"
+      - "&61/2 stack &7of &3Oak Logs"
+      - "&61/4 stack &7of &3Mycelium"
+      - "&64 &3Podzol Blocks"
+
+  bow1:
+    name: "&6Army Supplies &efor Defense"
+    descr: "&9The Castle &7needs &3Archer Gear"
+    active: none
+    icon: STRING
+    coolId: wo-bow1
+    coolTime: 22h
+    reward: $3,800
+    reqMat:
+      - 64 STRING
+      - 128 STICK
+      - 16 FLINT
+      - 16 FEATHER
+    reqDescr:
+      - "&6Army Supplies &efor Defense"
+      - "&a$3,800"
+      - "&f22h &7between orders"
+      - "&61 stack &7of &3String"
+      - "&62 stacks &7of &3Sticks"
+      - "&61/4 stack &7of &3Flint"
+      - "&61/4 stack &7of &3Feathers"
+
+  goldi1:
+    name: "&6Gold &efor the treasury"
+    descr: "&bThe Treasury &7needs &3Gold Ingots"
+    active: none
+    icon: GOLD_INGOT
+    coolId: wo-goldi1
+    coolTime: 14h 30m
+    reward: $4,250
+    reqMat:
+      - 16 GOLD_INGOT
+    reqDescr:
+      - "&6Gold &efor the treasury"
+      - "&a$4,250"
+      - "&f14h 30m &7between orders"
+      - "&61/4 stack &7of &3Gold Ingots"
+
+  flesh1:
+    name: "&6Zombie Parts &efor experiments"
+    descr: "&bApothacaries &7need &3Rotten Flesh"
+    active: none
+    icon: ROTTEN_FLESH
+    coolId: wo-flesh1
+    coolTime: 6h
+    reward: $1,800
+    reqMat:
+      - 32 ROTTEN_FLESH
+    reqDescr:
+      - "&6Zombie Parts &efor experiments"
+      - "&a$1,800"
+      - "&f6h &7between orders"
+      - "&61/2 stack &7of &3Rotten Flesh"
+
+  halloween2:
+    name: "&6Zombie Parts &efor Halloween"
+    descr: "&bFestivities &7need &3Rotten Flesh"
+    active: none
+    icon: ROTTEN_FLESH
+    coolId: wo-halloween2
+    coolTime: 6h
+    reward: $3,200
+    reqMat:
+      - 32 ROTTEN_FLESH
+    reqDescr:
+      - "&6Zombie Parts &efor Halloween"
+      - "&a$3,200"
+      - "&f6h &7between orders"
+      - "&61/2 stack &7of &3Rotten Flesh"
+
+  halloween3:
+    name: "&6Bone Blocks &efor Halloween Statue"
+    descr: "&bNew Statue &7needs &3Materials"
+    active: none
+    icon: BONE_BLOCK
+    coolId: wo-halloween3
+    coolTime: 16h
+    reward: $4,800
+    reqMat:
+      - 16 BONE_BLOCK
+    reqDescr:
+      - "&6Bone Blocks &efor Halloween Statue"
+      - "&a$4,800"
+      - "&f16h &7between orders"
+      - "&61/4 stack &7of &3Bone Blocks"
+
+  halloween4:
+    name: "&6Wood and Cobble &efor Halloween"
+    descr: "&2Halloween Construction &7needs &3Materials"
+    active: none
+    icon: WOOD
+    coolId: wo-haloween4
+    coolTime: 16h
+    reward: $6,950
+    reqMat:
+      - 64 SPRUCE_LOG
+      - 128 OAK_PLANK
+      - 128 COBBLESTONE
+      - 64 COBBLESTONE_STAIRS
+    reqDescr:
+      - "&6Wood and Cobble &efor Halloween"
+      - "&a$6,950"
+      - "&f16h &7between orders"
+      - "&62 stacks &7of &3Oak Planks"
+      - "&61 stack &7of &3Spruce Logs"
+      - "&62 stacks &7of &3Cobblestone"
+      - "&61 stack &7of &3Cobblestone Stairs"
+
+  halloween9:
+    name: "&6Terracotta &7for &eHalloween Builders"
+    descr: "&2Halloween Builders &7need &3Clay"
+    active: none 
+    icon: ORANGE_TERRACOTTA
+    coolId: wo-haloween9
+    coolTime: 17h
+    reward: $4,950
+    reqMat:
+      - 32 ORANGE_TERRACOTTA
+      - 32 BLACK_TERRACOTTA
+      - 128 STONE_BRICKS
+    reqDescr:
+      - "&6Terracotta &7for &eHalloween Builders"
+      - "&a$4,950"
+      - "&f17h &7between orders"
+      - "&61/2 Stack &7of &3Orange Terracotta"
+      - "&61/2 Stack &7of &3Black Terracotta"
+      - "&62 Stacks &7of &3Stone Bricks"
+
+  workers1:
+    name: "&6Stew &efor Hungry Workers"
+    descr: "&2Hungry workers &7need &3Food"
+    active: none
+    icon: BOWL
+    coolId: wo-workers1
+    coolTime: 16h
+    reward: $3,250
+    reqMat:
+      - 8 BOWL
+      - 1 IRON_SHOVEL
+      - 8 CARROT
+      - 1 MILK_BUCKET
+      - 8 POTATO
+    reqDescr:
+      - "&6Stew &efor Hungry Workers"
+      - "&a$3,250"
+      - "&f16h &7between orders"
+      - "&68 &3Bowls"
+      - "&68 &3Carrots"
+      - "&68 &3Potatos"
+      - "&61 &3Milk"
+      - "&61 &3Iron Shovel (spoon)"
+
+  halloween8:
+    name: "&6Escape &efrom the &cWitch"
+    descr: "&bEscape supplies &7needed!"
+    active: none
+    icon: LADDER
+    coolId: wo-halloween8
+    coolTime: 16h
+    reward: $16,500
+    reqMat:
+      - 32 LADDER
+      - 1 GOLDEN_APPLE
+      - 16 STRING
+      - 1 ENDER_PEARL
+      - 32 TORCH
+    reqDescr:
+      - "&6Escape &efrom the &cWitch"
+      - "&a$16,500"
+      - "&f16h &7between orders"
+      - "&61/2 stack &7of &3Ladders"
+      - "&61/2 stack &7of &3Torches"
+      - "&61/4 stack &7of &3Rope (String)"
+      - "&61 &3Golden Apple"
+      - "&61 &3Enderpearl"
+
+  halloween10:
+    name: "&5Road Materials &efor &cHalloween"
+    descr: "&bHalloween Town &7needs &eRoads"
+    active: none
+    icon: PODZOL
+    coolId: wo-halloween10
+    coolTime: 16h
+    reward: $3,800
+    reqMat:
+      - 2 PODZOL
+      - 256 COBBLESTONE
+      - 128 GRAVEL
+    reqDescr:
+      - "&5Road Materials &efor &cHalloween"
+      - "&a$3,800"
+      - "&f16h &7between orders"
+      - "&64 stacks &7of &3Cobble"
+      - "&62 stacks &7of &3Gravel"
+      - "&62 &3Podzol Blocks"
+
+  halloween11:
+    name: "&eLighting &7for &cHalloween Town"
+    descr: "&cHalloween Town &7needs &eLighting"
+    active: none
+    icon: REDSTONE_LAMP
+    coolId: wo-halloween11
+    coolTime: 16h
+    reward: $15,500
+    reqMat:
+      - 16 REDSTONE_LAMP
+      - 64 REDSTONE
+      - 64 FURNACE
+      - 16 COAL_BLOCK
+      - 16 LEVER
+    reqDescr:
+      - "&eLighting &7for &cHalloween Town"
+      - "&a$15,500"
+      - "&f16h &7between orders"
+      - "&61/4 stack &7of &3Redstone Lamps"
+      - "&61 stack &7of &3Redstone Dust"
+      - "&61 stack &7of &3Furnaces"
+      - "&61/4 stack &7of &3Coal Blocks"
+      - "&61/4 stack &7of &3Levers"
+
+  big5:
+    name: "&5Stone Bricks &7for &cAdventure Town"
+    descr: "&cAdventure Town &7needs &7Stone"
+    active: none
+    icon: STONE_BRICKS
+    coolId: wo-big5
+    coolTime: 20h
+    reward: $28,000
+    reqMat:
+      - 256 STONE_BRICKS
+      - 128 CHISELED_STONE_BRICKS
+      - 128 STONE_SLAB
+      - 128 CRACKED_STONE_BRICKS
+    reqDescr:
+      - "&5Stone Bricks &7for &cAdventure Town"
+      - "&a$28,000"
+      - "&f20h &7between orders"
+      - "&64 stacks &7of &3Stone Bricks"
+      - "&62 stacks &7of &3Chiseled Stone Bricks"
+      - "&62 stacks &7of &3Cracked Stone Bricks"
+      - "&62 stacks &7of &3Slabs"
+
+  halloween13:
+    name: "&6Supplies &efor &fSkelly Army"
+    descr: "&9Skeletons &7needs &3Archer Gear"
+    active: none
+    icon: BOW
+    coolId: wo-halloween13
+    coolTime: 22h
+    reward: $2,400
+    reqMat:
+      - 1 BOW
+      - 16 ARROW
+      - 16 STRING
+      - 32 STICK
+    reqDescr:
+      - "&6Supplies &efor &fSkelly Army"
+      - "&a$2,400"
+      - "&f22h &7between orders"
+      - "&61 &3Bow"
+      - "&61/4 stack &7of &3Arrows"
+      - "&61/4 stack &7of &3String"
+      - "&61/2 stack &7of &3Sticks"
+
+  halloween14:
+    name: "&6Nether Supplies &efor &fSp00ky Area"
+    descr: "&9Sp00ky Area &7needs &3Sp00ky Stuff"
+    active: none
+    icon: NETHER_BRICK
+    coolId: wo-halloween14
+    coolTime: 21h 13m
+    reward: $10,313
+    reqMat:
+      - 8 LAVA_BUCKET
+      - 128 NETHERRACK
+      - 64 MAGMA_BLOCK
+      - 8 BONE_BLOCK
+      - 128 NETHER_BRICK
+    reqDescr:
+      - "&6Nether Supplies &efor &fSp00ky Area"
+      - "&a$10,313"
+      - "&f21h13m &7between orders"
+      - "&68 &3Buckets of Lava"
+      - "&62 stacks &7of &3Nether Bricks"
+      - "&62 stacks &7of &3Netherrack"
+      - "&61 stack &7of &3Magma Blocks"
+      - "&68 &3Bone Blocks"
+
+  halloween15:
+    name: "&6Glass Panes &7for &f... ?"
+    descr: "&fHalloween Swamp City...&1um, forgotten"
+    active: none
+    icon: GREEN_STAINED_GLASS_PANE
+    coolId: wo-halloween15
+    coolTime: 10h 31m
+    reward: $2,600
+    reqMat:
+      - 64 POLISHED_ANDESITE
+      - 16 GREEN_STAINED_GLASS_PANE
+      - 16 WHITE_STAINED_GLASS_PANE
+    reqDescr:
+      - "&6Glass Panes &7for &f... ?"
+      - "&a$2,600"
+      - "&f10h 31m &7between orders"
+      - "&61/2 stack &7of &3Green Glass Planes"
+      - "&61/2 stack &7of &3White Glass Planes"
+      - "&61 stack &7of &3Polished Andesite"
+      
+  dio1:
+    name: "&6Diorite &efor city walls"
+    descr: "&bElf Kingdom &7needs &3Diorite"
+    active: all
+    icon: DIORITE
+    coolId: wo-dio1
+    coolTime: 16h
+    reward: $3,100
+    reqMat:
+      - 192 DIORITE
+    reqDescr:
+      - "&6Diorite &efor city walls"
+      - "&a$3,100"
+      - "&f16h &7between orders"
+      - "&63 stacks &7of &3Diorite"
+
+  dio2:
+    name: "&6Polished Diorite &efor city walls"
+    descr: "&bElf Kingdom &7needs &3Polished Diorite"
+    active: none
+    icon: POLISHED_DIORITE
+    coolId: wo-dio2
+    coolTime: 9h
+    reward: $2,400
+    reqMat:
+      - 320 POLISHED_DIORITE
+    reqDescr:
+      - "&6Polished Diorite &efor city walls"
+      - "&a$2,400"
+      - "&f9h &7between orders"
+      - "&65 stacks &7of &3Polished Diorite"
+
+  eye1:
+    name: "&6Ender Pearls &efor the &2Druids"
+    descr: "&bDruids need &7Ender Pearls"
+    active: none
+    icon: ENDER_PEARL
+    coolId: wo-eye1
+    coolTime: 16h
+    reward: $6,500
+    reqMat:
+      - 4 GOLD_INGOT
+      - 3 ENDER_PEARL
+      - 16 TORCH
+    reqDescr:
+      - "&6Ender Pearls &efor the &2Druids"
+      - "&a$6,500"
+      - "&f16h &7between orders"
+      - "&63 &3Ender Pearls"
+      - "&61/4 stack &7of &3Torches"
+      - "&68 &3Gold Ingots"
+
+  glass1:
+    name: "&6Glass Blocks &efor ehlf'hold cathedral"
+    descr: "&behlf'hold Cathedral &7needs &3Building Blocks"
+    active: none
+    icon: YELLOW_STAINED_GLASS_PANE
+    coolId: wo-glass1
+    coolTime: 14h
+    reward: $3,600
+    reqMat:
+      - 64 POLISHED_ANDESITE
+      - 32 LIGHT_BLUE_STAINED_GLASS_PANE
+      - 32 BLUE_STAINED_GLASS_PANE
+      - 32 YELLOW_STAINED_GLASS_PANE
+    reqDescr:
+      - "&6Glass Blocks &efor ehlf'hold cathedral"
+      - "&a$3,600"
+      - "&f14h &7between orders"
+      - "&61/2 stack &7of &3Blue Glass Planes"
+      - "&61/2 stack &7of &3Lt Blue Glass Planes"
+      - "&61/2 stack &7of &3Yellow Glass Planes"
+      - "&61 stack &7of &3Polished Andesite"
+      
+  ironblock1:
+    name: "&6Iron Blocks &efor jail cells"
+    descr: "&bPrison Island &7needs &3Iron Blocks"
+    active: none
+    icon: IRON_BLOCK
+    coolId: wo-ironblock1
+    coolTime: 22h
+    reward: $4,500
+    reqMat:
+      - 16 IRON_BLOCK
+    reqDescr:
+      - "&6Iron Blocks &efor jail cells"
+      - "&a$4,500"
+      - "&f22h &7between orders"
+      - "&61/4 stack &7of &3Iron Blocks"
+      
+  coal1:
+    name: "&6Coal Blocks &efor smelters"
+    descr: "&bDwarfs &7need &3Coal Blocks"
+    active: none
+    icon: COAL_BLOCK
+    coolId: wo-coal1
+    coolTime: 22h
+    reward: $9,800
+    reqMat:
+      - 96 COAL_BLOCK
+    reqDescr:
+      - "&6Coal Blocks &efor smelters"
+      - "&a$9,800"
+      - "&f22h &7between orders"
+      - "&91 1/2 stacks &7of &3Coal Blocks"
+
+  fallseason3:
+    name: "&6Wood &efor &5Bonfires"
+    descr: "&bFall Bonfires &7need &3Wood"
+    active: none
+    icon: SPRUCE_LOG
+    coolId: wo-fallseason3
+    coolTime: 16h
+    reward: $3,500
+    reqMat:
+      - 128 SPRUCE_LOG
+      - 32 STICK
+      - 16 TORCH
+      - 8 COOKED_BEEF
+    reqDescr:
+      - "&6Wood &efor &5Bonfires"
+      - "&a$3,500"
+      - "&f16h &7between orders"
+      - "&62 stacks &7of &3Spruce Logs"
+      - "&61/2 stacks &7of &3Sticks"
+      - "&61/4 stacks &7of &3Torches"
+      - "&68 &3Steaks"
+
+  coal2:
+    name: "&6Coal Blocks &efor smelters"
+    descr: "&bDwarfs &7need &3Coal Blocks"
+    active: none
+    icon: COAL_BLOCK
+    coolId: wo-coal2
+    coolTime: 16h
+    reward: $7,900
+    reqMat:
+      - 96 COAL_BLOCK
+    reqDescr:
+      - "&6Coal Blocks &efor smelters"
+      - "&a$7,900"
+      - "&f16h &7between orders"
+      - "&61 1/2 stacks &7of &3Coal Blocks"
+
+  fish1:
+    name: "&6Fish &efor public market"
+    descr: "&eneek'lii &7needs &3Fish"
+    active: all
+    icon: SALMON
+    coolId: wo-fish1
+    coolTime: 16h
+    reward: $2,100
+    reqMat:
+      - 32 SALMON
+    reqDescr:
+      - "&6Fish &efor public market"
+      - "&a$2,100"
+      - "&f16h &7between orders"
+      - "&61/2 stack &7of &3Raw Salmon"
+      
+  fish3:
+    name: "&6Fish &efor public market"
+    descr: "&eneek'lii &7needs &3Fish"
+    active: none
+    icon: COD
+    coolId: wo-fish3
+    coolTime: 2h
+    reward: $1,200
+    reqMat:
+      - 16 COD
+    reqDescr:
+      - "&6Fish &efor public market"
+      - "&a$1,200"
+      - "&f2h &7between orders"
+      - "&61/4 stack &7of &3Raw Fish"
+      
+  fish2:
+    name: "&6Rare fish &efor sushi hut"
+    descr: "&bneek'lii sushi hut &7needs &3fish"
+    active: none
+    icon: TROPICAL_FISH
+    coolId: wo-fish2
+    coolTime: 20h
+    reward: $7,200
+    reqMat:
+      - 16 SALMON
+      - 2 PUFFERFISH
+      - 1 TROPICAL_FISH
+    reqDescr:
+      - "&6Rare fish &efor sushi hut"
+      - "&a$7,200"
+      - "&f20h &7between orders"
+      - "&61/4 stack &7of &3Raw Salmon"
+      - "&62 &3Pufferfish"
+      - "&61 &3Clownfish"
+
+  fire1:
+    name: "&6Water &efor a fire in Davenport"
+    descr: "&bHelp put out a fire with &3Water Buckets&b!"
+    active: none
+    icon: WATER_BUCKET
+    coolId: wo-fire1
+    coolTime: 12h
+    reward: $2,100
+    reqMat:
+      - 5 WATER_BUCKET
+    reqDescr:
+      - "&6Water &efor a fire in Davenport"
+      - "&a$2,100"
+      - "&f12h &7between orders"
+      - "&65 &3Water Buckets"
+
+  clothes1:
+    name: "&6Clothes &7for &9Fire Victims"
+    descr: "&bHelp &7fire victims who need &cclothes"
+    active: none
+    icon: LEATHER_CHESTPLATE
+    coolId: wo-clothes1
+    coolTime: 20h
+    reward: $1,700
+    reqMat:
+      - 1 LEATHER_CHESTPLATE
+      - 1 LEATHER_LEGGINGS
+    reqDescr:
+      - "&6Clothes &7for &9Fire Victims"
+      - "&a$1,700"
+      - "&f20h &7between orders"
+      - "&61 &3Leather Tunic"
+      - "&61 &3Leather Pants"
+
+  beets1:
+    name: "&6Food for &ehungry Monks"
+    descr: "&6Feed the Monks &3Beets"
+    active: none
+    icon: BEETROOT
+    coolId: beets1
+    coolTime: 2h
+    reward: $1,801
+    reqMat:
+      - 32 BEETROOT
+    reqDescr:
+      - "&6Food for &ehungry Monks"
+      - "&a$1,801"
+      - "&f2h &7between orders"
+      - "&61/2 stack &7of &3Beets"
+
+  soup1:
+    name: "&6Mushroom Soup &efor beggars"
+    descr: "&6Feed the starving &3Mushroom Soup"
+    active: all
+    icon: MUSHROOM_STEW
+    coolId: soup1
+    coolTime: 22h
+    reward: $4,000
+    reqMat:
+      - 12 MUSHROOM_STEW
+    reqDescr:
+      - "&6Mushroom Soup &efor beggars"
+      - "&a$4,000"
+      - "&f4h &7between orders"
+      - "&622 &3Mushroom Soup"
+
+  library1:
+    name: "&6Bookshelves &efor a new library"
+    descr: "&aehlf'hold &blibrary needs &3BookShelves"
+    active: all
+    icon: BOOKSHELF
+    coolId: wo-library1
+    coolTime: 8h
+    reward: $3,250
+    reqMat:
+      - 8 BOOKSHELF
+    reqDescr:
+      - "&6Bookshelves &efor a new library"
+      - "&a$3,250"
+      - "&f8h &7between orders"
+      - "&68 &3Book Shelves"
+
+  enchant1:
+    name: "&6Supplies &efor enchanting"
+    descr: "&5Toolmakers &bneed &eEnchanting supplies"
+    active: all
+    icon: BOOK
+    coolId: wo-enchant1
+    coolTime: 20h
+    reward: $19,600
+    reqMat:
+      - 16 BOOK
+      - 16 LAPIS_LAZULI
+      - 32 STICK
+      - 16 DIAMOND
+    reqDescr:
+      - "&6Supplies &efor enchanting"
+      - "&a$19,600"
+      - "&f20h &7between orders"
+      - "&61/4 stack &7of &3Books"
+      - "&61/4 stack &7of &3Lapis"
+      - "&61/4 stack &7of &3Diamonds"
+      - "&61/2 stack &7of &3Sticks"
+
+  potion1:
+    name: "&6Supplies &efor &9potions"
+    descr: "&5Magicians &bneed &ePotion supplies"
+    active: none
+    icon: GLASS_BOTTLE
+    coolId: wo-potion1
+    coolTime: 20h
+    reward: $3,050
+    reqMat:
+      - 16 GLASS_BOTTLE
+      - 16 NETHER_WART
+      - 16 GLOWSTONE_DUST
+      - 16 REDSTONE
+    reqDescr:
+      - "&6Supplies &efor &9potions"
+      - "&a$3,050"
+      - "&f20h &7between orders"
+      - "&61/4 stack &7of &3Glass Bottles"
+      - "&61/4 stack &7of &3Nether Wart"
+      - "&61/4 stack &7of &3Glowstone Dust"
+      - "&61/4 stack &7of &3Redstone Dust"
+
+  jailcell1:
+    name: "&bBuilding materials &7for a &9jail cell"
+    descr: "&3Raylen jail &bneeds &enew cells"
+    active: none
+    icon: IRON_DOOR
+    coolId: wo-jailcell1
+    coolTime: 22h
+    reward: $4,900
+    reqMat:
+      - 1 IRON_DOOR
+      - 1 LEVER
+      - 16 IRON_FENCE
+      - 8 OBSIDIAN
+      - 128 STONE_BRICKS
+    reqDescr:
+      - "&bBuilding materials &7for a &9jail cell"
+      - "&a$4,900"
+      - "&f22h &7between orders"
+      - "&61 &3Iron Door"
+      - "&61 &3Lever"
+      - "&61/4 stack &7of &3Iron Bars"
+      - "&62 stacks &7of &3Stone Brick"
+      - "&68 &3Obsidian"
+
+  damleak1:
+    name: "&bDirt and Gravel &efor &9leaky dam"
+    descr: "&3A leaky dam &bneeds &erepair supplies"
+    active: all
+    icon: DIRT
+    coolId: wo-damleak1
+    coolTime: 12h
+    reward: $4,150
+    reqMat:
+      - 128 DIRT
+      - 64 GRAVEL
+      - 4 BUCKET
+    reqDescr:
+      - "&bDirt and Gravel &efor &9leaky dam"
+      - "&a$4,150"
+      - "&f12h &7between orders"
+      - "&62 stacks &7of &3Dirt"
+      - "&61 stack &7of &3Gravel"
+      - "&64 &3Buckets"
+
+  ore1:
+    name: "&6Redstone Ore &efor library lighting"
+    descr: "&5Castle Library &bneeds &3Redstone Ore"
+    active: none
+    icon: REDSTONE_ORE
+    coolId: wo-ore1
+    coolTime: 12h
+    reward: $3,500
+    reqMat:
+      - 16 REDSTONE_ORE
+      - 16 TORCH
+    reqDescr:
+      - "&6Redstone Ore &efor library lighting"
+      - "&a$3,500"
+      - "&f12h &7between orders"
+      - "&61/4 stack &7of &3Redstone Ore"
+      - "&61/4 stack &7of &3Torches"
+
+  ore2:
+    name: "&6Lapis Ore &9for Mages"
+    descr: "&5Kingom Mage College &bneeds &9Lapis Ore"
+    active: all
+    icon: LAPIS_ORE
+    coolId: wo-ore2
+    coolTime: 10h
+    reward: $2,550
+    reqMat:
+      - 16 LAPIS_ORE
+    reqDescr:
+      - "&6Lapis Ore &9for Mages"
+      - "&a$2,550"
+      - "&f10h &7between orders"
+      - "&61/4 stack &7of &3Lapis Ore"
+
+  animal1:
+    name: "&6Rabbit Hides &efor backpacks"
+    descr: "&bAdventurers &bneed &3Rabbit Hides"
+    active: none
+    icon: RABBIT_HIDE
+    coolId: wo-animal1
+    coolTime: 20h
+    reward: $800
+    reqMat:
+      - 16 RABBIT_HIDE
+      - 16 STRING
+    reqDescr:
+      - "&6Rabbit Hides &efor backpacks"
+      - "&a$800"
+      - "&f20h &7between orders"
+      - "&61/4 stack &7of &3Rabbit Hides"
+      - "&61/4 stack &7of &3String"
+
+  map1:
+    name: "&6Map Supplies &efor cartographers"
+    descr: "&bCartographers &bneed &3Map supplies"
+    active: all
+    icon: COMPASS
+    coolId: wo-map1
+    coolTime: 22h
+    reward: $2,950
+    reqMat:
+      - 16 MAP
+      - 1 COMPASS
+      - 1 CLOCK
+    reqDescr:
+      - "&6Map Supplies &efor cartographers"
+      - "&a$2,950"
+      - "&f22h &7between orders"
+      - "&61/4 stack &7of &3Empty Maps"
+      - "&61 &3Compass"
+      - "&61 &3Clock"
+
+  saddle1:
+    name: "&6Saddles &efor jousting match"
+    descr: "&eThe Arena &7needs &3Saddles"
+    active: none
+    icon: SADDLE
+    coolId: wo-saddle1
+    coolTime: 22h
+    reward: $2,500
+    reqMat:
+      - 2 SADDLE
+      - 2 LEAD
+    reqDescr:
+      - "&6Saddles &efor jousting match"
+      - "&a$2,500"
+      - "&f22h &7between orders"
+      - "&62 &3Saddles"
+      - "&62 &3Leads"
+      
+  diamondgear1:
+    name: "&6Diamond Gear &efor Knights"
+    descr: "&aRedwind Keep Army &bneeds &3gear"
+    active: none
+    icon: DIAMOND_CHESTPLATE
+    coolId: wo-diamondgear1
+    coolTime: 40h
+    reward: $10,000
+    reqMat:
+      - 1 DIAMOND_HELMET
+      - 1 DIAMOND_CHESTPLATE
+      - 1 DIAMOND_BOOTS
+      - 1 DIAMOND_LEGGINGS
+      - 1 DIAMOND_SWORD
+    reqDescr:
+      - "&6Diamond Gear &efor Knights"
+      - "&a$10,000"
+      - "&f40h &7between orders"
+      - "&61 &3Diamond Helmet"
+      - "&61 &3Diamond Chestplate"
+      - "&61 &3Diamond Leggings"
+      - "&61 &3Diamond Boots"
+      - "&61 &3Diamond Sword"
+
+  carrot1:
+    name: "&6Carrots &7to stop famine in &2Raylen"
+    descr: "&bFamine &7in Raylen!! Help out with &eCarrots"
+    active: none
+    icon: CARROT
+    coolId: wo-carrot1
+    coolTime: 12h
+    reward: $1,700
+    reqMat:
+      - 96 CARROT
+    reqDescr:
+      - "&6Carrots &7to stop famine in &2Raylen"
+      - "&a$1,700"
+      - "&f12h &7between orders"
+      - "&61 1/2 stacks &7of &3Carrots"
+
+  carrot2:
+    name: "&6Carrots &7for &2pigs"
+    descr: "&bPigs &7are hungry for &eCarrots"
+    active: none
+    icon: CARROT
+    coolId: wo-carrot2
+    coolTime: 4h
+    reward: $500
+    reqMat:
+      - 64 CARROT
+    reqDescr:
+      - "&6Carrots &7for &2pigs"
+      - "&a$500"
+      - "&f4h &7between orders"
+      - "&61 stack &7of &3Carrots"
+
+  wheat1:
+    name: "&6Wheat &7to stop famine in &2Kalnoria"
+    descr: "&bFamine &7in Raylen!! Help out with &eWheats"
+    active: all
+    icon: WHEAT
+    coolId: wo-wheat1
+    coolTime: 2h
+    reward: $2,100
+    reqMat:
+      - 128 WHEAT
+    reqDescr:
+      - "&6Wheat &7to stop famine in &2Kalnoria"
+      - "&a$2,100"
+      - "&f2h &7between orders"
+      - "&62 stacks &7of &3Wheat"
+
+  horse1:
+    name: "&6Apples and Hay &7for &2Horses"
+    descr: "&bHorses &7want some &efood"
+    active: none
+    icon: HAY_BLOCK
+    coolId: wo-horse1
+    coolTime: 8h
+    reward: $700
+    reqMat:
+      - 16 APPLE
+      - 8 HAY_BLOCK
+    reqDescr:
+      - "&6Apples and Hay &7for &2Horses"
+      - "&a$700"
+      - "&f8h &7between orders"
+      - "&61/4 stack &7of &3Apples"
+      - "&68 &3Hay"
+
+  pork1:
+    name: "&6Porkchops &7to stop famine in &2Raylen"
+    descr: "&bFamine &7in Raylen!! Help out with &ePorkchops"
+    active: none
+    icon: COOKED_PORKCHOP
+    coolId: wo-pork1
+    coolTime: 4h
+    reward: $1,250
+    reqMat:
+      - 16 COOKED_PORKCHOP
+    reqDescr:
+      - "&6Porkchops &7to stop famine in &2Raylen"
+      - "&a$1,250"
+      - "&f4h &7between orders"
+      - "&61/4 stack &7of &3Grilled Pork"
+
+  pork2:
+    name: "&6Food &7for &2Raylen Royalty"
+    descr: "&bRoyal Chefs &7need &eIngredients"
+    active: none
+    icon: BAKED_POTATO
+    coolId: wo-pork2
+    coolTime: 10h
+    reward: $3,500
+    reqMat:
+      - 32 COOKED_PORKCHOP
+      - 32 BAKED_POTATO
+    reqDescr:
+      - "&6Food &7for &2Raylen Royalty"
+      - "&a$3,500"
+      - "&f10h &7between orders"
+      - "&61/2 stack &7of &3Baked Potato"
+      - "&61/2 stack &7of &3Grilled Pork"
+
+  gapple1:
+    name: "&6Golden Apples &7for &2Raylen Royalty"
+    descr: "&bRoyalty &7needs &eGolden Apples"
+    active: none
+    icon: GOLDEN_APPLE
+    coolId: wo-gapple1
+    coolTime: 22h
+    reward: $3,200
+    reqMat:
+      - 4 GOLDEN_APPLE
+    reqDescr:
+      - "&6Golden Apples &7for &2Raylen Royalty"
+      - "&a$3,200"
+      - "&f22h &7between orders"
+      - "&64 &3Golden Apples"
+
+  royalty1:
+    name: "&aOre &7for &9Royal Jewelry"
+    descr: "&5High Elf Priestess &bwants &5Jewelry"
+    active: none
+    icon: EMERALD_ORE
+    coolId: wo-royalty1
+    coolTime: 20h
+    reward: $27,500
+    reqMat:
+      - 8 EMERALD_ORE
+      - 8 DIAMOND_ORE
+      - 8 GOLD_ORE
+      - 8 COAL_ORE
+      - 8 IRON_ORE
+    reqDescr:
+      - "&aOre &7for &9Royal Jewelry"
+      - "&a$27,500"
+      - "&f20h &7between orders"
+      - "&68 &3Emerald Ore"
+      - "&68 &3Diamond Ore"
+      - "&68 &3Gold Ore"
+      - "&68 &3Coal Ore"
+      - "&68 &3Iron Ore"
+
+  road3:
+    name: "&9Materials &7for &6Secret Road"
+    descr: "&6Secret Road Project &7needs &9Materials"
+    active: all
+    icon: ANDESITE
+    coolId: wo-road3
+    coolTime: 19h
+    reward: $8,000
+    reqMat:
+      - 64 DIRT
+      - 32 COARSE_DIRT
+      - 128 STONE
+      - 128 ANDESITE
+    reqDescr:
+      - "&9Materials &7for &6Secret Road"
+      - "&a$8,000"
+      - "&f19h &7between orders"
+      - "&61 stack &7of &3Dirt"
+      - "&61/2 stack &7of &3Coarse Dirt"
+      - "&62 stacks &7of &3Andesite"
+      - "&62 stacks &7of &3Smooth Stone"
+
+  azaluna1:
+    name: "&6Netherrack &7for &2azaluna Fountain"
+    descr: "&bazaluna &7needs &eFountain Materials"
+    active: all
+    icon: NETHER_BRICKS
+    coolId: wo-azaluna1
+    coolTime: 20h
+    reward: $26,000
+    reqMat:
+      - 512 NETHER_BRICKS
+      - 64 FURNACE
+      - 4 LAVA_BUCKET
+    reqDescr:
+      - "&6Netherrack &7for &2azaluna Fountain"
+      - "&a$26,000"
+      - "&f20h &7between orders"
+      - "&68 stacks &7of &3Nether Brick"
+      - "&61 stack &7of &3Furnaces"
+      - "&64 &3Buckets of Lava"
+
+  July4_1:
+    name: "&3Wool &7for &cFlags"
+    descr: "&3Celebration Island &7needs &cwool"
+    active: none
+    icon: WOOL:11
+    coolId: wo-74-1
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 16 RED_WOOL
+      - 16 WHITE_WOOL
+      - 16 BLUE_WOOL
+    reqDescr:
+      - "&3Wool &7for &cFlags"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Red Wool"
+      - "&61/4 stack &7of &3White Wool"
+      - "&61/4 stack &7of &3Blue Wool"
+
+  July4_2:
+    name: "&3Blocks &7for &cDecorations"
+    descr: "&3Celebration Island &7needs &cdecorations"
+    active: none
+    icon: REDSTONE_BLOCK
+    coolId: wo-74-2
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 16 LAPIS_BLOCK
+      - 16 REDSTONE_BLOCK
+      - 16 QUARTZ_BLOCK
+    reqDescr:
+      - "&3Blocks &7for &cDecorations"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Redstone Blocks"
+      - "&61/4 stack &7of &3Lapis Blocks"
+      - "&61/4 stack &7of &3Quartz Blocks"
+
+  July4_3:
+    name: "&4Food &7for &9Cookout"
+    descr: "&bCookout &7needs &eFood"
+    active: none
+    icon: BAKED_POTATO
+    coolId: wo-74-3
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 16 COOKED_PORKCHOP
+      - 16 BAKED_POTATO
+    reqDescr:
+      - "&4Food &7for &9Cookout"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Baked Potatos"
+      - "&61/4 stack &7of &3Grilled Pork"
+
+  July4_4:
+    name: "&4Steak &7for &9Cookout"
+    descr: "&bCookout &7needs &eSteak"
+    active: all
+    icon: COOKED_BEEF
+    coolId: wo-74-4
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 16 COOKED_BEEF
+      - 16 BAKED_POTATO
+      - 16 BREAD
+    reqDescr:
+      - "&4Steak &7for &9Cookout"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Steak"
+      - "&61/4 stack &7of &3Baked Potatos"
+      - "&61/4 stack &7of &3Bread"
+
+  July4_6:
+    name: "&4Desert &7for &9Cookout"
+    descr: "&bCookout &7needs &eDeserts"
+    active: none
+    icon: CAKE
+    coolId: wo-74-6
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 4 CAKE
+      - 4 PUMPKIN_PIE
+    reqDescr:
+      - "&4Desert &7for &9Cookout"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&64 &3Cakes"
+      - "&64 &3Pumpkin Pies"
+
+  Xmas17_1:
+    name: "&4Trees &7for &2Christmas Town"
+    descr: "&cChristmas Town &7needs &eTrees"
+    active: all
+    icon: SPRUCE_SAPLING
+    coolId: wo-74-5
+    coolTime: 22h
+    reward: $2,000
+    reqMat:
+      - 4 SPRUCE_SAPLING
+    reqDescr:
+      - "&4Trees &7for &2Christmas Town"
+      - "&a$2,000"
+      - "&f22h &7between orders"
+      - "&61/4 stack &7of &3Spruce Saplings"
+
+  July4_5:
+    name: "&4Trees &7for &9Celebration Island"
+    descr: "&bCelebration Island &7needs &eTrees"
+    active: none
+    icon: OAK_SAPLING
+    coolId: wo-74-5
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 4 COCOA_BEANS
+      - 4 ACACIA_SAPLING
+      - 16 OAK_SAPLING
+    reqDescr:
+      - "&4Trees &7for &9Celebration Island"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Oak Saplings"
+      - "&61/4 stack &7of &3Acacia Saplings"
+      - "&61/4 stack &7of &3Cocoa Beans"
+
+  July4_7:
+    name: "&4Firework Supplies &7for &9Festival"
+    descr: "&bCelebration Island &7needs &eSupplies"
+    active: none
+    icon: SULPHUR
+    coolId: wo-74-7
+    coolTime: 72h
+    reward: $4,000
+    reqMat:
+      - 16 PAPER
+      - 16 WHITE_DYE
+      - 16 BLUE_DYE
+      - 16 RED_DYE
+      - 4 GUNPOWDER
+      - 4 BLAZE_ROD
+    reqDescr:
+      - "&4Firework Supplies &7for &9Festival"
+      - "&a$4,000"
+      - "&f72h &7between orders"
+      - "&61/4 stack &7of &3Paper"
+      - "&61/4 stack &7of &3Red Dye"
+      - "&61/4 stack &7of &3White Dye"
+      - "&61/4 stack &7of &3Blue Dye"
+      - "&64 &3Blaze Rods"
+      - "&64 &3Gunpowder"
+
+  sails1:
+    name: "&fWool &7for &2Ship Sails"
+    descr: "&bFleet ships &7need new &eSails"
+    active: none
+    icon: BLUE_WOOL
+    coolId: wo-sails1
+    coolTime: 16h
+    reward: $1,700
+    reqMat:
+      - 16 BLUE_WOOL
+      - 64 WHITE_WOOL
+      - 32 STRING
+    reqDescr:
+      - "&fWool &7for &2Ship Sails"
+      - "&a$1,700"
+      - "&f16h &7between orders"
+      - "&61/4 stack &7of &3Blue Wool"
+      - "&61 stack &7of &3White Wool"
+      - "&61/2 stack &7of &3String"
+
+  smelt2:
+    name: "&fAnvils &7for &2Craftsman"
+    descr: "&buhnn'xath craftsman &7need &eAnvils"
+    active: none
+    icon: ANVIL
+    coolId: wo-smelt2
+    coolTime: 16h
+    reward: $5,950
+    reqMat:
+      - 2 ANVIL
+      - 16 COAL_BLOCK
+      - 16 SAND
+      - 16 CRACKED_STONE_BRICKS
+      - 1 FLINT_AND_STEEL
+    reqDescr:
+      - "&fAnvils &7for &2Craftsman"
+      - "&a$5,950"
+      - "&f16h &7between orders"
+      - "&62 &3Anvils"
+      - "&61/4 stack &7of &3Coal Blocks"
+      - "&61/4 stack &7of &3Sand"
+      - "&61/4 stack &7of &3Cracked Stone Brick"
+      - "&61 &3Flint and Steel"
+
+  soul1:
+    name: "&4Nether Farm Supplies &7for &2Mage College"
+    descr: "&cMagicians &7need &4Nether Wart"
+    active: all
+    icon: SOUL_SAND
+    coolId: wo-soul1
+    coolTime: 18h
+    reward: $5,650
+    reqMat:
+      - 64 SOUL_SAND
+      - 128 NETHER_WART
+      - 16 NETHER_BRICK_FENCE
+      - 1 IRON_SHOVEL
+    reqDescr:
+      - "&4Nether Farm Supplies &7for &2Mage College"
+      - "&a$5,650"
+      - "&f18h &7between orders"
+      - "&61 stack &7of &3Soul Sand"
+      - "&62 stacks &7of &3Nether Wart"
+      - "&61/4 stack &7of &3Nether Fence"
+      - "&61 &3Iron Hoe"
+
+  forest1:
+    name: "&4Saplings &7for new &9Forest"
+    descr: "&bRaylen &7needs more &2Trees"
+    active: none
+    icon: SPRUCE_SAPLING
+    coolId: wo-forest1
+    coolTime: 12h
+    reward: $1,200
+    reqMat:
+      - 16 SPRUCE_SAPLING
+      - 16 OAK_SAPLING
+      - 32 DIRT
+    reqDescr:
+      - "&4Saplings &7for new &9Forest"
+      - "&a$1,200"
+      - "&f12h &7between orders"
+      - "&61/4 stack &7of &3Spruce Saplings"
+      - "&61/4 stack &7of &3Oak Saplings"
+      - "&61/2 stack &7of &3Dirt"
+
+  sand1:
+    name: "&fSupplies &7for &2Glass Blowers"
+    descr: "&behlf'hold glass blowers &7need &eSupplies"
+    active: all
+    icon: SAND
+    coolId: wo-sand1
+    coolTime: 16h
+    reward: $2,950
+    reqMat:
+      - 64 SAND
+      - 16 COAL
+      - 16 CRACKED_STONE_BRICKS
+      - 1 FLINT_AND_STEEL
+    reqDescr:
+      - "&fSupplies &7for &2Glass Blowers"
+      - "&a$2,950"
+      - "&f16h &7between orders"
+      - "&61 stack &7of &3Sand"
+      - "&61/4 stack &7of &3Coal"
+      - "&61/4 stack &7of &3Cracked Stone Brick"
+      - "&61 &3Flint and Steel"
+
+  sod1:
+    name: "&2Sod &7for &9Castle"
+    descr: "&bRedwind Keep &7needs &2Dirt and Grass"
+    active: all
+    icon: GRASS_BLOCK
+    coolId: wo-sod1
+    coolTime: 12h
+    reward: $1,750
+    reqMat:
+      - 32 GRASS_BLOCK
+      - 32 DIRT
+    reqDescr:
+      - "&2Sod &7for &9Castle"
+      - "&a$1,750"
+      - "&f12h &7between orders"
+      - "&61/2 stack &7of &3Grass"
+      - "&61/2 stack &7of &3Dirt"
+
+  big1:
+    name: "&bDiamonds &7for &3The Citadel"
+    descr: "&3The Citadel &7needs &bDiamonds"
+    active: none
+    icon: DIAMOND_BLOCK
+    coolId: wo-big1
+    coolTime: 22h
+    reward: $11,500
+    reqMat:
+      - 4 DIAMOND_BLOCK
+      - 16 GLOWSTONE
+    reqDescr:
+      - "&bDiamonds &7for &3The Citadel"
+      - "&a$11,500"
+      - "&f22h &7between orders"
+      - "&64 &3Diamond Blocks"
+      - "&61/4 stack &7of &3Glowstone"
+
+  magecollege2:
+    name: "&eSupplies &7for the &cMage College"
+    descr: "&cMage College &7needs &eSupplies"
+    active: none
+    icon: ENDER_CHEST
+    coolId: wo-magecollege2
+    coolTime: 20h
+    reward: $4,500
+    reqMat:
+      - 2 ENDER_CHEST
+      - 16 BLAZE_ROD
+      - 8 SPIDER_EYE
+    reqDescr:
+      - "&eSupplies &7for the &cMage College"
+      - "&a$4,500"
+      - "&f20h &7between orders"
+      - "&62 &3Ender Chests"
+      - "&61/4 stack &7of &3Blaze Rods"
+      - "&68 &3Spider Eyes"
+
+  fight1:
+    name: "&5Sword Decorations &7for &aCastle"
+    descr: "&cNew Castle &7needs &5Decorations"
+    active: all
+    icon: GOLDEN_SWORD
+    coolId: wo-fight1
+    coolTime: 20h
+    reward: $2,500
+    reqMat:
+      - 2 GOLDEN_SWORD
+      - 2 IRON_SWORD
+    reqDescr:
+      - "&5Sword Decorations &7for &aCastle"
+      - "&a$2,500"
+      - "&f20h &7between orders"
+      - "&62 &3Gold Swords"
+      - "&62 &3Iron Swords"
+
+  halloween1:
+    name: "&5Pumpkin Seeds &7for &aHalloween"
+    descr: "&cUpcoming holiday &7needs &5Pumpkin Seeds"
+    active: none
+    icon: PUMPKIN_SEEDS
+    coolId: wo-halloween1
+    coolTime: 20h
+    reward: $1,500
+    reqMat:
+      - 32 PUMPKIN_SEEDS
+    reqDescr:
+      - "&5Pumpkin Seeds &7for &aHalloween"
+      - "&a$1,500"
+      - "&f20h &7between orders"
+      - "&61/2 stack &7of &3Pumpkin Seeds"
+
+  halloween6:
+    name: "&9Materials &7for &fTooth Fillings"
+    descr: "&aDentists &7need &fTools, Fillings and Caps"
+    active: all
+    icon: GOLD_NUGGET
+    coolId: wo-halloween6
+    coolTime: 14h
+    reward: $6,000
+    reqMat:
+      - 8 GOLD_NUGGET
+      - 8 QUARTZ_BLOCK
+      - 1 IRON_PICKAXE
+    reqDescr:
+      - "&9Materials &7for &fTooth Fillings"
+      - "&a$6,000"
+      - "&f14h &7between orders"
+      - "&61 &3Iron Pickaxe"
+      - "&68 &3Gold Nuggets (fillings)"
+      - "&68 &3Quartz Blocks (teeth caps)"
+
+  halloween7:
+    name: "&cCat food &7for a &1Black Cat Lure"
+    descr: "&6Halloween &7needs &1Black Cats"
+    active: none
+    icon: MILK_BUCKET
+    coolId: wo-halloween7
+    coolTime: 17h
+    reward: $4,500
+    reqMat:
+      - 8 SALMON
+      - 1 MILK_BUCKET
+      - 1 BOWL
+      - 1 FISHING_ROD
+      - 8 BEEF
+    reqDescr:
+      - "&9Cat food &7for a &1Black Cat Lure"
+      - "&a$4,500"
+      - "&f17h &7between orders"
+      - "&61 &3Fishing Rod"
+      - "&68 &3Raw Salmon"
+      - "&68 &3Raw Beef"
+      - "&61 &3Wood Bowl (Saucer)"
+      - "&61 &3Bucket of Milk (Cream)"
+
+  museum1:
+    name: "&5Ancient Tools &7for &aMuseum"
+    descr: "&cMuseum &7needs &5Stone-Age Tools"
+    active: none
+    icon: STONE_AXE
+    coolId: wo-museum1
+    coolTime: 20h
+    reward: $1,000
+    reqMat:
+      - 1 STONE_AXE
+      - 1 STONE_PICKAXE
+      - 1 STONE_SHOVEL
+    reqDescr:
+      - "&5Ancient Tools &7for &aMuseum"
+      - "&a$1,000"
+      - "&f20h &7between orders"
+      - "&61 &3Stone Axe"
+      - "&61 &3Stone Pickaxe"
+      - "&61 &3Stone Shovel"
+
+  nether2:
+    name: "&cMagma Blocks &7for &aDungeon"
+    descr: "&5New dungeon builders &7need &5Magma"
+    active: none
+    icon: MAGMA_BLOCK
+    coolId: wo-nether2
+    coolTime: 20h
+    reward: $2,800
+    reqMat:
+      - 32 MAGMA_BLOCK
+      - 64 RED_NETHER_BRICKS
+    reqDescr:
+      - "&cMagma Blocks &7for &aDungeon"
+      - "&a$2,800"
+      - "&f20h &7between orders"
+      - "&61/2 stack &7of &3Magma Blocks"
+      - "&61 stack &7of &3Red Nether Bricks"
+
+  sheepegg1:
+    name: "&bSheep Egg &7for &fWool Farm"
+    descr: "&2Wool Farm &7needs &cSheep egg"
+    active: none
+    icon: SHEEP_SPAWN_EGG
+    coolId: wo-sheepegg1
+    coolTime: 2h
+    reward: $1,200
+    reqMat:
+      - 1 SHEEP_SPAWN_EGG
+    reqDescr:
+      - "&bSheep Egg &7for &fWool Farm"
+      - "&a$1,200"
+      - "&f2h &7between orders"
+      - "&61 &3Sheep Egg"
+
+  terracotta1:
+    name: "&bWhite Terracotta &7for &fpaah'nahr tower"
+    descr: "&2Lightning Mage Tower &7needs &cFloors"
+    active: none
+    icon: WHITE_GLAZED_TERRACOTTA
+    coolId: wo-terracotta1
+    coolTime: 22h
+    reward: $3,200
+    reqMat:
+      - 96 WHITE_GLAZED_TERRACOTTA
+    reqDescr:
+      - "&bWhite Terracotta &7for &fpaah'nahr tower"
+      - "&a$3,200"
+      - "&f22h &7between orders"
+      - "&61 1/2 stacks &7of &3White Glazed Terracotta"
+
+  terracotta2:
+    name: "&bBrown Terracotta &7for &fpaah'nahr tower"
+    descr: "&2Earth Mage Tower &7needs &cFloors"
+    active: none
+    icon: BROWN_GLAZED_TERRACOTTA
+    coolId: wo-terracotta2
+    coolTime: 22h
+    reward: $3,200
+    reqMat:
+      - 96 BROWN_GLAZED_TERRACOTTA
+    reqDescr:
+      - "&bBrown Terracotta &7for &fpaah'nahr tower"
+      - "&a$3,200"
+      - "&f22h &7between orders"
+      - "&61 1/2 stacks &7of &3Brown Glazed Terracotta"
+
+  terracotta3:
+    name: "&bRed Terracotta &7for &fpaah'nahr tower"
+    descr: "&2Fire Element Mage Tower &7needs &cFloors"
+    active: none
+    icon: RED_GLAZED_TERRACOTTA
+    coolId: wo-terracotta3
+    coolTime: 16h
+    reward: $1,800
+    reqMat:
+      - 64 RED_GLAZED_TERRACOTTA
+    reqDescr:
+      - "&bRed Terracotta &7for &fpaah'nahr tower"
+      - "&a$1,800"
+      - "&f16h &7between orders"
+      - "&61 stack &7of &3Red Glazed Terracotta"
+
+  terracotta4:
+    name: "&bGray Terracotta &8for &fpaah'nahr tower"
+    descr: "&2Illusionist Tower &7needs &cFloors"
+    active: none
+    icon: GRAY_GLAZED_TERRACOTTA
+    coolId: wo-terracotta4
+    coolTime: 16h
+    reward: $1,950
+    reqMat:
+      - 64 GRAY_GLAZED_TERRACOTTA
+    reqDescr:
+      - "&bGray Terracotta &8for &fpaah'nahr tower"
+      - "&a$1,950"
+      - "&f16h &7between orders"
+      - "&61 stack &7of &3Gray Glazed Terracotta"
+
+  slime1:
+    name: "&aConstructon Materials &7for &4Aeredale"
+    descr: "&6New Houses &7need &aConstruction Materials"
+    active: none
+    icon: SLIME_BALL
+    coolId: wo-slime1
+    coolTime: 18h
+    reward: $2,900
+    reqMat:
+      - 16 SLIME_BALL
+      - 16 BLAZE_ROD
+    reqDescr:
+      - "&aConstructon Materials &7for &4Aeredale"
+      - "&a$2,900"
+      - "&f18h &7between orders"
+      - "&61/4 stack &7of &3Slime Balls"
+      - "&61/4 stack &7of &3Blaze Rods"
+
+  cocoa1:
+    name: "&6Cocoa Beans &efor &6Shaman Drinks"
+    descr: "&6Shaman &7needs &3Cocoa"
+    active: none
+    icon: COCOA_BEANS
+    coolId: wo-cocoa1
+    coolTime: 18h
+    reward: $2,000
+    reqMat:
+      - 32 COCOA_BEANS
+    reqDescr:
+      - "&6Cocoa Beans &efor &6Shaman Drinks"
+      - "&a$2,000"
+      - "&f18h &7between orders"
+      - "&61/2 stack &7of &3Cocoa Beans"
+
+  dye2:
+    name: "&eD&fy&ee&fs &efor &6Shamans"
+    descr: "&6Shamans &7need &eD&fy&ee&fs"
+    active: none
+    icon: YELLOW_DYE
+    coolId: wo-dye2
+    coolTime: 18h
+    reward: $2,400
+    reqMat:
+      - 4 YELLOW_DYE
+      - 32 WHITE_DYE
+    reqDescr:
+      - "&eD&fy&ee&fs &efor &6Shamans"
+      - "&a$2,400"
+      - "&f18h &7between orders"
+      - "&64 &3Yellow Dye"
+      - "&61/2 stack &7of &3White Dye"
+
+  ecrystal1:
+    name: "&6Polished Diorite &efor city walls"
+    descr: "&bElf Kingdom &7needs &3Polished Diorite"
+    active: none
+    icon: END_CRYSTAL
+    coolId: wo-ecrystal1
+    coolTime: 360d
+    reward: $2,400
+    reqMat:
+      - 1 END_CRYSTAL
+    reqDescr:
+      - "&6Polished Diorite &efor city walls"
+      - "&a$2,400"
+      - "&f360d &7between orders"
+      - "&65 stacks &7of &3Polished Diorite"
+
