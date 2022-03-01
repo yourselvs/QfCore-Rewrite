@@ -78,6 +78,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
             this.msgCaller(pUser, ChatColor.GOLD + "Reloading work orders");
             this.reloadConfig();
             this.loadMgr(this.qfcore);
+            this.msgCaller(pUser, ChatColor.GREEN + "Reloading work orders completed");
          } else {
             this.msgCaller(pUser, ChatColor.RED + "You do not have permission to use that command");
          }
@@ -98,7 +99,7 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
                cat = "soldier";
             }
 
-            dispStr = this.qfcore.landHomeMgr.listItems2(cat);
+            dispStr = this.listItems2(cat);
          } else {
             dispStr = this.listItems2((String)null);
             cat = "null";
@@ -241,7 +242,13 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
          String strMat = var10[var8];
          String[] qStr = strMat.split(" ");
          int qty = Integer.parseInt(qStr[0]);
-         ItemStack item = new ItemStack(Material.matchMaterial(qStr[1]));
+         String matName = qStr[1];
+         Material mat = Material.matchMaterial(matName);
+         if (mat == null) {
+         	this.qfcore.getLogger().severe("Work order \"" + wo.name + "\" has incompatible requirement material: " + matName);
+         	mat = Material.BARRIER;
+         }
+         ItemStack item = new ItemStack(mat);
          if (!pUser.getInventory().containsAtLeast(item, qty)) {
             hasReqMats = false;
             break;
