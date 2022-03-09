@@ -156,37 +156,25 @@ public class QrpgWorkOrderMgr extends QfManager implements CommandExecutor {
       return true;
    }
 
-   public void handleInvClick(Player pUser, ItemStack item) {
+   public boolean handleInvClick(Player pUser, ItemStack item) {
       if (!pUser.hasPermission("Qrpg.workorder.fulfill")) {
          this.msgCaller(pUser, ChatColor.RED + "You are not currently allowed to fulfill work orders.");
-      } else {
-         String itemName;
-         if (item != null && item.getItemMeta() != null) {
-            itemName = item.getItemMeta().getDisplayName();
-         } else {
-            itemName = "";
-         }
+         return false;
+      } 
+      if (item == null || item.getItemMeta() == null) {
+         this.qfcore.getLogger().info("handleInvClick: no item name");
+         return false;
+      }
 
-         if (itemName == "") {
-            this.qfcore.getLogger().info("handleInvClick: no item name");
-         } else {
-            itemName = ChatColor.stripColor(itemName);
-            String altName = ChatColor.stripColor(this.firstLore(item));
-            Iterator<QfMItem> var7 = this.mitems.iterator();
-
-            QrpgWorkOrder wo;
-            do {
-               if (!var7.hasNext()) {
-                  return;
-               }
-
-               QfMItem mitem = (QfMItem)var7.next();
-               wo = (QrpgWorkOrder)mitem;
-            } while(!itemName.equalsIgnoreCase(ChatColor.stripColor(wo.name)) && !altName.equalsIgnoreCase(ChatColor.stripColor(wo.name)));
-
-            this.processWorkOrder(pUser, wo);
+      String itemName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+      String altName = ChatColor.stripColor(this.firstLore(item));
+      for(QfMItem mItem : this.mitems) {
+         if (itemName.equalsIgnoreCase(ChatColor.stripColor(mItem.name)) && !altName.equalsIgnoreCase(ChatColor.stripColor(mItem.name))) {
+            this.processWorkOrder(pUser, (QrpgWorkOrder) mItem);
          }
       }
+
+      return true;
    }
 
    public void processWorkOrder(Player pUser, QrpgWorkOrder wo) {

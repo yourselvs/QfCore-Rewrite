@@ -589,45 +589,42 @@ public final class QfCore extends JavaPlugin implements Listener {
 		ItemStack item;
 		if (invTitle.equalsIgnoreCase("Open Work Orders")) {
 			item = e.getCurrentItem();
-			this.workOrderMgr.handleInvClick(pUser, item);
-			e.setCancelled(true);
-			pUser.closeInventory();
-		} else {
-			String itemName;
-			if (!invTitle.equalsIgnoreCase("Legends and Kings Destinations")
-					&& !invTitle.equalsIgnoreCase("Legends and Kings Tour")
-					&& !invTitle.equalsIgnoreCase("Legends and Kings Staff")
-					&& !invTitle.equalsIgnoreCase("Soldier Arenas")) {
-				if (invTitle.equalsIgnoreCase("Default Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Weapon Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Helmet Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Chestplate Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Leggings Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Boots Enchant Menu")
-						|| invTitle.equalsIgnoreCase("Tool Enchant Menu")) {
-					e.setCancelled(true);
-					item = e.getCurrentItem();
-					if (item != null && item.getItemMeta() != null) {
-						itemName = item.getItemMeta().getDisplayName();
-					} else {
-						itemName = "";
-					}
-
-					this.getLogger().info("IC: <" + itemName + ">");
-					this.designMgr.emDispatch(pUser, itemName);
-					e.setCancelled(true);
-				}
-			} else {
-				item = e.getCurrentItem();
-				if (item != null && item.getItemMeta() != null) {
-					itemName = item.getItemMeta().getDisplayName();
-
-					this.getLogger().info("Inventory Click: <" + itemName + ">");
-					this.moveMgr.handleGoClick(pUser, itemName);
-					e.setCancelled(true);
-				}
+			boolean success = this.workOrderMgr.handleInvClick(pUser, item);
+			if (success) {
+				e.setCancelled(true);
+				pUser.closeInventory();
 			}
 		}
+		else if (invTitle.equalsIgnoreCase("Legends and Kings Destinations")
+				|| invTitle.equalsIgnoreCase("Legends and Kings Tour")
+				|| invTitle.equalsIgnoreCase("Legends and Kings Staff")
+				|| invTitle.equalsIgnoreCase("Soldier Arenas")) { 
+			item = e.getCurrentItem();
+			if (item != null && item.getItemMeta() != null) {
+				String itemName = item.getItemMeta().getDisplayName();
+
+				this.getLogger().info("Inventory Click: <" + itemName + ">");
+				this.moveMgr.handleGoClick(pUser, itemName);
+				e.setCancelled(true);
+			}
+		}
+		else if (invTitle.equalsIgnoreCase("Default Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Weapon Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Helmet Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Chestplate Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Leggings Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Boots Enchant Menu")
+				|| invTitle.equalsIgnoreCase("Tool Enchant Menu")) {
+			item = e.getCurrentItem();
+			if (item != null && item.getItemMeta() != null) {
+				String itemName = item.getItemMeta().getDisplayName();
+
+				this.getLogger().info("Inventory Click: <" + itemName + ">");
+				this.designMgr.emDispatch(pUser, itemName);
+				e.setCancelled(true);
+			}
+		}
+				
 
 	}
 
