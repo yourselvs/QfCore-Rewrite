@@ -24,10 +24,6 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
       super.doInit(newCore);
    }
 
-   public String cmdPrefix() {
-      return "site";
-   }
-
    public String listItemHeader(String cat) {
       return cat == null ? ChatColor.GOLD + "Current sites:\n" + ChatColor.YELLOW : ChatColor.GOLD + "Current " + ChatColor.YELLOW + cat + ChatColor.GOLD + " sites:";
    }
@@ -228,14 +224,17 @@ public class QfSiteMgr extends QfManager implements CommandExecutor {
          QfMItem mitem = (QfMItem)var5.next();
          if (mitem.name.equalsIgnoreCase(name)) {
             QfSite site = (QfSite)mitem;
-            site.loc.setWorld(this.core.getServer().getWorld(site.worldName));
-            this.msgCaller(pTarget, ChatColor.GOLD + (pTarget.hasPermission("QfCore.builder") ? "Going to build site " : "Traveling to ") + ChatColor.GREEN + name);
-            pTarget.teleport(((QfSite)mitem).loc);
+            World world = this.core.getServer().getWorld(site.worldName);
+            site.loc.setWorld(world);
+            if(world != null) {
+               this.msgCaller(pTarget, ChatColor.GOLD + (pTarget.hasPermission("QfCore.builder") ? "Going to build site " : "Traveling to ") + ChatColor.GREEN + name);
+               pTarget.teleport(((QfSite)mitem).loc);
+            }
             return;
          }
       }
 
-      this.msgCaller(pTarget, ChatColor.RED + "The build site " + ChatColor.GRAY + name + ChatColor.RED + " does not exist");
+      this.msgCaller(pTarget, ChatColor.RED + "The build site " + ChatColor.GRAY + name + ChatColor.RED + " is invalid or does not exist");
    }
 
    public void delSite(Player pTarget, String inName) {
