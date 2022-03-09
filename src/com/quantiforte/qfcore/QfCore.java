@@ -2534,7 +2534,12 @@ public final class QfCore extends JavaPlugin implements Listener {
 				&& !cmdName.equalsIgnoreCase("et") && !cmdName.equalsIgnoreCase("gt") && !cmdName.equalsIgnoreCase("g")
 				&& !cmdName.equalsIgnoreCase("p")) {
 			if (cmdName.equalsIgnoreCase("qann")) {
-				this.numAnnouce(Integer.parseInt(args[0]));
+				try {
+					this.numAnnouce(Integer.parseInt(args[0]));
+				}
+				catch (Exception e) {
+					sender.sendMessage("Must include a number as the first argument");
+				}
 				return true;
 			} else if (cmdName.equalsIgnoreCase("qfreload")) {
 				this.reloadConfig();

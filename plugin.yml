@@ -22,7 +22,7 @@ commands:
     permission-message: You don't have <permission>
 
   qann:
-    description: Test command
+    description: Manually send an announcement to the server
     usage: /qann <player>
     permission: QfCore.qann
     permission-message: You don't have permission to use this command
