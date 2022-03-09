@@ -282,7 +282,7 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
       pUser.openInventory(goInv);
    }
 
-   public void goDispatch(Player pUser, String itemName) {
+   public void handleGoClick(Player pUser, String itemName) {
       label160: {
          switch(itemName.hashCode()) {
          case -1761981013:
@@ -412,7 +412,6 @@ public class QfMoveMgr extends QfGeneral implements CommandExecutor, TabComplete
             break;
          case 80085851:
             if (itemName.equals("Spawn")) {
-               pUser.performCommand("/warp spawn");
                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp spawn " + pUser.getName());
                break label160;
             }

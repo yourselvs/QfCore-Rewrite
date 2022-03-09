@@ -581,6 +581,9 @@ public final class QfCore extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void InventoryClick(InventoryClickEvent e) {
+		if (e.getRawSlot() != e.getSlot())
+			return;
+		
 		String invTitle = ChatColor.stripColor(e.getWhoClicked().getOpenInventory().getTitle());
 		Player pUser = (Player) e.getWhoClicked();
 		ItemStack item;
@@ -615,17 +618,14 @@ public final class QfCore extends JavaPlugin implements Listener {
 					e.setCancelled(true);
 				}
 			} else {
-				e.setCancelled(true);
 				item = e.getCurrentItem();
 				if (item != null && item.getItemMeta() != null) {
 					itemName = item.getItemMeta().getDisplayName();
-				} else {
-					itemName = "";
-				}
 
-				this.getLogger().info("IC: <" + itemName + ">");
-				this.moveMgr.goDispatch(pUser, itemName);
-				e.setCancelled(true);
+					this.getLogger().info("Inventory Click: <" + itemName + ">");
+					this.moveMgr.handleGoClick(pUser, itemName);
+					e.setCancelled(true);
+				}
 			}
 		}
 
