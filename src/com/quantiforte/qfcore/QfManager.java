@@ -173,7 +173,7 @@ public class QfManager extends QfGeneral {
       while(var2.hasNext()) {
          QfTriggerLoc trig = (QfTriggerLoc)var2.next();
          if (trig.mitem != null && trig.mitem.triggerIsDynamic) {
-            trig.trigLoc = trig.mitem.getCurrentTriggerLoc();
+            trig.location = trig.mitem.getCurrentTriggerLoc();
          }
       }
 
@@ -194,9 +194,9 @@ public class QfManager extends QfGeneral {
       QfTriggerLoc tLoc = new QfTriggerLoc();
       tLoc.mitem = mi;
       tLoc.trigRadius = mi.triggerLoc.trigRadius;
-      tLoc.trigLoc = mi.triggerLoc.trigLoc;
+      tLoc.location = mi.triggerLoc.location;
       tLoc.worldName = mi.triggerLoc.worldName;
-      tLoc.trigLoc.setWorld(mi.triggerLoc.trigLoc.getWorld());
+      tLoc.location.setWorld(mi.triggerLoc.location.getWorld());
       this.triggerLocs.add(tLoc);
    }
 

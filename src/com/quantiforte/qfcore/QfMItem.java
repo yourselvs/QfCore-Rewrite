@@ -39,7 +39,7 @@ public class QfMItem {
          this.triggerLoc.mitem = this;
       }
 
-      this.triggerLoc.trigLoc = new Location((World)null, 0.0D, 0.0D, 0.0D);
+      this.triggerLoc.location = new Location((World)null, 0.0D, 0.0D, 0.0D);
       this.triggerLoc.trigRadius = 10.0D;
    }
 
@@ -50,7 +50,7 @@ public class QfMItem {
          this.triggerLoc.mitem = this;
       }
 
-      this.triggerLoc.trigLoc = this.args2Loc(args);
+      this.triggerLoc.location = this.args2Loc(args);
       this.triggerLoc.worldName = args[0];
       // this logs which world an aurablock got spawned into
       // this.mgr.core.getLogger().info("987X: " + args[0]);
@@ -76,7 +76,7 @@ public class QfMItem {
 
    public Location getCurrentTriggerLoc() {
       this.recalcTriggerLoc();
-      return this.triggerLoc.trigLoc;
+      return this.triggerLoc.location;
    }
 
    public void recalcTriggerLoc() {

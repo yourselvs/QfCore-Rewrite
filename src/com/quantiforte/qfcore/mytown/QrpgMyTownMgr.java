@@ -136,7 +136,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                      pUser.performCommand("region flag " + rgName + " -w world pvp deny");
                      pUser.performCommand("region flag " + rgName + " -w world build");
                      Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + rgName + " -w world " + pTarget.getName());
-                     this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully defined and set safe flags for region " + ChatColor.RESET + pTarget.getDisplayName());
+                     this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully defined and set safe flags for region " + ChatColor.RESET + pTarget.getName());
                      return true;
                   }
 
@@ -152,7 +152,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                         pUser.performCommand("region flag " + rgName + " -w world pvp deny");
                         pUser.performCommand("region flag " + rgName + " -w world build");
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + rgName + " -w world " + pTarget.getName());
-                        this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getDisplayName());
+                        this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getName());
                      } else {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region setpriority" + rgName + " -w world 51");
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region flag " + rgName + " -w world entry allow");
@@ -164,7 +164,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region flag " + rgName + " -w world pvp deny");
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region flag " + rgName + " -w world build");
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + rgName + " -w world " + pTarget.getName());
-                        this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getDisplayName());
+                        this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getName());
                      }
 
                      return true;
@@ -240,7 +240,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
 
                dispStr = this.qfcore.landHomeMgr.listItems2(cat);
             } else {
-               dispStr = this.qfcore.landHomeMgr.listItems2((String)null);
+               dispStr = this.qfcore.landHomeMgr.listItems2(null);
                cat = "null";
             }
 
@@ -273,7 +273,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                pUser.performCommand("region flag " + rgName + " pvp deny");
                pUser.performCommand("region flag " + rgName + " weather-lock");
                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + rgName + " -w Survival " + rgName);
-               this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully defined and set safe flags for region " + ChatColor.RESET + pTarget.getDisplayName());
+               this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully defined and set safe flags for region " + ChatColor.RESET + pTarget.getName());
                return true;
             }
 
@@ -302,7 +302,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + rgName + " -w Survival " + rgName);
                }
 
-               this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getDisplayName());
+               this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully reset the safe flags for region " + ChatColor.RESET + pTarget.getName());
                return true;
             }
 
@@ -315,12 +315,12 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pTarget.getName() + " add Qrpg.myland");
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pTarget.getName() + " add Qrpg.myland.given");
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pTarget.getName() + " add Qrpg.myland.home");
-               }
 
-               this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully set " + ChatColor.GOLD + landType + ChatColor.DARK_GREEN + " home and gave " + ChatColor.RESET + pTarget.getDisplayName() + ChatColor.RESET + ChatColor.DARK_GREEN + " their " + ChatColor.GOLD + landType);
-               this.msgCaller(pTarget, ChatColor.GREEN + "You now own " + ChatColor.YELLOW + specName);
-               this.qfcore.landHomeMgr.setLandHome(pUser, pTarget);
-               return true;
+                  this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully set " + ChatColor.GOLD + landType + ChatColor.DARK_GREEN + " home and gave " + ChatColor.RESET + pTarget.getDisplayName() + ChatColor.RESET + ChatColor.DARK_GREEN + " their " + ChatColor.GOLD + landType);
+                  this.msgCaller(pTarget, ChatColor.GREEN + "You now own " + ChatColor.YELLOW + specName);
+                  this.qfcore.landHomeMgr.setLandHome(pUser, pTarget);
+                  return true;
+               }
             }
 
             if ("take".startsWith(arg0)) {
@@ -455,21 +455,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
       }
    }
 
-   public void warpMyTown(Player pUser, String landType) {
-      this.msgCaller(pUser, ChatColor.BLUE + "Once you have a " + ChatColor.AQUA + landType + ChatColor.BLUE + ", this command will take you there and enable you to manage its settings");
-   }
-
-   public void setHomeMyTown(Player pUser, String targetName, String landType) {
-      if (!pUser.hasPermission("Qrpg.mytown.setwarp")) {
-         this.msgCaller(pUser, ChatColor.DARK_RED + "You cannot set the warp for this area");
-      } else if (!pUser.hasPermission("Qrpg.mytown.setwarp")) {
-         this.msgCaller(pUser, ChatColor.DARK_RED + "You cannot set the warp for this area");
-      } else {
-         this.msgCaller(pUser, ChatColor.BLUE + "This command set your home for your area");
-      }
-   }
-
-   public void goMyShop(Player pUser) {
+   private void goMyShop(Player pUser) {
       if (pUser.hasPermission("Qrpg.myshop.home")) {
          this.qfcore.landHomeMgr.goLandHome(pUser, pUser.getName(), true);
       } else {
@@ -478,7 +464,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
 
    }
 
-   public void goMyTown(Player pUser, String landType, String specType) {
+   private void goMyTown(Player pUser, String landType, String specType) {
       if ((!pUser.hasPermission("Qrpg.myland.home") || !specType.equalsIgnoreCase("land")) && (!pUser.hasPermission("Qrpg.mytown.home") || !specType.equalsIgnoreCase("town"))) {
          this.msgCaller(pUser, ChatColor.BLUE + "Soon this command will take you to " + ChatColor.AQUA + landType.replace("a ", "the ") + ChatColor.BLUE + " that you own.");
       } else {
@@ -487,17 +473,17 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
 
    }
 
-   public void helpMyTown(Player pUser, String specType) {
+   private void helpMyTown(Player pUser, String specType) {
       this.msgCaller(pUser, ChatColor.BLUE + "Use " + ChatColor.GRAY + "/my" + specType + " to go to your " + specType);
       this.msgCaller(pUser, ChatColor.BLUE + "You can use " + ChatColor.GRAY + "/my" + specType + " (info,add,remove,greeting,farewell,mobs,visitors,vines,leaves) (on, off, message, player)" + ChatColor.BLUE + " to manage your " + specType);
       this.msgCaller(pUser, ChatColor.BLUE + "For example, use " + ChatColor.GRAY + "/my" + specType + " mobs off" + ChatColor.BLUE + " to turn off mob spawning in your " + specType);
    }
 
-   public void infoMyTown(Player pUser, String rgName) {
+   private void infoMyTown(Player pUser, String rgName) {
       pUser.performCommand("region info " + rgName + " -w Survival");
    }
 
-   public void addMyTown(Player pUser, String targetName, String landType) {
+   private void addMyTown(Player pUser, String targetName, String landType) {
       try {
          Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region addmember " + pUser.getName() + " -w Survival " + targetName);
          this.msgCaller(pUser, ChatColor.GREEN + "Successfully added " + ChatColor.GOLD + targetName + ChatColor.GREEN + " to your " + landType);
@@ -507,23 +493,16 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
 
    }
 
-   public void removeMyTown(Player pUser, String targetName, String landType) {
+   private void removeMyTown(Player pUser, String targetName, String landType) {
       try {
          Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region removemember " + pUser.getName() + " -w Survival " + targetName);
          this.msgCaller(pUser, ChatColor.GREEN + "Successfully removed " + ChatColor.GOLD + targetName + ChatColor.GREEN + " from your " + landType);
       } catch (CommandException var5) {
          this.msgCaller(pUser, ChatColor.RED + "Problem: " + ChatColor.DARK_RED + var5.getMessage());
       }
-
    }
 
-   public void addOwnerMyTown(Player pUser, String targetName, String landType) {
-   }
-
-   public void removeOwnerMyTown(Player pUser, String targetName, String landType) {
-   }
-
-   public void messageMyTown(Player pUser, String flag, String targetName, String landType, String msg) {
+   private void messageMyTown(Player pUser, String flag, String targetName, String landType, String msg) {
       String flagl = flag.toLowerCase();
       String flagName;
       if ("greeting".startsWith(flagl)) {
@@ -541,7 +520,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
       this.msgCaller(pUser, ChatColor.DARK_GREEN + "Successfully set your " + ChatColor.GOLD + landType + "'s " + ChatColor.DARK_GREEN + flagName + " message");
    }
 
-   public void msgMyShop(Player pUser, String flagl, String msg) {
+   private void msgMyShop(Player pUser, String flagl, String msg) {
       if ("greeting".startsWith(flagl)) {
          Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region flag " + pUser.getName() + "shop -w world " + flagl + " " + msg);
          this.msgCaller(pUser, ChatColor.DARK_GREEN + "Your shop's greeting has been set to: " + ChatColor.RESET + msg);
@@ -552,7 +531,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
 
    }
 
-   public void flagsMyShop(Player pUser, String flag) {
+   private void flagsMyShop(Player pUser, String flag) {
       String flagl = flag.toLowerCase();
       if ("open".startsWith(flagl)) {
          Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "region flag " + pUser.getName() + "shop -w world entry allow");
@@ -563,7 +542,7 @@ public class QrpgMyTownMgr extends QfGeneral implements CommandExecutor {
       }
    }
 
-   public void flagsMyTown(Player pUser, String flag, String targetName, String landType) {
+   private void flagsMyTown(Player pUser, String flag, String targetName, String landType) {
       String flagName = null;
       String dispStr = null;
       String flagl = flag.toLowerCase();

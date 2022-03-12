@@ -3,7 +3,7 @@ package com.quantiforte.qfcore;
 import org.bukkit.Location;
 
 public class QfTriggerLoc {
-   public Location trigLoc;
+   public Location location;
    public Double trigRadius;
    public String worldName;
    public QfMItem mitem;

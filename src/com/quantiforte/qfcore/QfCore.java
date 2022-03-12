@@ -32,6 +32,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
@@ -1694,57 +1695,34 @@ public final class QfCore extends JavaPlugin implements Listener {
 	private void taskLocTrigger() {
 		List<QfTriggerLoc> tLocs = new ArrayList<QfTriggerLoc>();
 		List<QfTriggerLoc> tMgrLocs = this.auraBlockMgr.getTriggerLocs();
-		QfTriggerLoc tl;
-		Iterator<QfTriggerLoc> var14;
 		if (tMgrLocs != null) {
-			var14 = tMgrLocs.iterator();
-
-			while (var14.hasNext()) {
-				tl = var14.next();
-				tLocs.add(tl);
-			}
+			tLocs.addAll(tMgrLocs);
 		}
 
-		tMgrLocs = this.auraPlayerMgr.getTriggerLocs();
-		if (tMgrLocs != null) {
-			var14 = tMgrLocs.iterator();
-
-			while (var14.hasNext()) {
-				tl = var14.next();
-				tLocs.add(tl);
-			}
-		}
-
-		var14 = tLocs.iterator();
-
-		while (var14.hasNext()) {
-			tl = var14.next();
-			if (tl == null || tl.trigLoc == null) {
-				break;
+		for(QfTriggerLoc trigger : tLocs) {
+			if (trigger.location == null) {
+				continue;
 			}
 
-			if (tl.trigLoc.getWorld() == null) {
-				if (this.getServer().getWorld(tl.worldName) != null) {
-					tl.trigLoc.setWorld(this.getServer().getWorld(tl.worldName));
+			if (trigger.location.getWorld() == null) {
+				World world = this.getServer().getWorld(trigger.worldName);
+				if (world != null) {
+					trigger.location.setWorld(world);
 				}
-				break;
+				else continue;
 			}
 
-			Iterator<? extends Player> var16 = Bukkit.getOnlinePlayers().iterator();
+			for(Player player : Bukkit.getOnlinePlayers()) {
+				if (player.getWorld().equals(trigger.location.getWorld())) {
+					Location locUser = player.getLocation();
+					Double dist = trigger.location.distance(locUser);
 
-			while (var16.hasNext()) {
-				Player np = (Player) var16.next();
-				if (np.getWorld().equals(tl.trigLoc.getWorld())) {
-					Location locUser = np.getLocation();
-					Double dist = tl.trigLoc.distance(locUser);
-					if (dist <= tl.trigRadius) {
-						if (tl.hasSpecial) {
-							if (tl.specialSneak && np.isSneaking()) {
-								tl.mitem.doTriggerAction(np, dist);
-							}
-						} else {
-							tl.mitem.doTriggerAction(np, dist);
-						}
+					boolean withinRadius = dist <= trigger.trigRadius;
+					boolean passesSneakCheck = trigger.specialSneak && player.isSneaking();
+					boolean canTrigger = !trigger.hasSpecial || passesSneakCheck;
+					
+					if (withinRadius && canTrigger) {
+						trigger.mitem.doTriggerAction(player, dist);
 					}
 				}
 			}
@@ -1866,8 +1844,6 @@ public final class QfCore extends JavaPlugin implements Listener {
 			} while (destRef == null);
 
 			String teleMessage = this.getConfig().getString(destRef + "message");
-			Location locDest = new Location(this.getServer().getWorld(args[0]), Double.parseDouble(args[1]),
-					Double.parseDouble(args[3]), Double.parseDouble(args[2]));
 			Iterator<? extends Player> playerList = Bukkit.getOnlinePlayers().iterator();
 
 			while (true) {
@@ -1889,19 +1865,19 @@ public final class QfCore extends JavaPlugin implements Listener {
 
 				if (args.length > 5) {
 					if (args[5].equalsIgnoreCase("P")) {
-						locDest.setYaw(np.getLocation().getYaw());
+						locPortal.setYaw(np.getLocation().getYaw());
 					} else {
-						locDest.setYaw(Float.parseFloat(args[5]) - 180.0F);
+						locPortal.setYaw(Float.parseFloat(args[5]) - 180.0F);
 					}
 
 					if (args[6].equalsIgnoreCase("P")) {
-						locDest.setPitch(np.getLocation().getPitch());
+						locPortal.setPitch(np.getLocation().getPitch());
 					} else {
-						locDest.setPitch(Float.parseFloat(args[6]));
+						locPortal.setPitch(Float.parseFloat(args[6]));
 					}
 				}
 
-				np.teleport(locDest, TeleportCause.PLUGIN);
+				np.teleport(locPortal, TeleportCause.PLUGIN);
 				String perm;
 				int var26;
 				int var27;

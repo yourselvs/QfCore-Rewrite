@@ -268,12 +268,12 @@ public class QfLandHomeMgr extends QfManager {
 
    public void setLandHome(Player pUser, Player pTarget) {
       String inName = pTarget.getName();
-      Location loc;
-      if (pUser == null) {
-         loc = pTarget.getLocation();
-      } else {
-         loc = pUser.getLocation();
+      
+      if (pUser != null) {
+         pTarget = pUser;
       }
+      Location loc = pTarget.getLocation();
+      
 
       String worldName = loc.getWorld().getName();
       String name = this.niceName(inName);

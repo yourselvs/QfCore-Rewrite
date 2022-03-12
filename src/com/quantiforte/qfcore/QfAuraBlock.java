@@ -27,7 +27,7 @@ public class QfAuraBlock extends QfMItem {
    }
 
    public String NameNice() {
-      return ChatColor.YELLOW + this.name + " " + this.CatColor(this.subcategory) + "(" + this.subcategory + ") - " + ChatColor.GRAY + this.category + " @ " + this.triggerLoc.worldName + " " + this.triggerLoc.trigLoc.getX() + "/" + this.triggerLoc.trigLoc.getZ() + "/" + this.triggerLoc.trigLoc.getY() + " radius: " + this.triggerLoc.trigRadius;
+      return ChatColor.YELLOW + this.name + " " + this.CatColor(this.subcategory) + "(" + this.subcategory + ") - " + ChatColor.GRAY + this.category + " @ " + this.triggerLoc.worldName + " " + this.triggerLoc.location.getX() + "/" + this.triggerLoc.location.getZ() + "/" + this.triggerLoc.location.getY() + " radius: " + this.triggerLoc.trigRadius;
    }
 
    public ChatColor CatColor(String cat) {

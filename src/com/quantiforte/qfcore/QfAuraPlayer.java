@@ -21,7 +21,7 @@ public class QfAuraPlayer extends QfMItem {
 
    public void recalcTriggerLoc() {
       if (this.triggerLoc != null) {
-         this.triggerLoc.trigLoc = this.mPlayer.getLocation();
+         this.triggerLoc.location = this.mPlayer.getLocation();
          this.triggerLoc.trigRadius = 10.0D;
       }
    }
